@@ -1,0 +1,26 @@
+@import "./reset.scss";
+@import "./colours.scss";
+@import "./typo.scss";
+@import "./sizes.scss";
+
+:root {
+  font-size: 16px;
+  --main: 80rem;
+}
+
+html,
+body {
+  @include typodefault;
+  background-color: $grey-96;
+  color: $black;
+
+  article {
+    position: relative;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  :root {
+    --main: 58.75rem;
+  }
+}

@@ -1,0 +1,11 @@
+@import "./sohnebreit.scss";
+
+@mixin font-soehne {
+  font-family: "Soehne Breit", sans-serif;
+}
+@mixin font-inter {
+  font-family: "Inter", sans-serif;
+}
+@mixin typodefault {
+  @include font-inter;
+}

@@ -1,0 +1,30 @@
+@import "../../styles/_colours.scss";
+@import "../../styles/_sizes.scss";
+@import "../../styles/_typo.scss";
+
+.signinwith {
+  @include font-inter;
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  line-height: 1rem;
+  padding: 1em;
+  display: grid;
+  grid-column-gap: 2em;
+  text-align: left;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border-radius: calc(3 / 14 * 1em);
+  cursor: pointer;
+
+  .icon {
+    width: 2em;
+    height: 2em;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+  }
+}

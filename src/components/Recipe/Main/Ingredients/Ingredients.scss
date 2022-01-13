@@ -1,0 +1,130 @@
+@import "../../../../styles/sizes.scss";
+@import "../../../../styles/typo.scss";
+@import "../../../../styles/colours.scss";
+
+// .ingredient__editor__item {
+//   padding-right: $s7;
+// }
+.ingredients {
+  --node-y: 0px;
+  [contenteditable] {
+    outline: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  h3 {
+    @include font-soehne;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: calc(0.4 / 15 * 1em);
+    line-height: 1.25rem;
+    margin-bottom: $s4;
+  }
+  ingredient {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: calc(0.2 / 14 * 1em);
+    line-height: 1rem;
+    margin-bottom: $s3;
+    position: relative;
+
+    .ingredient__quantity-translate {
+      position: absolute;
+      right: 100%;
+      top: 0;
+      border: 0;
+      background-color: black;
+      padding-right: $s3;
+      margin: 0;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      width: $s5;
+      display: block;
+      user-select: none;
+
+      &,
+      svg {
+        height: $s4;
+      }
+      svg {
+        width: $s4;
+        fill: $black;
+      }
+
+      &__select {
+        position: absolute;
+        opacity: 0;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        &:focus {
+          width: 10rem;
+          height: unset;
+          left: 0;
+          top: 100%;
+          opacity: 1;
+          pointer-events: auto;
+        }
+      }
+
+      &.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    &.empty:before {
+      content: "Ingredient";
+      opacity: 0.5;
+      cursor: text;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    & ~ h3 {
+      margin-top: $s4;
+    }
+  }
+  .quantity {
+    font-weight: 600;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+
+  .contextmenu {
+    background-color: white;
+    z-index: 3;
+    position: sticky;
+    top: -1.25rem;
+    padding-bottom: $s3;
+
+    // position: absolute;
+    // top: var(--node-y);
+    // transform: translateY(-50%);
+    // width: $s6;
+    // right: 100%;
+    // padding-right: $s3;
+
+    .tool {
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: $black;
+      display: inline-block;
+    }
+  }
+}
+
+[placeholder]:empty:before {
+  content: attr(placeholder);
+  opacity: 0.5;
+  cursor: text;
+}
+[placeholder]:empty:focus:before {
+  opacity: 0;
+}

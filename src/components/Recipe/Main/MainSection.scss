@@ -1,0 +1,81 @@
+@import "../../../styles/colours.scss";
+@import "../../../styles/sizes.scss";
+@import "../../../styles/typo.scss";
+
+[contenteditable="true"] {
+  outline: 0;
+}
+[placeholder]:empty:before {
+  content: attr(placeholder);
+  opacity: 0.5;
+  cursor: text;
+}
+
+.frame {
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  position: relative;
+}
+
+.scrollwindow {
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-top: $s4;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #f7f6f5;
+    border: 3px solid white;
+    border-radius: 0.5rem;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+.ingredients .ProseMirror:empty:before {
+  content: "Ingredient";
+  opacity: 0.5;
+  cursor: text;
+}
+.method .ProseMirror:empty {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.method .ProseMirror:empty:before,
+.method .ProseMirror:empty:after {
+  font-size: 0.875rem;
+  letter-spacing: calc(0.2 / 14 * 1em);
+  line-height: 1rem;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  height: 1rem;
+}
+.method .ProseMirror:empty:before {
+  content: "1";
+  cursor: text;
+  font-weight: 600;
+  left: 0;
+}
+.method .ProseMirror:empty:after {
+  content: "Step ...";
+  cursor: text;
+  opacity: 0.5;
+  left: 1.5rem;
+}

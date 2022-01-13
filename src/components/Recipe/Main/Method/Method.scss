@@ -1,0 +1,54 @@
+@import "../../../../styles/colours.scss";
+@import "../../../../styles/sizes.scss";
+@import "../../../../styles/typo.scss";
+
+.method {
+  counter-reset: method;
+
+  .ProseMirror {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+  }
+  &__header {
+    @include font_soehne;
+    font-size: 0.9375rem;
+    letter-spacing: calc(0.4 / 15 * 1em);
+    line-height: 1.5rem;
+    margin-bottom: $s4;
+    font-weight: 500;
+    counter-reset: method;
+  }
+  &__step {
+    font-size: 0.875rem;
+    letter-spacing: calc(0.2 / 14 * 1em);
+    line-height: 1rem;
+    margin-bottom: $s4;
+    padding-left: 1.5rem;
+    position: relative;
+
+    &:empty {
+      &:after {
+        content: "Hello";
+      }
+    }
+    &:before {
+      content: counter(method);
+      counter-increment: method;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 600;
+      display: inline-block;
+      height: 1rem;
+    }
+  }
+  &__step:empty:after {
+    content: "Hello";
+  }
+  &__step ~ .method__header {
+    margin-top: $s4;
+  }
+}
