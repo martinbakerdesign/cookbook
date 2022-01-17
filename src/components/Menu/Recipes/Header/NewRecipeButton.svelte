@@ -45,12 +45,12 @@
     outline: 0;
     border: 0;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.9375rem;
     background-color: c.$accent;
     color: white;
     letter-spacing: calc(-0.2 / 16 * 1em);
-    line-height: 1.5rem;
-    padding: s.$s2 s.$s2;
+    line-height: 1.25rem;
+    padding: s.$s2;
     padding-right: s.$s3;
     margin: 0;
     cursor: pointer;
