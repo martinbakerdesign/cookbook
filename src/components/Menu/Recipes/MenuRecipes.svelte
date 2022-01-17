@@ -92,12 +92,9 @@
   @import "../../../styles/sizes.scss";
 
   #menu__recipes {
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: 100vh;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     .slide {
       margin-top: $s9;
