@@ -9,7 +9,6 @@
   onMount(() => {
     io = new IntersectionObserver(onObservation, {
       threshold: [0, 1],
-      root: document.querySelector("#menu__recipes"),
     });
     io.observe(top);
   });
@@ -38,21 +37,21 @@
   #menu__recipes__header__top {
     position: absolute;
     left: 0;
+    /* TODO Automate top value */
     top: -3.5rem;
     width: 100%;
     height: 1px;
-    // background-color: $border;
     user-select: none;
     pointer-events: none;
   }
   header {
-    --pad: 1.25rem;
+    --pad: 1rem;
     position: sticky;
     top: 3.5rem;
     background-color: white;
     left: 0;
     width: 100%;
-    height: calc(2rem + var(--pad) * 2);
+    height: calc(2.25rem + var(--pad) * 2);
     z-index: 5;
 
     .container {
