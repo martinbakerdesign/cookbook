@@ -1,8 +1,6 @@
 <script>
+  import { tagsFilter, searchQuery, recipes } from "store/";
   import { sortingOptions, sortingSelection } from "store/menu";
-  import { tagsFilter } from "store/";
-
-  import { searchQuery, recipes } from "store/";
 
   import applyFilters from "utils/recipes/filter/applyFilters";
   import applySort from "utils/recipes/sort/applySort";
