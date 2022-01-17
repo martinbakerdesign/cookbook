@@ -10,6 +10,7 @@
   import { bg } from "./store";
   import Animation from "components/Animation/Animation.svelte";
   import "styles/styles.scss";
+  import { scrollY } from "store/menu";
 
   const routes = {
     "/:id": Recipe,
@@ -21,13 +22,14 @@
     fps: 30,
     fill: "#f5853f",
   };
+
+  $: document.querySelector("html").style.backgroundImage =
+    $location === "/" ? `url(/assets/img/landing/${$bg[0]}.webp)` : "";
 </script>
 
+<svelte:window bind:scrollY={$scrollY} />
 {#if !$checked && $location === "/"}
-  <div
-    id="app__loading"
-    style={`background-image: url(/assets/img/landing/${$bg[0]}.webp)`}
-  >
+  <div id="app__loading">
     <div class="spinner">
       <Animation {...animProps} />
     </div>
@@ -44,19 +46,31 @@
   @import "./styles/colours.scss";
   @import "./styles/sizes.scss";
 
-  #app__loading {
-    width: 100vw;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  #app {
+    position: relative;
 
-    .spinner {
-      padding: $s2;
-      margin: $s4;
-      background-color: white;
-      border-radius: 50%;
-      display: inline-block;
+    &__bg {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    &__loading {
+      z-index: 1;
+      position: relative;
+
+      .spinner {
+        padding: $s2;
+        margin: $s4;
+        background-color: white;
+        border-radius: 50%;
+        display: inline-block;
+      }
     }
   }
   main {
