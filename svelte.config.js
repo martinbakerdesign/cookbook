@@ -8,9 +8,9 @@ const config = {
       resolve: {
         alias: {
           // these are the aliases and paths to them
-          "@components": path.resolve("./src/lib/components"),
-          "@lib": path.resolve("./src/lib"),
-          "@utils": path.resolve("./src/lib/utils"),
+          components: path.resolve("./src/lib/components"),
+          lib: path.resolve("./src/lib"),
+          utils: path.resolve("./src/lib/utils"),
         },
       },
     },
