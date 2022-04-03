@@ -13,6 +13,7 @@ export const mm = {
   title: "Millimeter",
   type: UNIT_LENGTH,
   abbrev: ["mm"],
+  plural: "millimeters",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
@@ -20,6 +21,7 @@ export const cm = {
   title: "Centimeter",
   type: UNIT_LENGTH,
   abbrev: ["cm"],
+  plural: "centimeters",
   system: UNITSYSTEM_METRIC,
   base: ["*", 10],
 };
@@ -27,6 +29,7 @@ export const m = {
   title: "Meter",
   type: UNIT_LENGTH,
   abbrev: ["m"],
+  plural: "meters",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1e3],
 };
@@ -38,6 +41,7 @@ export const mg = {
   title: "Milligram",
   type: UNIT_MASS,
   abbrev: ["mg"],
+  plural: "milligrams",
   system: UNITSYSTEM_METRIC,
   base: ["*", 0.001],
 };
@@ -45,6 +49,7 @@ export const g = {
   title: "Gram",
   type: UNIT_MASS,
   abbrev: ["g"],
+  plural: "grams",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
@@ -52,8 +57,9 @@ export const kg = {
   title: "Kilogram",
   type: UNIT_MASS,
   abbrev: ["kg"],
+  plural: "kilograms",
   system: UNITSYSTEM_METRIC,
-  base: ["*", 1e6],
+  base: ["*", 1e3],
 };
 
 /**
@@ -62,21 +68,24 @@ export const kg = {
 export const ml = {
   title: "Millilitre",
   type: UNIT_VOLUME,
-  abbrev: ["ml"],
+  abbrev: ["ml", "mL"],
+  plural: "millilitres",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
 export const l = {
   title: "Litre",
   type: UNIT_VOLUME,
-  abbrev: ["l"],
+  abbrev: ["l", "L"],
+  plural: "litres",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1e3],
 };
 export const kl = {
   title: "Kilolitre",
   type: UNIT_VOLUME,
-  abbrev: ["kl"],
+  abbrev: ["kl", "kL"],
+  plural: "kilolitres",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1e6],
 };
@@ -92,14 +101,14 @@ export const kl = {
  * TEMPERATURE
  */
 export const C = {
-  title: "Degrees Centigrade",
+  title: "Centigrade",
   type: UNIT_TEMPERATURE,
-  abbrev: ["C", "°C"],
+  abbrev: ["degrees centigrade", "degrees celsius", "C", "°C"],
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
 export const K = {
-  title: "Degrees Kelvin",
+  title: "Kelvin",
   type: UNIT_TEMPERATURE,
   abbrev: ["K"],
   system: UNITSYSTEM_METRIC,

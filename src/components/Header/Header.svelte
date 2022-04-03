@@ -38,7 +38,7 @@
     width: calc(100% - 2.5rem);
     border-radius: 0.75rem;
     // width: 100%;
-    background-color: c.$white;
+    background-color: var(--bg-primary);
     display: grid;
     // grid-template-columns: $s9 1fr $s9;
     grid-template-columns: 1fr var(--main) 1fr;

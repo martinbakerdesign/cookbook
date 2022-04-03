@@ -1,15 +1,16 @@
 import { INGREDIENT_TYPES } from "store/models/ingredients";
 // import ingredientToContent from "./ingredientToContent";
 
-export default function ingredientsToState(ingredients) {
+export default function ingredientsToStateJSON(ingredients) {
   let doc = {
     type: "doc",
     content: [],
   };
-
   let ingredient, node, type;
+
   for (let i = 0; i < ingredients.length; i++) {
     ingredient = ingredients[i];
+    if (!ingredient.text.trim().length) continue;
     type = types[ingredient.type];
 
     node = {

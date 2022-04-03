@@ -48,7 +48,7 @@
     --pad: 1rem;
     position: sticky;
     top: 3.5rem;
-    background-color: white;
+    background-color: var(--bg-primary);
     left: 0;
     width: 100%;
     height: calc(2.25rem + var(--pad) * 2);
@@ -72,7 +72,7 @@
         user-select: none;
         left: 0;
         width: 100%;
-        background-color: $border;
+        background-color: var(--border);
       }
       &:before {
         top: 0;

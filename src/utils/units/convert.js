@@ -20,13 +20,13 @@ function convertUnit(value, fromUnitAbbrev, toUnitAbbrev) {
   let toBase = calculateValueToBase(sum, fromUnit.base);
   let fromBase = calculateValueFromBase(toBase, toUnit.base);
 
-  let converted = limitFloat(fromBase, 4, 24);
+  let converted = fromBase;
 
   /* TODO toggle fractions/decimals depending on unit system
   ie. use decimals for kg and fractions for lbs */
 
   return !isFraction
-    ? limitFloat(converted, 2, 8)
+    ? converted
     : new Fraction(converted).simplify(0.1).toFraction(true);
 }
 

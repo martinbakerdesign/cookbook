@@ -11,6 +11,6 @@
   .contextmenu__list__divider {
     margin: s.$s2 0.625rem;
     height: 1px;
-    background-color: c.$border;
+    background-color: var(--border);
   }
 </style>

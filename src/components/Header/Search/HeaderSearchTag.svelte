@@ -20,7 +20,7 @@
 
   tag {
     padding: s.$s1;
-    border: 1px solid c.$border;
+    border: 1px solid var(--border);
     border-radius: 0.375rem;
     display: flex;
     align-items: center;
@@ -45,6 +45,7 @@
       width: 1rem;
       height: 1rem;
       cursor: pointer;
+      color: var(--text-primary);
     }
   }
 </style>

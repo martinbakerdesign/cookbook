@@ -1,13 +1,15 @@
 <script>
   import Scale from "./Scale.svelte";
   import Translate from "./Translate.svelte";
-  import "./Transformations.scss";
+  import Notes from "./Notes.svelte";
+  import "./RecipeMeta.scss";
 </script>
 
-<aside id="transformations">
+<aside id="recipe__meta">
   <ul>
     <Scale />
     <Translate />
+    <Notes />
   </ul>
 </aside>
 
@@ -17,7 +19,7 @@
   @use "../../../styles/typo" as t;
   @use "../../../styles/layers" as l;
 
-  #transformations {
+  #recipe__meta {
     padding: 0 s.$s5;
     position: fixed;
     top: 0;
@@ -30,6 +32,9 @@
 
     ul {
       list-style: none;
+      display: grid;
+      grid-auto-flow: row;
+      grid-gap: s.$s5;
     }
 
     @media screen and (max-width: 1440px) {

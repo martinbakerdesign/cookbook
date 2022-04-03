@@ -3,40 +3,29 @@
   import { settingsConfig } from "store/settings";
 
   import { get, writable } from "svelte/store";
+  import Switch from 'components/Inputs/Switch.svelte'
 
   export let key = "";
+  export let label = '';
+  export let id = '';
+  export let store = writable(false);
+  
+  const inputProps = {
 
-  function inputStore(initial = false) {
-    const store = writable(initial);
-    const { set, subscribe, update } = store;
-
-    function toggle() {
-      let value = !get(store);
-      settings.set(key, value);
-      set(value);
-    }
-    return {
-      toggle,
-      subscribe,
-    };
-  }
-  const value = inputStore($settings[key]);
-
-  function onClick() {
-    value.toggle();
   }
 </script>
 
+<Switch {}
 <div class="settings__input--switch" data-checked={$value}>
-  <label for={`settings--${key}`} class="settings__input--switch__label"
-    >{settingsConfig[key].heading}</label
+  <label for={id} class="settings__input--switch__label"
+    >{label}</label
   >
   <button
     class="settings__input--switch__switch"
     type="button"
     role="switch"
     aria-checked={$value}
-    id={`settings--${key}`}
+    id={id}
     value={key}
     on:click={onClick}
   >
@@ -53,7 +42,7 @@
     aria-hidden={true}
     checked={$value}
   />
-</div>
+</div>>
 
 <style lang="scss">
   @use "../../../styles/_sizes.scss" as s;

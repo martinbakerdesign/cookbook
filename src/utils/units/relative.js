@@ -4,6 +4,7 @@ export const part = {
   title: "Part",
   type: UNIT_RELATIVE,
   abbrev: ["part"],
+  plural: "parts",
   system: UNITSYSTEM_NONE,
   base: ["*", 1],
 };

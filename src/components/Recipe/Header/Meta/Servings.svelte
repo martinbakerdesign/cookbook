@@ -1,27 +1,42 @@
 <script>
-  import { amount } from "store/";
+  import { scaleFactor, amount, isUserAuthor } from "store/";
+  import { writable } from "svelte/store";
+  import _quantity from "utils/text/expressions/quantity";
+  import scaleAmount from "utils/text/scaleAmount";
+  import unscaleAmount from "utils/text/unscaleAmount";
+
+  let inputRef;
+  const value = writable($amount);
+
+  $: value.set(scaleAmount($amount, $scaleFactor));
+
+  function onInput() {
+    amount.set(unscaleAmount(inputRef.innerHTML, $scaleFactor));
+  }
 </script>
 
-<div
-  contenteditable="true"
-  bind:innerHTML={$amount.text}
-  placeholder="1 serving"
-/>
+{#if $isUserAuthor != null}
+  <div
+    contenteditable="true"
+    bind:innerHTML={$value}
+    placeholder="1 serving"
+    id="recipe__header__servings"
+    on:input={onInput}
+    bind:this={inputRef}
+  />
+{:else}
+  <div placeholder="1 serving" id="recipe__header__servings">
+    {$amount.text}
+  </div>
+{/if}
 
 <style lang="scss">
-  @import "../../../../styles/_colours.scss";
-  @import "../../../../styles/_sizes.scss";
+  @use "../../../../styles/colours" as c;
+  @use "../../../../styles/sizes" as s;
   @import "../../../../styles/typo.scss";
 
-  [placeholder]:empty:before {
-    content: attr(placeholder);
-    opacity: 0.5;
-    cursor: text;
-  }
-  // [placeholder]:empty:focus:before {
-  //   opacity: 0;
-  // }
-  div {
+  #recipe__header__servings {
+    color: var(--text-primary);
     font-family: inherit;
     font-size: inherit;
     color: inherit;
@@ -30,5 +45,11 @@
     outline: 0;
     border: 0;
     background-color: transparent;
+
+    &[placeholder]:empty:before {
+      content: attr(placeholder);
+      opacity: 0.5;
+      cursor: text;
+    }
   }
 </style>

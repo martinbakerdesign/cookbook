@@ -82,12 +82,19 @@
       e.keyCode !== 13
     )
       return;
-    e.preventDefault();
 
     let isEnter = e.key === "Enter" || e.keyCode === 13;
     let { query, tags } = get(searchQuery);
 
     // Enter
+    if (
+      (isEnter && $suggestions.length) ||
+      arrowKeys.includes(e.key) ||
+      arrowKeyCodes.includes(e.keyCode) ||
+      (!query.length && tags.length)
+    ) {
+      e.preventDefault();
+    }
     if (isEnter && $suggestions.length) {
       let tag = $suggestions[$suggestion];
       searchQuery.addTag(tag), (focus = false);
@@ -108,6 +115,7 @@
     }
     // Backspace
     else if (!query.length && tags.length) {
+      console.log("removing tag");
       focus = true;
       return searchQuery.removeTag();
     }
@@ -169,19 +177,20 @@
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     position: relative;
-    border-left: 1px solid $border;
-    border-right: 1px solid $border;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
     padding-right: $s5;
     padding-left: $s6;
     display: flex;
     align-items: center;
+    color: var(--text-primary);
+    --fill: var(--text-primary);
 
     &__label {
       font-size: 0.875rem;
-      color: #211e20;
       letter-spacing: 0;
       line-height: 1rem;
-      opacity: 0.5;
+      opacity: 0.65;
       position: absolute;
       left: 0;
       top: 0;
@@ -194,7 +203,7 @@
       gap: $s1;
 
       svg {
-        fill: #211e20;
+        fill: var(--text-primary);
         flex: none;
         display: block;
       }
@@ -217,6 +226,7 @@
       width: 100%;
       height: 100%;
       flex: 1;
+      color: inherit;
 
       &::placeholder {
         opacity: 0;
@@ -260,14 +270,14 @@
       cursor: pointer;
       width: 1.25rem;
       height: 1.25rem;
-      box-shadow: 0px 0px 0px 0.125rem $contrast;
+      box-shadow: 0px 0px 0px 0.125rem var(--contrast);
       padding: 0.125rem;
-      --fill: #3daef5;
-      --hover: #f5853f;
+      --fill: var(--contrast);
+      --hover: var(--accent);
 
       &:hover {
-        box-shadow: 0px 0px 0px 0.125rem $accent;
-        --fill: #f5853f;
+        box-shadow: 0px 0px 0px 0.125rem var(--accent);
+        --fill: var(--accent);
       }
       &:disabled {
         opacity: 0.35;
@@ -281,8 +291,11 @@
       top: 100%;
       left: 0;
       width: 100%;
-      background-color: white;
+      background-color: var(--bg-primary);
       list-style: none;
+      border-bottom-left-radius: 0.75rem;
+      border-bottom-right-radius: 0.75rem;
+      overflow: hidden;
     }
 
     &.focus,

@@ -27,12 +27,12 @@
     gap: s.$s1;
     flex: 4;
     white-space: nowrap;
-    color: #3b363a;
+    color: var(--text-secondary);
     letter-spacing: calc(0.1 / 12 * 1em);
 
     tag {
       padding: 0.25rem 0.5rem 0.1875rem;
-      background-color: c.$grey-96;
+      background-color: var(--bg-secondary);
       border-radius: 0.375em;
       line-height: 1rem;
     }

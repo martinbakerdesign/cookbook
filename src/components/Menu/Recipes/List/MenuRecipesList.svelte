@@ -28,12 +28,13 @@
 </ul>
 
 <style lang="scss">
-  @import "../../../../styles/colours.scss";
-  @import "../../../../styles/sizes.scss";
+  @use "../../../../styles/colours" as c;
+  @use "../../../../styles/sizes" as s;
   @import "../../../../styles/typo.scss";
 
   #menu__recipes__list {
-    padding-top: $s4;
+    padding-top: s.$s4;
+    padding-bottom: s.$s6;
     list-style: none;
 
     .empty {

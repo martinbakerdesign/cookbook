@@ -41,7 +41,7 @@
       padding-right: 0.375rem;
       display: flex;
       text-align: left;
-      color: c.$black;
+      color: var(--text-primary);
       width: 100%;
       background-color: transparent;
       border-radius: 0.25rem;
@@ -53,18 +53,18 @@
       position: relative;
 
       .shortcut {
-        color: c.$grey-82;
+        opacity: 0.15;
         margin-left: auto;
         padding-left: s.$s3;
       }
 
       @mixin focus {
         background-color: c.$accent;
-        --fill: #fff;
+        --fill: var(--white);
 
         &,
         .shortcut {
-          color: c.$white;
+          color: var(--white);
         }
       }
 

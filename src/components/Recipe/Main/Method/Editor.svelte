@@ -1,22 +1,30 @@
 <script>
-  import { getContext, onDestroy } from "svelte";
+  import { getContext, onDestroy, onMount } from "svelte";
+
   import "./Method.scss";
 
-  const { getView, onMount } = getContext("method");
+  const { getViews, onMount: onDomMount } = getContext("method");
+  let view;
 
-  const view = getView();
-
+  onMount(() => {
+    view = getViews().method;
+  });
   onDestroy(() => {
     view && view.destroy();
   });
 </script>
 
-<dl placeholder="Method" class="method">
-  <div use:onMount />
+<dl placeholder="Method" class="recipe__editor--method">
+  <div use:onDomMount />
 </dl>
 
 <style lang="scss">
-  @import "../../../../styles/sizes.scss";
-  @import "../../../../styles/colours.scss";
+  @use "../../../../styles/sizes" as s;
+  @use "../../../../styles/colours" as c;
   @import "../../../../styles/typo.scss";
+
+  .recipe__editor--method {
+    margin-bottom: s.$s6;
+    position: relative;
+  }
 </style>

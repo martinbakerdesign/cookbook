@@ -11,20 +11,14 @@
 
   export let index, id, name, tags, created, last_edited;
 
-  let sortKey, timeSince, ref;
+  let sortKey, ref, timeSince;
   const focus = writable(false);
   const showContextMenu = writable(false);
   const contextPos = writable([0, 0]);
-  $: sortKey = sortingOptions[$sortingSelection][1];
-  $: timeSince = dateToRecencyString(
-    timestampToDate(
-      sortKey === "created"
-        ? created
-        : sortKey === "last_edited"
-        ? last_edited
-        : ""
-    )
-  );
+  $: (sortKey = sortingOptions[$sortingSelection][1]),
+    (timeSince = dateToRecencyString(
+      timestampToDate(sortKey, created, last_edited)
+    ));
   $: window[$showContextMenu ? "addEventListener" : "removeEventListener"](
     "click",
     onClickOut
@@ -114,7 +108,9 @@
     letter-spacing: 0;
     line-height: 1.5rem;
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 100%;
 
     &:after {
       content: "";
@@ -123,7 +119,7 @@
       position: absolute;
       width: 100%;
       height: 1px;
-      background-color: c.$border;
+      background-color: var(--border);
       pointer-events: none;
       user-select: none;
       display: block;
@@ -145,7 +141,7 @@
         width: calc(100% + 2rem);
         height: 100%;
         z-index: 0;
-        background-color: c.$grey-96;
+        background-color: var(--bg-secondary);
         display: block;
         opacity: 0.75;
         border-radius: 0.25rem;
@@ -168,7 +164,6 @@
 
     &__link {
       padding: s.$s3 0;
-      display: flex;
       text-decoration: none;
       color: inherit;
       flex: 1;
@@ -176,14 +171,19 @@
       position: relative;
       z-index: 1;
       outline: 0;
+      display: grid;
+      grid-template-columns: 6fr 1fr 2fr;
+      justify-items: start;
+      width: 100%;
     }
 
     .cell {
       padding: 0 s.$s4;
+      width: 100%;
+      display: block;
 
       &.menu__recipes__list__item {
         &__name {
-          flex: 6;
           font-weight: 500;
           font-size: 0.875rem;
           letter-spacing: calc(0.1 / 14 * 1em);
@@ -193,8 +193,11 @@
         }
         &__created,
         &__last_edited {
-          flex: 1;
         }
+      }
+
+      @media screen and (max-width: 1440px) {
+        padding: 0 s.$s3;
       }
     }
 

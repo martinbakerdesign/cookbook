@@ -99,7 +99,7 @@
 
       span {
         font-size: 0.875rem;
-        color: #8a8480;
+        color: $grey-52;
         letter-spacing: 0;
         line-height: 1.5rem;
         font-family: inherit;

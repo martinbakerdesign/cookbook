@@ -1,6 +1,7 @@
 <script>
   import { searchQuery } from "store/";
   import { suggestion } from "store/searchQuery";
+  import relative from "utils/units/relative";
 
   export let tag, index;
 
@@ -8,8 +9,13 @@
 
   $: selected = $suggestion === index;
 
+  let matchMarkup;
+  $: matchMarkup = tag.name.replace(
+    new RegExp($searchQuery.query, "gi"),
+    (match) => `<b>${match}</b>`
+  );
+
   function onClick() {
-    console.log("onClick", { tag });
     searchQuery.addTag(tag);
   }
   function onPointerEnter() {
@@ -25,23 +31,25 @@
     class:selected
     class="header__search__suggestion__button"
   >
-    {tag.name}
+    {@html matchMarkup}
   </button>
 </li>
 
 <style lang="scss">
-  @use "../../../styles/_sizes" as s;
-  @use "../../../styles/_colours" as c;
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/colours" as c;
 
   .header__search__suggestion {
     font-size: 0.875rem;
 
     &__button {
+      font-family: inherit;
+      letter-spacing: calc(0.1 / 14 * 1em);
       padding: s.$s2 s.$s4;
       background-color: transparent;
-      color: c.$black;
+      color: var(--text-primary);
       cursor: pointer;
-      font-size: 0.8125rem;
+      font-size: 0.875rem;
       border: 0;
       outline: 0;
       margin: 0;
@@ -50,8 +58,8 @@
       text-align: left;
 
       @mixin selected {
-        background-color: c.$accent;
-        color: c.$white;
+        background-color: var(--accent);
+        color: var(--white);
       }
 
       &:hover,

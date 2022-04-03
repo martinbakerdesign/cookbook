@@ -1,23 +1,53 @@
 <script>
+  import { loading } from "store/";
+
   import SectionHeader from "../SectionHeader.svelte";
   import Editor from "./Editor.svelte";
+  import "./Ingredients.scss";
 </script>
 
-<section class="frame">
+<section
+  id="recipe__ingredients"
+  class="recipe__section"
+  class:loading={$loading}
+>
   <SectionHeader index={0}>Ingredients</SectionHeader>
 
-  <div class="scrollwindow">
+  <div class="recipe__section__scrollwindow">
     <Editor />
   </div>
 </section>
 
 <style lang="scss">
-  @import "../../../../styles/sizes.scss";
-  @import "../../../../styles/typo.scss";
-  @import "../../../../styles/colours.scss";
+  @use "../../../../styles/sizes" as s;
+  @use "../../../../styles/colours" as c;
+  @import "../../../../styles/typo";
 
-  .scrollwindow {
-    padding-left: $s7;
+  .recipe__section__scrollwindow {
+    padding-left: calc(5.25rem - 1.5rem);
+  }
+
+  @keyframes load {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  #recipe__ingredients {
+    &.loading {
+      display: block;
+      border-radius: 0.75rem;
+      background-color: c.$grey-96;
+      margin-left: s.$s7;
+      margin-right: s.$s6;
+      margin-top: s.$s4;
+      animation: load 1500ms infinite linear;
+      height: calc(100vh - 11.125rem - 4.5rem);
+    }
   }
 
   .ingredients {
@@ -35,12 +65,12 @@
       font-size: 0.9375rem;
       letter-spacing: calc(0.2 / 15 * 1em);
       line-height: 1.5rem;
-      margin-bottom: $s3;
+      margin-bottom: s.$s3;
       font-weight: 600;
       min-height: 1.5rem;
     }
     &__ingredient {
-      margin-bottom: $s2;
+      margin-bottom: s.$s2;
     }
   }
 </style>

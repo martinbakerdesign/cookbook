@@ -1,87 +1,46 @@
 <script>
-  import Ingredients from "./Ingredients/Ingredients.svelte";
-  import Method from "./Method/Method.svelte";
+  // import Ingredients from "./Ingredients/Ingredients.svelte";
+  // import IngredientsEditor from "./Ingredients/Editor.svelte";
+  // import Method from "./Method/Method.svelte";
+  // import MethodEditor from "./Method/Editor.svelte";
+
+  import RecipeMainSection from "./RecipeMainSection.svelte";
   import "./MainSection.scss";
-  import { setContext } from "svelte";
-  import { EditorView } from "prosemirror-view";
-  import { EditorState } from "prosemirror-state";
-  import methodSchema from "./Method/schema";
-  import { method, ingredients, mutationSource } from "store/";
-  import proseToMethod from "utils/prosemirror/stateToMethod";
-  import ingredientsSchema from "./Ingredients/schema";
-  import proseToIngredients from "utils/prosemirror/stateToIngredients";
-  import { get } from "svelte/store";
-  import plugins from "./Prosemirror/plugins";
-  import stateFromIngredients from "./Prosemirror/stateFromIngredients";
-  import stateFromMethod from "./Prosemirror/stateFromMethod";
-  // import IngredientView from "./Ingredients/Views/IngredientView";
-  // import HeaderView from "./Ingredients/Views/HeaderView";
-  // import pastePlugin from "./Ingredients/handlePaste";
+  import "./Ingredients/Ingredients.scss";
+  import "./Method/Method.scss";
 
-  let editors = {
-    ingredients: null,
-    method: null,
-  };
-  let views = {
-    ingredients: null,
-    method: null,
-  };
-
-  setContext("ingredients", {
-    onMount: (editor) => {
-      editors.ingredients = editor;
-      views.ingredients = new EditorView(editors.ingredients, {
-        state: EditorState.create({
-          schema: ingredientsSchema,
-          plugins: plugins.ingredients,
-        }),
-        dispatchTransaction: ingredientsDispatch,
-      });
+  const sections = [
+    {
+      id: "ingredients",
+      header: "Ingredients",
+      editor: {
+        type: "RECIPE__EDITOR--INGREDIENTS",
+        placeholder: "Ingredient",
+        className: "ingredients",
+        context: "ingredients",
+      },
     },
-    getView: () => views.ingredients,
-  });
-  setContext("method", {
-    onMount: (editor) => {
-      editors.method = editor;
-      views.method = new EditorView(editors.method, {
-        state: EditorState.create({
-          schema: methodSchema,
-          plugins: plugins.method,
-        }),
-        dispatchTransaction: methodDispatch,
-      });
+    {
+      id: "method",
+      header: "Method",
+      editor: {
+        type: "RECIPE__EDITOR--METHOD",
+        placeholder: "Step",
+        className: "method",
+        context: "method",
+      },
     },
-    getView: () => views.method,
-  });
+  ];
 
-  $: views.ingredients &&
-    views.method &&
-    $mutationSource === "external" &&
-    (views.ingredients.updateState(stateFromIngredients(get(ingredients))),
-    views.method.updateState(stateFromMethod(get(method))),
-    mutationSource.set("local"));
-
-  function ingredientsDispatch(transaction) {
-    let view = views.ingredients;
-    const newState = view.state.apply(transaction);
-    view.updateState(newState);
-
-    if (transaction.mapping.from === transaction.mapping.to) return;
-    mutationSource.set("local");
-    ingredients.set(proseToIngredients(newState));
-  }
-  function methodDispatch(transaction) {
-    const newState = views.method.state.apply(transaction);
-    views.method.updateState(newState);
-    if (transaction.mapping.from === transaction.mapping.to) return;
-    mutationSource.set("local");
-    method.set(proseToMethod(newState));
-  }
+  // TODO Add notes section/functionality
 </script>
 
 <main>
-  <Ingredients />
-  <Method />
+  {#each sections as section, index}
+    <RecipeMainSection {...{ index, ...section }} />
+  {/each}
+  <!-- <Ingredients />
+  <Method /> -->
 </main>
 
 <style lang="scss">
@@ -91,10 +50,11 @@
 
   main {
     display: grid;
-    grid-template-columns: 26.25rem 1fr;
+    grid-template-columns: 28.25rem 1fr;
     align-items: start;
-    height: 100vh;
+    height: 100%;
     flex: 1;
     overflow: hidden;
+    margin-bottom: 3.25rem;
   }
 </style>

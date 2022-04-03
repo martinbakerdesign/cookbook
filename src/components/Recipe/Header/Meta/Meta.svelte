@@ -27,7 +27,7 @@
     gap: $s6;
     list-style: none;
     font-size: 0.875rem;
-    color: #110e12;
+    color: var(--text-primary);
     letter-spacing: calc(0.2 / 14 * 1em);
     line-height: 1.5rem;
 

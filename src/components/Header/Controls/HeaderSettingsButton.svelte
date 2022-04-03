@@ -32,12 +32,12 @@
     justify-content: center;
     cursor: pointer;
     --fill: #8a8480;
-    --hover: #f5853f;
+    --hover: var(--accent);
     transition: 75ms cubic-bezier(0.19, 1, 0.22, 1);
 
     @mixin focus {
       transition-duration: 125ms;
-      --fill: #f5853f;
+      --fill: var(--accent);
     }
 
     &:focus-visible {

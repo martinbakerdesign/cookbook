@@ -11,10 +11,14 @@
   import Animation from "components/Animation/Animation.svelte";
   import "styles/styles.scss";
   import { scrollY } from "store/menu";
+  import "styles/_colours.scss";
 
   const routes = {
     "/:id": Recipe,
     "/": Menu,
+  };
+  const recipeRoute = {
+    "/:id": Recipe,
   };
 
   const animProps = {
@@ -35,7 +39,11 @@
     </div>
   </div>
 {:else if $checked && !$user}
-  <Signin />
+  {#if $location === "/"}
+    <Signin />
+  {:else}
+    <Router routes={recipeRoute} />
+  {/if}
 {:else if $checked}
   <Header />
   <Router {routes} />

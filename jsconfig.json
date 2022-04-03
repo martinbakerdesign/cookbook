@@ -29,7 +29,6 @@
       "styles/*": ["./src/styles/*"],
       "utils/*": ["./src/utils/*"],
       "data/*": ["./src/data/*"],
-      "schemas/*": ["./src/schemas/*"],
     },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.

@@ -1,16 +1,17 @@
-export default function dateToRecencyString(date) {
-  if (!date) return null;
+export default function dateToRecencyString(src) {
+  if (!src) console.log(src);
+  if (!src) return null;
   let now = Date.now();
-  let timeSince = now - date;
+  let timeSince = now - src;
 
   const seconds = timeSince < 60 * 1000;
   const minutes = timeSince < 60 * 60 * 1000;
   const hours = timeSince < 60 * 60 * 24 * 1000;
   const days = timeSince < 60 * 60 * 24 * 5 * 1000;
 
-  let _date = date.getDate();
-  let month = date.getMonth();
-  let year = date.getFullYear();
+  let date = src.getDate();
+  let month = src.getMonth();
+  let year = src.getFullYear();
 
   if (seconds) {
     let secs = Math.round(timeSince / 1000);
@@ -26,7 +27,7 @@ export default function dateToRecencyString(date) {
     return `${dys} day${dys > 1 ? "s" : ""} ago`;
   }
 
-  return `${_date} ${monthNames[month].slice(0, 3)} ${year}`;
+  return `${date} ${monthNames[month].slice(0, 3)} ${year}`;
 }
 
 const monthNames = [

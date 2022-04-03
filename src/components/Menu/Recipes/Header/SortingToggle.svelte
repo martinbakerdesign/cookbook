@@ -89,13 +89,14 @@
       transform: translateX(-50%) translateY(0.5rem);
       width: 10rem;
       text-align: left;
-      background-color: white;
-      border: 0.0625rem solid $border;
-      color: $black;
+      background-color: var(--bg-primary);
+      border: 0.0625rem solid var(--border);
+      color: var(--text-primary);
       border-radius: 0.375rem;
       padding: $s1;
     }
     &__option {
+      color: inherit;
       font-family: inherit;
       border: 0;
       margin: 0;
@@ -108,14 +109,15 @@
       text-align: left;
       border-radius: 0.25rem;
       font-size: 0.75rem;
-      color: $grey-52;
-      --fill: #8a8480;
+      opacity: 0.65;
       position: relative;
+      --fill: var(--text-primary);
 
       @mixin focus {
+        opacity: 1;
         background-color: $accent;
-        color: $white;
-        --fill: #fff;
+        color: var(--white);
+        --fill: var(--white);
       }
 
       &:focus {

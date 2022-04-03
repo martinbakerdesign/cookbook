@@ -99,7 +99,7 @@
     top: 0px;
     left: 0px;
     border-radius: 0.25rem;
-    background-color: c.$white;
+    background-color: var(--bg-primary);
     padding: 0.375rem;
     min-width: max-content;
     will-change: transform;

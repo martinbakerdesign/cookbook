@@ -88,8 +88,8 @@
 <DeleteModal />
 
 <style lang="scss">
-  @import "../../../styles/colours.scss";
-  @import "../../../styles/sizes.scss";
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
 
   #menu__recipes {
     display: flex;
@@ -97,8 +97,8 @@
     width: 100%;
 
     .slide {
-      margin-top: $s9;
-      background-color: white;
+      margin-top: s.$s9;
+      background-color: var(--bg-primary);
       height: 100%;
       position: relative;
     }
@@ -107,10 +107,10 @@
       margin: 0 auto;
     }
     .loading {
-      padding: $s6;
+      padding: s.$s6;
       text-align: center;
       font-size: 1rem;
-      color: $grey-63;
+      color: c.$grey-63;
     }
   }
 </style>

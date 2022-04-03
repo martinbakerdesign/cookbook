@@ -6,9 +6,9 @@
 <h1 id="header__title"><a href="/" use:link>Cookbook</a></h1>
 
 <style lang="scss">
-  @import "../../styles/_colours.scss";
-  @import "../../styles/_sizes.scss";
-  @import "../../styles/_typo.scss";
+  @use "../../styles/colours" as c;
+  @use "../../styles/sizes" as s;
+  @import "../../styles/typo";
 
   #header__title {
     @include font-soehne;
@@ -17,10 +17,10 @@
     letter-spacing: calc(0.2 / 13 * 1em);
     line-height: 1rem;
     grid-row: 3 / 4;
-    padding: $s4 $s5;
+    padding: s.$s4 s.$s5;
     grid-column: 1/2;
     grid-row: 1 / 2;
-    color: #211e20;
+    color: var(--text-primary);
 
     a {
       color: inherit;

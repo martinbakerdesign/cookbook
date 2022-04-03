@@ -5,9 +5,10 @@
   export let index;
   import InputText from "./Inputs/SettingsInputText.svelte";
   import InputSelect from "./Inputs/SettingsInputSelect.svelte";
-  import InputSwitch from "./Inputs/SettingsInputSwitch.svelte";
+  import InputSwitch from "components/Inputs/Switch.svelte";
   import InputRadio from "./Inputs/SettingsInputRadio.svelte";
-  import { settingsFocus } from "store/settings";
+  import { settingsConfig, settingsFocus } from "store/settings";
+  import { settings } from "store/";
 
   let Input = (function () {
     switch (type) {
@@ -22,6 +23,18 @@
         return InputRadio;
     }
   })();
+  const inputProps = {
+    key,
+    ...(type === "SWITCH" && {
+      initialValue: $settings[key],
+      onToggle: onSwitchToggle,
+      label: settingsConfig[key].heading,
+      id: `settings--${key}`,
+    }),
+  };
+  function onSwitchToggle(value) {
+    settings.set(key, value);
+  }
 </script>
 
 <li
@@ -31,7 +44,7 @@
   data-focus={$settingsFocus === index}
 >
   <h3 class="settings__block__heading">{heading}</h3>
-  <Input {key} />
+  <Input {...inputProps} />
 </li>
 
 <style lang="scss">
@@ -56,7 +69,7 @@
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: c.$border;
+      background-color: var(--border);
     }
     &:last-child {
       padding-bottom: s.$s6;

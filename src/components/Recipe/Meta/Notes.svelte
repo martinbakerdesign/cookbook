@@ -2,21 +2,17 @@
   import Icon from "components/Icon/Icon.svelte";
 
   const iconProps = {
-    icon: "scale--24",
+    icon: "translate--24",
     label: "",
     role: "presentation",
     fill: "#8A8480",
   };
 </script>
 
-<div
-  id="transformations__scale"
-  class="transformations__wrapper"
-  data-hasvalue="false"
->
-  <div class="transformations__label">Scale recipe</div>
-  <div class="transformations__input" contenteditable="true">4 bowls</div>
-  <div class="transformations__icon">
+<div id="recipe__meta__notes" class="recipe__meta__wrapper">
+  <div class="recipe__meta__label">Translate units</div>
+  <div class="recipe__meta__input" contenteditable="true">Metric</div>
+  <div class="recipe__meta__icon">
     <Icon {...iconProps} />
   </div>
 </div>
@@ -26,7 +22,6 @@
   @import "../../../styles/colours.scss";
   @import "../../../styles/typo.scss";
 
-  #transformations__scale {
-    margin-bottom: $s6;
+  #recipe__meta__notes {
   }
 </style>

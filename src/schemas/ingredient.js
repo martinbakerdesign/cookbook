@@ -1,4 +1,6 @@
 import { Schema } from "prosemirror-model";
+import { isUserAuthor } from "store/";
+import { get } from "svelte/store";
 
 const ingredientsSchema = new Schema({
   nodes: {
@@ -12,12 +14,13 @@ const ingredientsSchema = new Schema({
           default: null,
         },
       },
-      // marks: "",
       toDOM(node) {
         return [
           "h3",
           {
             "data-index": node.attrs.index,
+            "data-dragging": node.attrs.dragging,
+            "data-type": "header",
           },
           0,
         ];
@@ -46,7 +49,6 @@ const ingredientsSchema = new Schema({
           default: "",
         },
       },
-      // marks: "quantity",
       toDOM(node) {
         return [
           "ingredient",
@@ -54,6 +56,8 @@ const ingredientsSchema = new Schema({
             "data-index": node.attrs.index,
             "data-quantity": node.attrs.quantity,
             "data-unit": node.attrs.unit,
+            "data-type": "ingredient",
+            "data-dragging": node.attrs.dragging,
           },
           0,
         ];

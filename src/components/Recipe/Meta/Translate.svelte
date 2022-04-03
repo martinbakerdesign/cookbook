@@ -10,13 +10,13 @@
 </script>
 
 <div
-  id="transformations__translate"
+  id="recipe__meta__translate"
   data-hasvalue="false"
-  class="transformations__wrapper"
+  class="recipe__meta__wrapper"
 >
-  <div class="transformations__label">Translate</div>
-  <div class="transformations__input" contenteditable="true">Metric</div>
-  <div class="transformations__icon">
+  <div class="recipe__meta__label">Translate units</div>
+  <div class="recipe__meta__input" contenteditable="true">Metric</div>
+  <div class="recipe__meta__icon">
     <Icon {...iconProps} />
   </div>
 </div>
@@ -26,6 +26,6 @@
   @import "../../../styles/colours.scss";
   @import "../../../styles/typo.scss";
 
-  #transformations__translate {
+  #recipe__meta__translate {
   }
 </style>

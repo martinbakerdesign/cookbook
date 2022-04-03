@@ -44,12 +44,12 @@
 </li>
 
 <style lang="scss">
-  @use "../../styles/_colours" as c;
-  @use "../../styles/_sizes" as s;
-  @use "../../styles/_typo" as t;
+  @use "../../styles/colours" as c;
+  @use "../../styles/sizes" as s;
+  @use "../../styles/typo" as t;
 
   .settings__aside__item {
-    color: c.$black;
+    color: var(--text-primary);
     font-size: 0.75rem;
     margin-bottom: s.$s1;
     &:last-child {

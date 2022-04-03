@@ -57,7 +57,7 @@
       top: 0;
       right: 0;
       bottom: 0;
-      background-color: c.$grey-31;
+      background-color: var(--bg-secondary);
       opacity: 0.9;
       position: fixed;
       inset: 0px;
@@ -71,7 +71,7 @@
   }
 
   :global(.modal > div) {
-    background-color: c.$white;
+    background-color: var(--bg-primary);
     position: fixed;
     left: 50%;
     top: 50%;

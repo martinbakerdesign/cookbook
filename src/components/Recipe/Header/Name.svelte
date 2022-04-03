@@ -1,33 +1,52 @@
 <script>
   import { name, loading } from "store/";
+  import user from "store/user";
   export let min = false;
 </script>
 
-<input
-  bind:value={$name}
-  class:min
-  placeholder={!$loading ? "My recipe" : "Loading..."}
-/>
+{#if $user}
+  <!-- <div
+    id="recipe__header__name"
+    placeholder={"My recipe"}
+    class:loading={$loading}
+    class:min
+    contenteditable="true"
+    bind:innerHTML={$name}
+  /> -->
+  <input
+    id="recipe__header__name"
+    bind:value={$name}
+    class:min
+    placeholder={"My recipe"}
+    class:loading={$loading}
+  />
+{:else}
+  <div id="recipe__header__name" class:loading={$loading}>{$name}</div>
+{/if}
 
 <style lang="scss">
-  @import "../../../styles/_colours.scss";
-  @import "../../../styles/_sizes.scss";
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
   @import "../../../styles/_typo.scss";
 
-  input {
-    @include font-soehne;
-    font-size: 2.25rem;
-    color: $black;
-    letter-spacing: calc(-0.4 / 40 * 1em);
-    line-height: 2.5rem;
-    font-weight: 500;
+  #recipe__header__name {
+    &,
+    &:before {
+      @include font-soehne;
+      font-size: 2.625rem;
+      color: var(--text-primary);
+      letter-spacing: calc(-0.4 / 42 * 1em);
+      line-height: 2.75rem;
+      font-weight: 500;
+      line-height: 3.5rem;
+    }
     outline: none;
     box-shadow: none;
     border: 0;
-    margin-bottom: $s4;
+    margin-bottom: s.$s5;
     background-color: transparent;
     width: 100%;
-    height: 3rem;
+    min-height: 3.5rem;
 
     &.min {
       font-size: 1.125rem;
@@ -36,8 +55,21 @@
       flex: 1;
       height: 1.75rem;
     }
+
+    &:empty:before {
+      content: attr(placeholder);
+      opacity: 0.5;
+      cursor: text;
+      user-select: none;
+    }
     &::placeholder {
       opacity: 0.5;
+    }
+
+    &.loading {
+      pointer-events: none;
+      user-select: none;
+      opacity: 0;
     }
   }
 </style>

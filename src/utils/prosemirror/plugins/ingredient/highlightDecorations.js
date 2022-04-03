@@ -1,64 +1,9 @@
 import { Plugin } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import { ingredientUnits } from "utils/units";
-import { showTranslateList } from "./Plugins";
-
-const unitKeys = Object.keys(ingredientUnits).sort((a, b) =>
-  a.length < b.length ? 1 : -1
-);
-const regex = new RegExp(
-  `(?<quantity>\\d+ to \\d+|\\d*\\s*\\d+\\/\\d+|\\d+\\.\\d+|\\d+|(A half)|(half)|(half a)|(quarter)|(A quarter)|(A quarter of))[-\\s]*(?<unit>${unitKeys.join(
-    "|"
-  )})*[s(es)]*(?=\\s+|\\b)`,
-  "i"
-);
+import quantity from "utils/text/expressions/quantity";
+import units from "utils/text/expressions/units";
 
 let currentIndex;
-
-export default new Plugin({
-  state: {
-    init(_, { doc }) {
-      return quantityDeco(doc);
-    },
-    apply(transaction, old) {
-      return transaction.docChanged ? quantityDeco(transaction.doc) : old;
-    },
-  },
-  props: {
-    decorations(state) {
-      return this.getState(state);
-    },
-    handleClickOn(view, pos, node, nodePos, event) {
-      let { target } = event;
-      let container = view.dom;
-      let tool = document.querySelector("#ingredients__translateunit");
-      let targetIsUnit = target.className === "unit";
-      let index = targetIsUnit
-        ? target.closest("ingredient").dataset.index
-        : null;
-      let toggle =
-        targetIsUnit &&
-        index === currentIndex &&
-        tool.className.includes("show");
-      currentIndex = index;
-
-      tool.classList.remove("show");
-      if (!targetIsUnit || toggle) return;
-      // get & set position of clicked unit node
-      let containerBox = container.getBoundingClientRect();
-      let unitBox = target.getBoundingClientRect();
-      let coords = [
-        Math.round(unitBox.left + unitBox.width * 0.5 - containerBox.left),
-        Math.round(unitBox.top + unitBox.height - containerBox.top),
-      ];
-      tool.style.left = `${coords[0]}px`;
-      tool.style.top = `${coords[1]}px`;
-      tool.classList.add("show");
-
-      window.addEventListener("click", onClickOut);
-    },
-  },
-});
 
 function onClickOut(e) {
   if (
@@ -105,7 +50,7 @@ function highlightQuantity(doc) {
 
     if (!isIngredient || node.type.name !== "text") return;
     // Scan text nodes for quantity
-    let matches = regex.exec(node.text);
+    let matches = new RegExp(quantity, "").exec(node.text);
     if (!matches) return;
     matchStr = matches.groups.quantity;
     matchIndex = matches.input.indexOf(matchStr);
@@ -128,7 +73,7 @@ function highlightUnit(doc) {
 
   // For each node in the document
   let isIngredient = false;
-  let matchStr, matchIndex, end;
+  let matchStr, matchIndex, start, end;
 
   doc.descendants((node, pos) => {
     node.type.name === "ingredient" && (isIngredient = true);
@@ -136,17 +81,71 @@ function highlightUnit(doc) {
 
     if (!isIngredient || node.type.name !== "text") return;
     // Scan text nodes for quantity
-    let matches = regex.exec(node.text);
+    let matches = new RegExp(
+      `(?<outer>(?:${quantity}[ -\\s]?)${units})[ \\s\\b]`,
+      ""
+    ).exec(node.text);
+
     if (!matches?.groups?.unit) return;
     matchStr = matches.groups.unit;
     matchIndex = matches.input.indexOf(matchStr);
-    end = matches[0].length;
+    start = pos + matchIndex;
+    end = start + matches.groups.unit.length;
     record(
-      pos + matchIndex, // start of unit
-      pos + end, // end of input str
+      start, // start of unit
+      end, // end of input str
       matchStr
     );
   });
 
   return result;
 }
+
+const highlightDecorationsPlugin = new Plugin({
+  state: {
+    init(_, { doc }) {
+      return quantityDeco(doc);
+    },
+    apply(transaction, old) {
+      return quantityDeco(transaction.doc);
+    },
+  },
+  props: {
+    decorations(state) {
+      return this.getState(state);
+    },
+    handleClickOn(view, pos, node, nodePos, event) {
+      let { target } = event;
+      let container = view.dom;
+      let tool = document.querySelector("#ingredients__translateunit");
+      let targetIsUnit = target.className?.includes("unit") ?? false;
+      let index = targetIsUnit
+        ? target.closest("ingredient").dataset.index
+        : null;
+      let toggle =
+        targetIsUnit &&
+        index === currentIndex &&
+        tool.className.includes("show");
+      currentIndex = index;
+
+      tool.classList.remove("show");
+      if (!targetIsUnit || toggle) return;
+      // get & set position of clicked unit node
+      let containerBox = container.getBoundingClientRect();
+      let unitBox = target.getBoundingClientRect();
+      let coords = [
+        Math.round(unitBox.left + unitBox.width * 0.5 - containerBox.left),
+        Math.round(unitBox.top + unitBox.height - containerBox.top),
+      ];
+      tool.style.left = `${coords[0]}px`;
+      tool.style.top = `${coords[1]}px`;
+      tool.classList.add("show");
+
+      window.addEventListener("click", onClickOut);
+
+      return true;
+    },
+  },
+});
+
+export default highlightDecorationsPlugin;

@@ -1,5 +1,5 @@
 <script>
-  import { pushing, lastSaved } from "store/";
+  import { pushing, lastSaved, cuedChange } from "store/";
   import { writable } from "svelte/store";
 
   const states = [
@@ -10,9 +10,17 @@
   let state = 0;
   let timeout;
   const displayStr = writable(null);
-  $: state = $pushing ? 1 : 0;
-  $: clearTimeout(timeout),
-    displayStr.set($pushing ? "Saving..." : $lastSaved ? "Saved" : null);
+  $: (state = $pushing || $cuedChange != null ? 1 : 0),
+    clearTimeout(timeout),
+    displayStr.set(
+      $pushing
+        ? "Saving..."
+        : $cuedChange != null
+        ? "Changes cued"
+        : $lastSaved
+        ? "Saved"
+        : null
+    );
   $: $displayStr &&
     (timeout = setTimeout(() => {
       displayStr.set(null);
@@ -20,6 +28,9 @@
 </script>
 
 <div id="recipe__status">
+  {#if $displayStr}
+    <span id="recipe__status__text">{$displayStr}</span>
+  {/if}
   <svg
     id="recipe__status__icon"
     width={size}
@@ -29,15 +40,12 @@
   >
     <path d={states[state]} />
   </svg>
-  {#if $displayStr}
-    <span id="recipe__status__text">{$displayStr}</span>
-  {/if}
 </div>
 
 <style lang="scss">
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/typo.scss";
-  @import "../../../styles/colours.scss";
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/typo" as t;
 
   #recipe__status {
     // position: fixed;
@@ -52,17 +60,17 @@
     &__icon {
       width: 1.5rem;
       height: 1.5rem;
-      margin-right: $s2;
+      margin-left: s.$s2;
 
       &[data-state="0"] {
-        fill: $success;
+        fill: var(--success);
       }
       &[data-state="1"] {
-        fill: #9bc5ff;
+        fill: #88cdf8;
       }
     }
     &__text {
-      color: $grey-52;
+      color: var(--text-secondary);
     }
   }
 </style>
