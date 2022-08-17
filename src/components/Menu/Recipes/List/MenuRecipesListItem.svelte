@@ -104,7 +104,6 @@
 </li>
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
   @use "../../../../styles/sizes" as s;
   @use "../../../../styles/typo" as t;
 
@@ -136,8 +135,6 @@
       }
     }
     @mixin focus {
-      color: c.$accent;
-
       &:before {
         content: "";
         position: absolute;
@@ -161,13 +158,9 @@
     &.focus {
       @include focus;
     }
-    @media (hover: hover) {
-      &:hover {
-        @include focus;
-      }
-    }
 
     &__link {
+      color: var(--text-primary);
       padding: s.$s3 0;
       text-decoration: none;
       color: inherit;
@@ -177,15 +170,23 @@
       z-index: 1;
       outline: 0;
       display: grid;
-      grid-template-columns: 6fr 1fr 2fr;
-      justify-items: start;
+      grid-template-columns: 6fr 5fr 2fr;
       width: 100%;
+    }
+
+    &.focus {
+      .menu__recipes__list__item {
+        &__link {
+          color: var(--accent);
+        }
+      }
     }
 
     .cell {
       padding: 0 s.$s4;
       width: 100%;
       display: block;
+      overflow: hidden;
 
       &.menu__recipes__list__item {
         &__name {
@@ -198,6 +199,7 @@
         }
         &__created,
         &__last_edited {
+          width: 8rem;
         }
       }
 
@@ -214,7 +216,7 @@
   }
 
   :global(.menu__recipes__list__item:hover .cell tag) {
-    background-color: c.$accent;
-    color: c.$white;
+    background-color: var(--accent);
+    color: var(--white);
   }
 </style>
