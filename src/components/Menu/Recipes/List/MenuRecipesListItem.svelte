@@ -219,4 +219,8 @@
     background-color: var(--accent);
     color: var(--white);
   }
+  :global(.menu__recipes__list__item:hover .menu__recipes__list__item__delete),
+  :global(.menu__recipes__list__item:hover .menu__recipes__list__item__share) {
+    opacity: 1;
+  }
 </style>
