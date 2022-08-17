@@ -28,30 +28,7 @@
     // padding-top: s.$s4;
     // padding-bottom: s.$s4;
 
-    /* width */
-    &::-webkit-scrollbar {
-      width: 0.625rem;
-    }
-
-    /* Track */
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-      background: var(--bg-secondary);
-
-      &,
-      &:hover {
-        border: 0.1875rem solid transparent;
-        background-clip: content-box;
-        border-radius: 0.5rem;
-      }
-      &:hover {
-        background: var(--accent);
-      }
-    }
+    
   }
 
   &#recipe__ingredients {
