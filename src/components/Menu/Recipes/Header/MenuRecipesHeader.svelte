@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
 
   import NewRecipeButton from "./NewRecipeButton.svelte";
+  import ImportRecipe from "./ImportRecipe.svelte";
   import SortingToggle from "./SortingToggle.svelte";
   // import TagMultiselect from "./TagMultiselect.svelte";
 
@@ -49,7 +50,8 @@
 <header class:stuck style="--top: {top}px">
   <div class="container">
     <div class="lhs">
-    <NewRecipeButton />
+      <NewRecipeButton />
+      <ImportRecipe />
     </div>
     <div class="rhs">
       <!-- <TagMultiselect /> -->
