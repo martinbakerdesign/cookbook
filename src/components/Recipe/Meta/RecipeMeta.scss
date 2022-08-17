@@ -13,6 +13,17 @@
     z-index: 0;
     align-items: center;
   }
+  &__toggle {
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-weight: inherit;
+  }
   &__label,
   &__input {
     grid-column: 1 / 2;
