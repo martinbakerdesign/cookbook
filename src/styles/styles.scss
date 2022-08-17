@@ -4,6 +4,37 @@
 @import "./typo";
 
 :root {
+  --black: #211e20;
+  --white: #fff;
+  --grey-96: #f7f6f5;
+  --grey-91: #efdfdf;
+  --grey-82: #d4d1ce;
+  --grey-63: #a6a19b;
+  --grey-52: #8a8480;
+  --grey-31: #544f4a;
+  --grey-24: #3f3c3a;
+  --accent: #f5853f;
+  --accent-15: #feede2;
+  --border: var(--grey-91);
+  --contrast: #3daef5;
+  --success: #c0ee6a;
+  --error: #ee7e6a;
+  --text-primary: var(--black);
+  --text-secondary: var(--grey-52);
+  --bg-primary: var(--white);
+  --bg-secondary: var(--grey-96);
+  --border: var(--grey-91);
+}
+
+body.dark {
+  --text-primary: var(--white);
+  --text-secondary: var(--grey-63);
+  --bg-primary: var(--black);
+  --bg-secondary: var(--grey-24);
+  --border: var(--grey-31);
+}
+
+:root {
   font-size: 16px;
   --main: 80rem;
 }
