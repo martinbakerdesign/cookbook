@@ -61,4 +61,13 @@
       }
     }
   }
+  #header__sign-in {
+    padding: s.$s2 s.$s3;
+    color: var(--white);
+    pointer-events: auto;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    background-color: var(--accent);
+  }
 </style>
