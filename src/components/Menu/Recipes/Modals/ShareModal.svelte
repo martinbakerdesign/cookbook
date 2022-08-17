@@ -46,6 +46,15 @@
   let copyButton;
   let success = writable(false);
   let timeout = null;
+  
+  $: !$show && timeout != null && clear();
+  onDestroy(() => {
+    clear();
+  });
+
+  function resetButton() {
+    copyButton.querySelector("span").innerHTML = "Copy link";
+  }
   function copyToClipboard() {
     navigator.clipboard.writeText(link);
     onLinkCopied();
@@ -54,18 +63,14 @@
     clear();
     copyButton.querySelector("span").innerHTML = "Link copied";
     success.set(true);
-    timeout = setTimeout(() => {
-      copyButton.querySelector("span").innerHTML = "Copy link";
-      success.set(false);
-    }, 3000);
+    timeout = setTimeout(clear, 3000);
   }
   function clear() {
     timeout && (clearTimeout(timeout), (timeout = null));
+    saving.set(false);
     success.set(false);
+    resetButton();
   }
-  onDestroy(() => {
-    clear();
-  });
 </script>
 
 <Modal show={$show}>
