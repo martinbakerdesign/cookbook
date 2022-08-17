@@ -1,6 +1,7 @@
 <script>
   import user from "store/user";
   import Dropmenu from "./HeaderUserDropmenu.svelte";
+  import { link } from "svelte-spa-router";
 
   let show = false;
 
@@ -9,11 +10,15 @@
   }
 </script>
 
-<button id="header__user" on:click={toggle}
-  ><img src={$user?.thumb} alt={$user?.name} /></button
->
-{#if show}
-  <Dropmenu />
+{#if $user}
+  <button id="header__user" on:click={toggle}
+    ><img src={$user?.thumb} alt={$user?.name} /></button
+  >
+  {#if show}
+    <Dropmenu />
+  {/if}
+{:else}
+  <a use:link id="header__sign-in" href="/">Sign In</a>
 {/if}
 
 <style lang="scss">
