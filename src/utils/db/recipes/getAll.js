@@ -1,4 +1,4 @@
-import { loadingRecipes, recipes } from "store/";
+import { loadingRecipes } from "store/";
 import { db } from "firestore";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
@@ -11,6 +11,7 @@ export default async function getAllRecipes(userId) {
       snapshot.forEach((doc) => r.push({ ...doc.data(), id: doc.id }));
       return r;
     });
+
     // let results = await db
     //   .collection("recipes")
     //   .where("author", "==", userId)
@@ -21,10 +22,11 @@ export default async function getAllRecipes(userId) {
     //     return r;
     //   });
 
-    recipes.set(results);
-    loadingRecipes.set(false);
+    return results;
   } catch (err) {
     console.error(err);
     // throw err;
+  } finally {
+    loadingRecipes.set(false);
   }
 }

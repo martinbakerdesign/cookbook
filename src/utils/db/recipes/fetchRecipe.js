@@ -1,6 +1,7 @@
 import {
   loading,
   amount,
+  description,
   duration,
   tags,
   ingredients,
@@ -11,11 +12,12 @@ import {
   method,
   shared,
   author,
+  src,
   mutationSource,
 } from "store/";
 import { INGREDIENT_TYPES } from "store/models/ingredients";
 import parseIngredient from "utils/text/parseIngredient";
-import time from "utils/units/time";
+import time from "data/units/time";
 import getRecipeById from "./getById";
 
 export default async function fetchRecipe(_id) {
@@ -28,26 +30,28 @@ export default async function fetchRecipe(_id) {
 
     id.set(_id),
       created.set(recipe.created),
-      name.set(recipe.name),
+      name.set(recipe.name ?? ""),
       amount.set(recipe.amount),
+      description.set(recipe.description ?? ""),
       duration.set({
         ...recipe.duration,
         unit: time[recipe.duration.unit] ?? null,
       }),
-      tags.set(recipe.tags),
-      ingredients.set(
-        recipe.ingredients.map((i) =>
-          i.type === INGREDIENT_TYPES.HEADER
-            ? i
-            : { ...i, ...parseIngredient(i) }
-        )
-      ),
+      tags.set(recipe.tags ?? []),
+      ingredients.set(recipe.ingredients ?? []),
       method.set(recipe.method ?? []),
       shared.set(recipe.shared ?? false),
       author.set(recipe.author ?? null),
+      src.set(recipe.src ?? ""),
       mutationSource.set("external"),
       loading.set(false);
   } catch (err) {
     throw err;
   }
 }
+
+const types = {
+  INGREDIENT: "INGREDIENT",
+  HEADER: "HEADER",
+  STEP: "STEP",
+};
