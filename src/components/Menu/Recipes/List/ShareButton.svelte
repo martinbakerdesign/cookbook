@@ -36,22 +36,29 @@
     background-color: transparent;
     padding: 0;
     opacity: 0;
-    pointer-events: none;
     cursor: pointer;
     margin: s.$s3;
     margin-left: 0;
     --fill: #8a8480;
-    --hover: #f5853f;
+    --hover: #ee7e6a;
     width: 1.5rem;
     height: 1.5rem;
     flex: none;
+    z-index: 1;
+    position: relative;
 
-    &.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    &:hover {
+    @mixin focus {
       --fill: #f5853f;
+    }
+
+    &:focus-visible {
+      @include focus;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        @include focus;
+      }
     }
   }
 </style>
