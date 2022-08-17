@@ -4,6 +4,7 @@
   import dateToRecencyString from "utils/date/dateToRecencyString";
   import timestampToDate from "utils/db/timestamp/timestampToDate";
   import Tags from "./MenuRecipesListItemTags.svelte";
+  import ShareButton from "./ShareButton.svelte";
   import DeleteButton from "./DeleteButton.svelte";
   import { writable } from "svelte/store";
   import { onDestroy } from "svelte";
@@ -89,6 +90,7 @@
       {timeSince}
     </div>
   </a>
+  <ShareButton {id} />
   <DeleteButton {id} />
   <ContextMenu
     show={$showContextMenu}
@@ -109,7 +111,7 @@
     line-height: 1.5rem;
     position: relative;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     width: 100%;
 
     &:after {
