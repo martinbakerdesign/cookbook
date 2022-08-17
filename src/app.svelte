@@ -2,6 +2,8 @@
   import { bg } from "./store";
   import user, { checked } from "store/user";
   import Router, { location } from "svelte-spa-router";
+  import useIcons from "components/Icon/useIcons";
+
   import Signin from "routes/Signin/Signin.svelte";
   import Menu from "routes/Menu/Menu.svelte";
   import Recipe from "routes/Recipe/Recipe.svelte";
@@ -11,6 +13,8 @@
   import "styles/styles.scss";
   import { scrollY } from "store/menu";
   import "styles/_colours.scss";
+
+  useIcons();
 
   const userRoutes = {
     "/:id": Recipe,
