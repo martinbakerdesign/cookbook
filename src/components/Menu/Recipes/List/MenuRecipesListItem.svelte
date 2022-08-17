@@ -3,12 +3,13 @@
   import { link } from "svelte-spa-router";
   import dateToRecencyString from "utils/date/dateToRecencyString";
   import timestampToDate from "utils/db/timestamp/timestampToDate";
+  import { writable } from "svelte/store";
+  import { onMount } from "svelte";
+
   import Tags from "./MenuRecipesListItemTags.svelte";
   import ShareButton from "./ShareButton.svelte";
   import DeleteButton from "./DeleteButton.svelte";
-  import { writable } from "svelte/store";
-  import { onDestroy } from "svelte";
-  import ContextMenu from "../../../ContextMenu/ContextMenu.svelte";
+  import ContextMenu from "./ContextMenu/ContextMenu.svelte";
 
   export let index, id, name, tags, created, last_edited;
 
@@ -16,51 +17,53 @@
   const focus = writable(false);
   const showContextMenu = writable(false);
   const contextPos = writable([0, 0]);
+
+  onMount(() => {
+    window.addEventListener("click", onClickOut);
+
+    return () => {
+      window.removeEventListener("click", onClickOut);
+    };
+  });
+
   $: (sortKey = sortingOptions[$sortingSelection][1]),
     (timeSince = dateToRecencyString(
       timestampToDate(sortKey, created, last_edited)
     ));
-  $: window[$showContextMenu ? "addEventListener" : "removeEventListener"](
-    "click",
-    onClickOut
-  ),
-    window[$showContextMenu ? "addEventListener" : "removeEventListener"](
-      "contextmenu",
-      onClickOut
-    );
 
-  onDestroy(() => {
-    window.removeEventListener("click", onClickOut);
-  });
+  function getPos(el) {
+    if (!el) return [0, 0];
+    let rect = el.getBoundingClientRect();
 
-  function getPos() {
-    let rect = ref.getBoundingClientRect();
     return [rect.left, rect.top];
   }
-  function onPointerOver({ target, type }) {
-    if (index > 0) {
-      let prevRow = document.querySelector(
-        `.menu__recipes__list__item[data-index="${index - 1}"]`
-      );
+  function toggleBorder(type) {
+    if (!index) return;
+    let prevRow = document.querySelector(
+      `.menu__recipes__list__item[data-index="${index - 1}"]`
+    );
 
-      prevRow.classList[type === "pointerenter" ? "add" : "remove"]("noborder");
-    }
+    prevRow.classList[type === "pointerenter" ? "add" : "remove"]("noborder");
+  }
+  function onPointerOver({ type }) {
+    toggleBorder(type);
+    onFocusToggle({ type: type === "pointerenter" ? "focus" : "blur" });
   }
   function onContext({ target, clientX, clientY }) {
     if (target.closest(".menu__recipes__list__item__delete")) return;
-    let itemPos = getPos();
+    let itemPos = getPos(ref);
     contextPos.set([clientX - itemPos[0], clientY - itemPos[1]]);
     showContextMenu.set(true);
   }
   function onClickOut(e) {
-    if (e.target.closest(`.menu__recipes__list__item[data-index="${index}"]`))
-      return;
-    hideContext();
+    if (ref.contains(e.target)) return;
+    $focus && focus.set(false), $showContextMenu && hideContext();
   }
   function hideContext() {
     showContextMenu.set(false);
+    focus.set(false);
   }
-  function onFocus({ type }) {
+  function onFocusToggle({ type }) {
     focus.set(type === "focus");
   }
 </script>
@@ -79,8 +82,8 @@
     use:link
     href={`/${id}`}
     class="menu__recipes__list__item__link"
-    on:focus={onFocus}
-    on:blur={onFocus}
+    on:focus={onFocusToggle}
+    on:blur={onFocusToggle}
   >
     <div class="menu__recipes__list__item__name cell">
       {name}
