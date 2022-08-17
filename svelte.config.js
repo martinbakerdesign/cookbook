@@ -8,8 +8,14 @@ const config = {
       resolve: {
         alias: {
           // these are the aliases and paths to them
-          components: path.resolve("./src/lib/components"),
-          lib: path.resolve("./src/lib"),
+          assets: path.resolve("./src/assets"),
+          components: path.resolve("./src/components"),
+          data: path.resolve("./src/data"),
+          firestore: path.resolve("./src/firestore"),
+          routes: path.resolve("./src/routes"),
+          schemas: path.resolve("./src/schemas"),
+          store: path.resolve("./src/store"),
+          styles: path.resolve("./src/styles"),
           utils: path.resolve("./src/lib/utils"),
         },
       },
