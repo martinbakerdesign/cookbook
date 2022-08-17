@@ -38,6 +38,13 @@ body.dark {
 :root {
   font-size: 16px;
   --main: 80rem;
+
+  @media screen and (max-width: 1660px) {
+    --main: 67.5rem;
+  }
+  @media screen and (max-width: 1440px) {
+    --main: 60rem;
+  }
 }
 
 html {
@@ -84,16 +91,5 @@ body {
       border-bottom-width: s.$s4;
       background-clip: content-box;
     }
-  }
-}
-
-@media screen and (max-width: 1660px) {
-  :root {
-    --main: 67.5rem;
-  }
-}
-@media screen and (max-width: 1440px) {
-  :root {
-    --main: 60rem;
   }
 }
