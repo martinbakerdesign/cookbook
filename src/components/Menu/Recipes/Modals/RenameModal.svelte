@@ -57,7 +57,7 @@
   }
 </script>
 
-<Modal show={$renameModal} autofocus={true}>
+<Modal show={renameModal} autofocus={true}>
   <div class="menu__recipes__item__rename menu__recipes__item__modal">
     <h2 class="menu__recipes__item__modal__heading">Rename recipe</h2>
     <input
