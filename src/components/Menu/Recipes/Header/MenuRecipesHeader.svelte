@@ -30,29 +30,29 @@
 </header>
 
 <style lang="scss">
-  @import "../../../../styles/colours.scss";
-  @import "../../../../styles/sizes.scss";
-  @import "../../../../styles/typo.scss";
+  @use "../../../../styles/layers" as layers;
+  @use "../../../../styles/sizes" as sizes;
 
   #menu__recipes__header__top {
+    --top: -3.5rem;
     position: absolute;
     left: 0;
-    /* TODO Automate top value */
-    top: -3.5rem;
+    top: var(--top);
     width: 100%;
     height: 1px;
     user-select: none;
     pointer-events: none;
   }
   header {
+    --top: 3.5rem;
     --pad: 1rem;
     position: sticky;
-    top: 3.5rem;
+    top: var(--top);
     background-color: var(--bg-primary);
     left: 0;
     width: 100%;
     height: calc(2.25rem + var(--pad) * 2);
-    z-index: 5;
+    z-index: layers.$header;
 
     .container {
       width: var(--main);
@@ -85,9 +85,13 @@
       box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.05);
     }
 
+    .lhs {
+      display: flex;
+      gap: sizes.$s3;
+    }
     .rhs {
       display: flex;
-      gap: $s5;
+      gap: sizes.$s5;
       align-items: center;
     }
   }

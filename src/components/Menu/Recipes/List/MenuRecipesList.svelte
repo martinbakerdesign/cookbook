@@ -30,7 +30,6 @@
 <style lang="scss">
   @use "../../../../styles/colours" as c;
   @use "../../../../styles/sizes" as s;
-  @import "../../../../styles/typo.scss";
 
   #menu__recipes__list {
     padding-top: s.$s4;

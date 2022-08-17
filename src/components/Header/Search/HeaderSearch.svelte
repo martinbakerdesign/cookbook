@@ -168,9 +168,7 @@
 </section>
 
 <style lang="scss">
-  @import "../../../styles/_colours.scss";
-  @import "../../../styles/_sizes.scss";
-  @import "../../../styles/_typo.scss";
+  @use "../../../styles/sizes" as sizes;
 
   #header__search {
     width: 100%;
@@ -179,8 +177,8 @@
     position: relative;
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
-    padding-right: $s5;
-    padding-left: $s6;
+    padding-right: sizes.$s5;
+    padding-left: sizes.$s6;
     display: flex;
     align-items: center;
     color: var(--text-primary);
@@ -200,7 +198,7 @@
       align-items: center;
       justify-content: center;
       cursor: text;
-      gap: $s1;
+      gap: sizes.$s1;
 
       svg {
         fill: var(--text-primary);
@@ -219,7 +217,7 @@
       margin: 0;
       padding: 0;
       // padding-bottom: calc(2 / 16 * 1rem);
-      padding-left: $s3;
+      padding-left: sizes.$s3;
       // position: absolute;
       // left: 0;
       // top: 0;
@@ -256,13 +254,13 @@
     }
 
     &__icon {
-      left: $s4;
+      left: sizes.$s4;
       pointer-events: none;
       opacity: 0.5;
     }
 
     &__clear {
-      right: $s4;
+      right: sizes.$s4;
       background-color: transparent;
       border: 0;
       outline: none;
@@ -310,7 +308,7 @@
   }
   :global(.hotkey) {
     position: absolute;
-    right: $s3;
+    right: sizes.$s3;
     top: 50%;
     transform: translateY(-50%);
   }

@@ -11,7 +11,6 @@
 <style lang="scss">
   @use "../../../styles/colours" as c;
   @use "../../../styles/sizes" as s;
-  @import "../../../styles/typo.scss";
 
   #header__controls {
     height: 3.5rem;

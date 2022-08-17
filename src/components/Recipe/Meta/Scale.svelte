@@ -52,7 +52,4 @@
 </div>
 
 <style lang="scss">
-  @use "../../../styles/sizes" as s;
-  @use "../../../styles/colours" as c;
-  @import "../../../styles/typo.scss";
 </style>

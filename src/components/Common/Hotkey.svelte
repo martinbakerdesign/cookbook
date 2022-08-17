@@ -7,13 +7,12 @@
 </div>
 
 <style lang="scss">
-  @import "../../styles/colours.scss";
-  @import "../../styles/sizes.scss";
+  @use "../../styles/sizes" as sizes;
 
   .hotkey {
     border: 1px solid var(--text-primary);
     color: var(--text-primary);
-    padding: $s1 $s2;
+    padding: sizes.$s1 sizes.$s2;
     border-radius: 0.5em;
     display: inline-block;
     font-size: 0.75rem;

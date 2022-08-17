@@ -62,9 +62,8 @@
 </div>
 
 <style lang="scss">
-  @import "../../../../styles/colours.scss";
-  @import "../../../../styles/sizes.scss";
-  @import "../../../../styles/typo.scss";
+  @use "../../../../styles/colours" as colours;
+  @use "../../../../styles/sizes" as sizes;
 
   .sortingtoggle {
     display: flex;
@@ -93,7 +92,7 @@
       border: 0.0625rem solid var(--border);
       color: var(--text-primary);
       border-radius: 0.375rem;
-      padding: $s1;
+      padding: sizes.$s1;
     }
     &__option {
       color: inherit;
@@ -103,7 +102,7 @@
       width: 100%;
       display: block;
       background-color: transparent;
-      padding: $s1 $s3 $s1 $s4;
+      padding: sizes.$s1 sizes.$s3 sizes.$s1 sizes.$s4;
       line-height: 1.0625rem;
       cursor: pointer;
       text-align: left;
@@ -115,7 +114,7 @@
 
       @mixin focus {
         opacity: 1;
-        background-color: $accent;
+        background-color: var(--accent);
         color: var(--white);
         --fill: var(--white);
       }
@@ -143,7 +142,7 @@
     height: 0.8125rem;
     flex: none;
     position: absolute;
-    left: $s1;
+    left: sizes.$s1;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.75;

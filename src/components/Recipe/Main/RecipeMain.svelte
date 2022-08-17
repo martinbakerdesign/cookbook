@@ -44,9 +44,6 @@
 </main>
 
 <style lang="scss">
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/typo.scss";
-  @import "../../../styles/colours.scss";
 
   main {
     display: grid;

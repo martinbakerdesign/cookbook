@@ -15,9 +15,6 @@
 {/if}
 
 <style lang="scss">
-  @import "../../../../styles/_colours.scss";
-  @import "../../../../styles/_sizes.scss";
-
   #recipe__header__duration {
     color: var(--text-primary);
 

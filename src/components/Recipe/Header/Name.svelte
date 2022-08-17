@@ -27,14 +27,10 @@
 <style lang="scss">
   @use "../../../styles/colours" as c;
   @use "../../../styles/sizes" as s;
-  @import "../../../styles/_typo.scss";
+  @use "../../../styles/typo" as typo;
 
   #recipe__header__name {
-    &,
-    &:before {
-      @include font-soehne;
-      font-size: 2.625rem;
-      color: var(--text-primary);
+    @include typo.font-soehne;
       letter-spacing: calc(-0.4 / 42 * 1em);
       line-height: 2.75rem;
       font-weight: 500;

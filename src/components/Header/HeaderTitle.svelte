@@ -8,10 +8,10 @@
 <style lang="scss">
   @use "../../styles/colours" as c;
   @use "../../styles/sizes" as s;
-  @import "../../styles/typo";
+  @use "../../styles/typo" as typo;
 
   #header__title {
-    @include font-soehne;
+    @include typo.font-soehne;
     font-weight: 500;
     font-size: 0.8125rem;
     letter-spacing: calc(0.2 / 13 * 1em);
@@ -28,7 +28,7 @@
     }
 
     .ver {
-      @include font-inter;
+      @include typo.font-inter;
       font-weight: 400;
     }
   }

@@ -28,11 +28,10 @@
 <style lang="scss">
   @use "../../../styles/sizes" as s;
   @use "../../../styles/colours" as c;
-  @import "../../../styles/typo";
+  @use "../../../styles/typo" as typo;
 
   #recipe__header__description {
-    @include font_inter;
-    margin-bottom: s.$s6;
+    @include typo.font_inter;
 
     &.loading {
       opacity: 0;

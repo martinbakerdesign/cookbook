@@ -16,20 +16,20 @@
 </main>
 
 <style lang="scss">
-  @import "../../styles/colours.scss";
-  @import "../../styles/sizes.scss";
-  @import "../../styles/typo.scss";
+  @use "../../styles/colours" as colours;
+  @use "../../styles/sizes" as sizes;
+  @use "../../styles/typo" as typo;
 
   #signin {
     &__title {
       position: fixed;
-      top: $s3;
-      left: $s3;
+      top: sizes.$s3;
+      left: sizes.$s3;
       @include font-soehne;
       font-size: 0.8125rem;
       letter-spacing: calc(0.2 / 13 * 1em);
       line-height: 1rem;
-      color: $white;
+      color: colours.$white;
       padding: 1.25rem 2rem;
       user-select: none;
     }
@@ -38,29 +38,29 @@
       top: 0;
       left: 50%;
       width: 35rem;
-      padding: $s6;
+      padding: sizes.$s6;
       z-index: 1;
       display: grid;
       transform: translateX(-50%);
-      background-color: white;
+      background-color: colours.$white;
       height: unset;
       padding-top: 30vh;
       border-bottom-left-radius: 1.5rem;
       border-bottom-right-radius: 1.5rem;
 
       &__heading {
-        @include font-soehne;
+        @include typo.font-soehne;
         font-weight: 500;
         font-size: 1.625rem;
-        color: $black;
+        color: colours.$black;
         letter-spacing: 0;
-        margin-bottom: $s7;
+        margin-bottom: sizes.$s7;
       }
 
       .providers {
         display: flex;
         flex-direction: column;
-        gap: $s2;
+        gap: sizes.$s2;
       }
 
       &__bg {
@@ -76,11 +76,11 @@
 
         &__credit {
           position: fixed;
-          right: $s6;
-          bottom: $s6;
+          right: sizes.$s6;
+          bottom: sizes.$s6;
           text-decoration: none;
           font-size: 0.8125rem;
-          color: $white;
+          color: colours.$white;
           mix-blend-mode: difference;
           opacity: 0.65;
         }

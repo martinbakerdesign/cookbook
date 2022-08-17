@@ -16,10 +16,6 @@
 </button>
 
 <style lang="scss">
-  @import "../../../styles/colours.scss";
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/typo.scss";
-
   #header__settings {
     width: 1.5rem;
     height: 1.5rem;

@@ -125,21 +125,17 @@
 </label>
 
 <style lang="scss">
-  @import "../../../../styles/sizes.scss";
-  @import "../../../../styles/colours.scss";
-  @import "../../../../styles/typo.scss";
+  @use "../../../../styles/sizes" as sizes;
 
   .tags {
     position: relative;
     display: flex;
-    gap: $s1;
-    cursor: text;
+    gap: sizes.$s1;
     color: var(--text-primary);
 
     .tag,
     input {
-      font-size: 0.875rem;
-      letter-spacing: calc(0.2 / 14 * 1em);
+      padding: sizes.$s1 sizes.$s2;
       line-height: 1rem;
       padding: $s1;
       color: inherit;
@@ -147,10 +143,7 @@
     .tag {
       display: flex;
       align-items: center;
-      gap: $s1;
-      border-radius: 0.5em;
-      font-size: 0.75rem;
-      padding: $s1 $s2;
+      gap: sizes.$s1;
       background-color: var(--bg-secondary);
 
       button {
@@ -175,6 +168,7 @@
       margin: 0;
       outline: 0;
       background-color: transparent;
+      padding-left: sizes.$s4;
     }
     .inputcontainer {
       position: relative;
@@ -200,7 +194,7 @@
         display: block;
         appearance: none;
         width: 100%;
-        padding: $s1;
+        padding: 0.125rem sizes.$s2;
         margin: 0;
         cursor: pointer;
         text-align: left;

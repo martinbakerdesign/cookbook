@@ -31,10 +31,6 @@
 {/if}
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
-  @use "../../../../styles/sizes" as s;
-  @import "../../../../styles/typo.scss";
-
   #recipe__header__servings {
     color: var(--text-primary);
     font-family: inherit;

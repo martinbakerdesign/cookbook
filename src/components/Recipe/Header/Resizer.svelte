@@ -9,8 +9,8 @@
 <div class="resizer" on:click={click} class:min />
 
 <style lang="scss">
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/colours.scss";
+  @use "../../../styles/sizes" as sizes;
+  @use "../../../styles/colours" as colours;
 
   .resizer {
     position: absolute;
@@ -37,7 +37,7 @@
     @media (hover: hover) {
       &:hover {
         &:before {
-          background-color: $accent;
+          background-color: var(--accent);
         }
       }
     }

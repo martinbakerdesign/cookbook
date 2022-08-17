@@ -18,10 +18,6 @@
 </div>
 
 <style lang="scss">
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/colours.scss";
-  @import "../../../styles/typo.scss";
-
   #recipe__meta__notes {
   }
 </style>

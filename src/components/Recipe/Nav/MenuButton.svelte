@@ -17,10 +17,7 @@
 </a>
 
 <style lang="scss">
-  @import "../../../styles/sizes.scss";
-  @import "../../../styles/typo.scss";
-  @import "../../../styles/colours.scss";
-
+  @use "../../../styles/sizes" as sizes;
   a {
     display: block;
     width: 1.5rem;

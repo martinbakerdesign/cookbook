@@ -82,24 +82,24 @@
 </div>
 
 <style lang="scss">
-  @import "../../../../styles/_colours.scss";
-  @import "../../../../styles/_sizes.scss";
+  @use "../../../../styles/_colours" as colours;
+  @use "../../../../styles/_sizes" as sizes;
 
   #tag-multiselect {
     display: inline-block;
     font-size: 0.875rem;
     letter-spacing: 0;
     line-height: 1.5rem;
-    color: $grey-52;
+    color: colours.$grey-52;
 
     &__input {
       display: flex;
       flex-wrap: wrap;
-      gap: $s1;
+      gap: sizes.$s1;
 
       span {
         font-size: 0.875rem;
-        color: $grey-52;
+        color: colours.$grey-52;
         letter-spacing: 0;
         line-height: 1.5rem;
         font-family: inherit;
@@ -131,8 +131,8 @@
       pointer-events: none;
       opacity: 0;
       top: 100%;
-      background-color: $grey-96;
-      padding: $s4 0;
+      background-color: colours.$grey-96;
+      padding: sizes.$s4 0;
 
       &__list {
         width: var(--main);
@@ -140,7 +140,7 @@
         list-style: none;
         display: flex;
         flex-wrap: wrap;
-        gap: $s1;
+        gap: sizes.$s1;
       }
     }
 
@@ -157,19 +157,19 @@
     &__tag {
       padding: 0 $s2;
       border-radius: 0.75em;
-      border: 1px solid $grey-82;
+      border: 1px solid colours.$grey-82;
       font-size: 0.75rem;
       display: inline-block;
       cursor: pointer;
 
       &:hover {
-        background-color: $grey-82;
-        color: $grey-31;
+        background-color: colours.$grey-82;
+        color: colours.$grey-31;
       }
       &.selected {
-        background-color: $accent;
+        background-color: colours.$accent;
         color: white;
-        border-color: $accent;
+        border-color: colours.$accent;
       }
     }
   }
