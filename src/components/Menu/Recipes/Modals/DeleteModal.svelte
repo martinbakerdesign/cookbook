@@ -16,7 +16,7 @@
 
       await recipes.delete($id);
 
-      hide();
+      deleteModal.set(false);
     } catch (err) {
       error.set(err);
       throw err;
@@ -45,11 +45,3 @@
     </div>
   </div>
 </Modal>
-
-<style lang="scss">
-  @use "../../../../styles/sizes" as s;
-  @use "../../../../styles/colours" as c;
-
-  .menu__recipes__item__delete {
-  }
-</style>
