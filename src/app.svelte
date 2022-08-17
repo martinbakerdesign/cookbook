@@ -1,25 +1,28 @@
 <script>
+  import { bg } from "./store";
   import user, { checked } from "store/user";
-  import Router from "svelte-spa-router";
+  import Router, { location } from "svelte-spa-router";
   import Signin from "routes/Signin/Signin.svelte";
   import Menu from "routes/Menu/Menu.svelte";
   import Recipe from "routes/Recipe/Recipe.svelte";
   import Settings from "components/Settings/Settings.svelte";
   import Header from "components/Header/Header.svelte";
-  import { location } from "svelte-spa-router";
-  import { bg } from "./store";
   import Animation from "components/Animation/Animation.svelte";
   import "styles/styles.scss";
   import { scrollY } from "store/menu";
   import "styles/_colours.scss";
 
-  const routes = {
+  const userRoutes = {
     "/:id": Recipe,
     "/": Menu,
   };
-  const recipeRoute = {
+  const guestRoutes = {
     "/:id": Recipe,
+    "/": Signin,
   };
+
+  let routes = guestRoutes;
+  $: routes = $user ? userRoutes : guestRoutes;
 
   const animProps = {
     animation: "loading--wok--64",
@@ -38,15 +41,12 @@
       <Animation {...animProps} />
     </div>
   </div>
-{:else if $checked && !$user}
-  {#if $location === "/"}
-    <Signin />
-  {:else}
-    <Router routes={recipeRoute} />
-  {/if}
 {:else if $checked}
-  <Header />
-  <Router {routes} />
+  {#if $user}
+    <Router routes={userRoutes} />
+  {:else}
+    <Router routes={guestRoutes} />
+  {/if}
 {/if}
 <Settings />
 
