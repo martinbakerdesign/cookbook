@@ -18,6 +18,7 @@
     "pluralize": "^8.0.0",
     "prosemirror": "^0.11.1",
     "prosemirror-commands": "^1.1.12",
+    "prosemirror-history": "^1.2.0",
     "prosemirror-keymap": "^1.1.5",
     "prosemirror-model": "^1.16.1",
     "prosemirror-schema-basic": "^1.1.2",
@@ -29,8 +30,5 @@
     "svelte-spa-router": "^3.2.0",
     "uuid": "^8.3.2",
     "vite": "^2.4.4"
-  },
-  "dependencies": {
-    "prosemirror-history": "^1.2.0"
   }
 }
