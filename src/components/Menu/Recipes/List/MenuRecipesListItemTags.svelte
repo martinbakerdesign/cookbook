@@ -1,6 +1,6 @@
 <script>
   export let tags = [];
-  const maxTags = 4;
+  export let maxTags = 3;
 </script>
 
 <div class="menu__recipes__list__item__tags cell">
