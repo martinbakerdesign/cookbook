@@ -51,8 +51,7 @@
 <Settings />
 
 <style lang="scss">
-  @import "./styles/colours.scss";
-  @import "./styles/sizes.scss";
+  @use "./styles/sizes" as sizes;
 
   #app {
     position: relative;
@@ -73,14 +72,12 @@
       position: relative;
 
       .spinner {
-        padding: $s2;
-        margin: $s4;
+        padding: sizes.$s2;
+        margin: sizes.$s4;
         background-color: white;
         border-radius: 50%;
         display: inline-block;
       }
     }
-  }
-  main {
   }
 </style>
