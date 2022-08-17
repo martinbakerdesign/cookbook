@@ -39,6 +39,9 @@
 </script>
 
 <svelte:window bind:scrollY={$scrollY} />
+{#if $checked && ((!$user && $location !== "/") || $user)}
+  <Header />
+{/if}
 {#if !$checked && $location === "/"}
   <div id="app__loading">
     <div class="spinner">
