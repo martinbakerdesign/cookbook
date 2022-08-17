@@ -43,6 +43,7 @@
     flex: none;
     --fill: #8a8480;
     --hover: #ee7e6a;
+    opacity: 0;
 
     @mixin focus {
       --fill: #ee7e6a;
