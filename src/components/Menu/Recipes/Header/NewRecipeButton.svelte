@@ -1,12 +1,7 @@
 <script>
   import Icon from "components/Icon/Icon.svelte";
-  import { addDoc } from "firebase/firestore";
-  import { Timestamp } from "firebase/firestore";
-  import Recipe from "store/models/recipe";
-  import user from "store/user";
   import { push, replace } from "svelte-spa-router";
-  import { get } from "svelte/store";
-  import { recipes } from "firestore/";
+  import createRecipe from "utils/db/recipes/createRecipe";
 
   const iconProps = {
     icon: "new--20",
@@ -17,13 +12,9 @@
   async function newRecipe() {
     try {
       push(`/new`);
-      let req = await addDoc(recipes, {
-        ...Recipe,
-        author: get(user).id,
-        created: Timestamp.now(),
-      });
+      let newRecipe = await createRecipe();
 
-      replace(`/${req.id}`);
+      replace(`/${newRecipe.id}`);
     } catch (err) {
       console.error(err);
     }
