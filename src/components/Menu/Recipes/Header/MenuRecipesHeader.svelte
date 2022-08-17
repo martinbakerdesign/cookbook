@@ -5,6 +5,7 @@
   import SortingToggle from "./SortingToggle.svelte";
   // import TagMultiselect from "./TagMultiselect.svelte";
 
+  import "./Header.scss";
 
   const refs = {
     io: null,
