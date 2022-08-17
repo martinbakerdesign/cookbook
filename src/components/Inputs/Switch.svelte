@@ -9,11 +9,9 @@
   };
   export let initialValue = false;
 
-  console.log({ initialValue });
   const value = inputStore(initialValue);
 
   function inputStore(initial = false) {
-    console.log({ initial });
     const store = writable(initial);
     const { set, subscribe } = store;
 
