@@ -11,7 +11,10 @@
 
   const { renameModal, hide, id, selecting } = getContext("menu__modals");
 
+  let originalValue;
+
   $: value.set($id != null ? recipes.findById($id)?.name ?? "" : "");
+  $: !originalValue && $value.length && (originalValue = $value);
   $: window[$selecting ? "addEventListener" : "removeEventListener"](
     "pointerup",
     onPointerUp
@@ -23,6 +26,9 @@
 
   async function renameRecipe() {
     error.set(null);
+    if ($value === originalValue) {
+      return hide(), value.set("");
+    }
     if (!$value.length) return error.set("Recipe name cannot be empty");
 
     try {
