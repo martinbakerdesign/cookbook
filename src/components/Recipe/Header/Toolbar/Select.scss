@@ -1,0 +1,146 @@
+@use "../../../../styles/sizes" as s;
+@use "../../../../styles/colours" as c;
+
+@mixin abbrev {
+  font-weight: 600;
+  font-size: .625rem;
+  letter-spacing: calc(0.2/10 * 1em);
+}
+
+.recipe__header__select {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  letter-spacing: calc(0.2 / 12 * 1em);
+  position: relative;
+  background-color: var(--bg-secondary);
+  border-radius: .25rem;
+  display: block;
+  
+  &, &__button {
+    height: 1.5rem;
+  }
+  &__button {
+    padding: 0;
+    padding-left: 0.5rem;
+    padding-right: s.$s5;
+    background-color: transparent;
+    font-family: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    font-size: inherit;
+    text-align: left;
+    line-height: 1.5rem;
+    border: 0;
+    outline: 0;
+    border-radius: inherit;
+
+    &__abbrev {
+      @include abbrev;
+      color: var(--accent);
+      margin-right: s.$s2;
+      display: inline-block;
+    }
+
+    .icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      user-select: none;
+      pointer-events: none;
+      fill: var(--text-secondary);
+    }
+
+    &:focus-visible,
+    &:hover {
+      box-shadow: 0 0 0 2px inset var(--accent);
+      color: var(--accent);
+      .icon {
+        fill: var(--accent);
+      }
+    }
+
+    &:disabled {
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.35;
+    }
+  }
+
+  &__options {
+    font-size: 0.75rem;
+    min-width: 100%;
+    position: absolute;
+    left: -.25rem;
+    top: -.25rem;
+    border-radius: 0.375rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border);
+    list-style: none;
+    padding: s.$s1;
+    margin: 0;
+    box-shadow: 0px s.$s1 0.5rem 0 rgba(63, 60, 58, 0.35);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+
+    &[aria-hidden="false"] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &__option {
+    display: block;
+    user-select: none;
+    border-radius: .25rem;
+    margin-bottom: s.$s1;
+    width: 100%;
+    padding: 0 s.$s4 0 s.$s5;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    text-align: left;
+    margin-bottom: s.$s1;
+    display: flex;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    &.focus,
+    &:focus-visible {
+      background-color: var(--bg-secondary);
+      color: var(--accent);
+    }
+    &[aria-selected="true"] {
+      background-color: var(--accent);
+      color: var(--black);
+    }
+
+    span {
+      pointer-events: none;
+    }
+  }
+}
+
+#recipe__header__toolbar__unit-select {
+  .recipe__header__select {
+    &__option {
+      display: flex;
+      padding: 0 s.$s3;
+
+      span {
+        display: inline-block;
+        flex: 1;
+
+        &:first-child {
+          @include abbrev;
+          margin-right: s.$s2;
+          flex: none;
+          width: 2rem;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
