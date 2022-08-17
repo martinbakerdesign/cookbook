@@ -1,14 +1,29 @@
 <script>
+  import { getContext } from "svelte";
+
   import Icon from "components/Icon/Icon.svelte";
-  export let show;
+
+  export let id;
+
+  const modalContext = getContext("menu__modals");
 
   const iconProps = {
     icon: "share--24",
     size: 24,
   };
+
+  function openShareDialog() {
+    modalContext.shareModal.set(true);
+    modalContext.id.set(id);
+  }
 </script>
 
-<button class="menu__recipes__list__item__share" type="button" class:show>
+<button
+  class="menu__recipes__list__item__share"
+  type="button"
+  on:click={openShareDialog}
+  aria-label="Share Recipe"
+>
   <Icon {...iconProps} />
 </button>
 
