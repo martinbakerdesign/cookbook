@@ -4,24 +4,52 @@
   import NewRecipeButton from "./NewRecipeButton.svelte";
   import SortingToggle from "./SortingToggle.svelte";
   // import TagMultiselect from "./TagMultiselect.svelte";
-  let top, io, stuck;
 
-  onMount(() => {
-    io = new IntersectionObserver(onObservation, {
-      threshold: [0, 1],
-    });
-    io.observe(top);
+
+  const refs = {
+    io: null,
+  };
+  const io = new IntersectionObserver(onIntersect, {
+    threshold: [0, 1],
   });
 
-  function onObservation([entry]) {
-    stuck = entry.intersectionRatio < 1;
+  let stuck, top;
+
+  onMount(() => {
+    onResize();
+    io.observe(refs.io);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("resize", onResize);
+    };
+  });
+
+  function onIntersect(entries) {
+    let lastEntry =
+      entries.length > 1
+        ? entries.sort((a, b) => (a.time > b.time ? -1 : 1))[0]
+        : entries[0];
+    stuck = lastEntry.intersectionRatio < 1;
+  }
+  function onResize() {
+    let header = document.querySelector("#header");
+    if (!header) return;
+    top = header.getBoundingClientRect().height;
   }
 </script>
 
-<div id="menu__recipes__header__top" bind:this={top} />
-<header class:stuck>
+<div
+  id="menu__recipes__header__top"
+  bind:this={refs.io}
+  style="--top: {-top}px"
+/>
+<header class:stuck style="--top: {top}px">
   <div class="container">
+    <div class="lhs">
     <NewRecipeButton />
+    </div>
     <div class="rhs">
       <!-- <TagMultiselect /> -->
       <SortingToggle />
