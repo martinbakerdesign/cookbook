@@ -1,0 +1,77 @@
+@use '../../../../styles/sizes' as sizes;
+@use '../../../../styles/colours' as colours;
+
+.menu__header__button {
+  --fill: var(--white);
+  --hover: var(--accent);
+  &--primary {
+    background-color: var(--accent);
+  }
+  &--secondary {
+    background-color: transparent;
+  }
+  font-family: inherit;
+  outline: 0;
+  border: 0;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--white);
+  letter-spacing: calc(-0.2 / 16 * 1em);
+  line-height: 1.125rem;
+  padding: 0.375rem;
+  padding-right: sizes.$s3;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  border-radius: 0.375rem;
+  transition: 75ms cubic-bezier(0.19, 1, 0.22, 1);
+  &--primary {
+    box-shadow: 0px 0px 0px .0625rem inset var(--accent);
+  }
+  &--secondary {
+    box-shadow: 0px 0px 0px .0625rem inset var(--white);
+  }
+  
+  &--primary {
+    @mixin focus {
+      background-color: var(--white);
+      color: var(--accent);
+      --fill: var(--accent);
+      box-shadow: 0px 0px 0px .0625rem inset var(--white);
+      transition-duration: 150ms;
+    }
+    
+    &:focus-visible {
+      @include focus;
+    }
+    @media (hover: hover) {
+      &:hover {
+        @include focus;
+      }
+    }
+  }
+  &--secondary {
+    @mixin focus {
+      color: var(--accent);
+      --fill: var(--accent);
+      transition-duration: 150ms;
+      box-shadow: 0px 0px 0px .0625rem inset var(--accent);
+    }
+  
+    &:focus-visible {
+      @include focus;
+    }
+    @media (hover: hover) {
+      &:hover {
+        @include focus;
+      }
+    }
+  }
+}
+
+.sortingtoggle {
+  // width: 
+  font-size: .875rem;
+}
