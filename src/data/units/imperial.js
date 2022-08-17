@@ -4,7 +4,9 @@ import {
   UNIT_LENGTH,
   UNIT_TEMPERATURE,
   UNITSYSTEM_IMPERIAL,
-} from "./types";
+} from "./_types";
+
+// TODO change plural field to array
 
 /**
  * LENGTH
@@ -18,9 +20,10 @@ export const inch = {
   base: ["*", 25.4],
 };
 export const ft = {
-  title: "Feet",
+  title: "Foot",
   type: UNIT_LENGTH,
   abbrev: ["ft", "'"],
+  plural: "Feet",
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 304.8],
 };
@@ -56,7 +59,7 @@ export const tsp = {
   title: "Teaspoon",
   type: UNIT_VOLUME,
   abbrev: ["Tsp", "tsp", "t"],
-  plural: "teaspoon",
+  plural: "teaspoons",
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 4.93],
 };
@@ -121,7 +124,7 @@ export const gal = {
 export const F = {
   title: "Fahrenheit",
   type: UNIT_TEMPERATURE,
-  abbrev: ["F", "°F"],
+  abbrev: ["°F", "F"],
   system: UNITSYSTEM_IMPERIAL,
   base: [
     ["-", 32],

@@ -1,4 +1,6 @@
-import { UNITSYSTEM_NONE, UNIT_RELATIVE } from "./types";
+import { UNITSYSTEM_NONE, UNIT_RELATIVE } from "./_types";
+
+// TODO change plural field to array
 
 export const part = {
   title: "Part",

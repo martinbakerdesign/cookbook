@@ -8,10 +8,11 @@ import {
   UNIT_MASS,
   UNIT_COUNT,
   UNIT_LENGTH,
-} from "./types";
+} from "./_types";
 import relative from "./relative";
+import { capitalize } from "lodash";
 
-const all = [
+export const allUnits = [
   // Length
   ...metric.length,
   ...imperial.length,
@@ -34,22 +35,26 @@ let units = {};
 export let ingredientUnits = {};
 
 export let unitsByTitle = {};
+export let unitsByTitleLc = {};
 export let unitsByType = {};
 export let unitsBySystem = {};
 
 let abbrevs, plural, unit;
-for (let u = 0; u < all.length; u++) {
-  unit = all[u];
+for (let u = 0; u < allUnits.length; u++) {
+  unit = allUnits[u];
   abbrevs = unit.abbrev;
   plural = unit.plural;
 
   units[unit.title] = unit;
   units[unit.title.toLowerCase()] = unit;
-  unit.plural && (units[unit.plural] = unit);
+  unit.plural &&
+    ((units[unit.plural] = unit), (units[capitalize(unit.plural)] = unit));
   unit.type !== UNIT_TIME &&
     unit.type !== UNIT_TEMPERATURE &&
     ((ingredientUnits[unit.title] = unit),
-    (ingredientUnits[unit.title.toLowerCase()] = unit));
+    (ingredientUnits[unit.title.toLowerCase()] = unit),
+    (ingredientUnits[unit.plural] = unit),
+    (ingredientUnits[capitalize(unit.plural)] = unit));
   abbrevs.forEach(
     (a) => (
       (units[a] = unit),
@@ -63,6 +68,7 @@ for (let u = 0; u < all.length; u++) {
     (ingredientUnits[plural.toLowerCase()] = unit));
 
   unitsByTitle[unit.title] = unit;
+  unitsByTitleLc[unit.title] = unit;
   unitsByTitle[unit.title.toLowerCase()] = unit;
 
   !unitsByType[unit.type] && (unitsByType[unit.type] = []);

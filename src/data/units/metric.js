@@ -4,7 +4,9 @@ import {
   UNIT_LENGTH,
   UNIT_TEMPERATURE,
   UNITSYSTEM_METRIC,
-} from "./types";
+} from "./_types";
+
+// TODO change plural field to array
 
 /**
  * LENGTH
@@ -68,7 +70,7 @@ export const kg = {
 export const ml = {
   title: "Millilitre",
   type: UNIT_VOLUME,
-  abbrev: ["ml", "mL"],
+  abbrev: ["mL", "ml"],
   plural: "millilitres",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
@@ -76,7 +78,7 @@ export const ml = {
 export const l = {
   title: "Litre",
   type: UNIT_VOLUME,
-  abbrev: ["l", "L"],
+  abbrev: ["L", "l"],
   plural: "litres",
   system: UNITSYSTEM_METRIC,
   base: ["*", 1e3],
@@ -103,7 +105,7 @@ export const kl = {
 export const C = {
   title: "Centigrade",
   type: UNIT_TEMPERATURE,
-  abbrev: ["degrees centigrade", "degrees celsius", "C", "°C"],
+  abbrev: ["°C", "C"],
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
