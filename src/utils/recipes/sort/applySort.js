@@ -1,4 +1,4 @@
-export default function applySort(recipes, [, key, dir]) {
+export default function applySort(recipes, { key, dir }) {
   if (!key || !dir) return recipes;
 
   let aKey, bKey;

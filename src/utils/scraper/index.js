@@ -1,38 +1,63 @@
+import templates from "./templates";
+import useTemplate from "./useTemplate";
+
 const testSites = [
   "https://www.seriouseats.com/reverse-seared-pork-shoulder-chashu-recipe",
+  "https://www.thespruceeats.com/smashed-brussels-sprouts-recipe-5203711",
+  "https://cooking.nytimes.com/recipes/1023316-loaded-vegan-nachos",
 ];
+
+("thespruceeats");
+
+function getHostTemplate(url) {
+  let sitename = new URL(url).host.replace("www.", "").split(".co")[0];
+
+  return templates[sitename] ?? null;
+}
+
+// TODO Extract description, tags, notes
+// TODO Autoconvert units to preferred
 
 async function scrapeRecipe(url = "") {
   if (!url || !url.length) return null;
 
-  try {
-    console.log(url);
-    let page = await getPage(url);
+  let template = getHostTemplate(url);
 
-    console.log(page.replace(/(\n+\s+)/g, ""));
+  try {
+    let pageMarkup = await getPage(url);
 
     let shadow = document.createElement("div");
-    shadow.innerHTML = page;
-    let content = shadow.textContent.replace(/(\n+\s+)/g, "");
+    shadow.innerHTML = pageMarkup;
+    let recipe;
 
-    console.log({ content });
+    if (template) {
+      recipe = useTemplate(shadow, template);
+    } else {
+      recipe = {
+        name: "",
+        src: url,
+        duration: "",
+        amount: "",
+        ingredients: [],
+        method: [],
+      };
+    }
+
+    recipe.src = url;
+
+    console.log({ recipe });
+
+    return recipe;
   } catch (err) {
     console.error(err);
   }
 }
 
 function getPage(url) {
-  return fetch(url).then((res) => res.text());
-  // return new Promise((resolve, reject) => {
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.open("GET", `${url}`);
-
-  //   xhr.onload = function () {
-  //     resolve(xhr.responseText);
-  //   };
-  //   xhr.onerror = () => reject(xhr.statusText);
-  //   xhr.send();
-  // });
+  let proxyUrl = "https://thingproxy.freeboard.io/fetch/";
+  return fetch(proxyUrl + url, {})
+    .then((r) => r.text())
+    .catch((err) => console.error(err));
 }
 
 export default scrapeRecipe;
