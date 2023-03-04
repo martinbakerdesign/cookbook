@@ -4,6 +4,7 @@
   import NewRecipeButton from "./NewRecipeButton.svelte";
   import ImportRecipe from "./ImportRecipe.svelte";
   import SortingToggle from "./SortingToggle.svelte";
+  import CreatedByToggle from "./CreatedByToggle.svelte";
   // import TagMultiselect from "./TagMultiselect.svelte";
 
   import "./Header.scss";
@@ -56,6 +57,7 @@
     <div class="rhs">
       <!-- <TagMultiselect /> -->
       <SortingToggle />
+      <CreatedByToggle />
     </div>
   </div>
 </header>
