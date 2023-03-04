@@ -21,20 +21,24 @@
   const url = writable("");
 
   const recipe = writable(null);
+  const error = writable(null);
 
   $: refreshDisabled = $loading || $saving || !validateURL($url.length);
   $: inputDisabled = $saving || $loading;
 
   $: $url && validateURL($url) && pullRecipe();
   $: !$show && resetForm();
+
   async function pullRecipe() {
     loading.set(true);
+    error.set(null);
     try {
       let scraped = await scrapeRecipe($url);
       recipe.set(scraped);
     } catch (err) {
       console.error(err);
       recipe.set(null);
+      error.set(err);
     } finally {
       loading.set(false);
     }
@@ -104,8 +108,8 @@
     {/if}
     <div class="menu__import__actions">
       <button type="button" on:click={cancel} disabled={$saving}>Cancel</button>
-      <button type="button" disabled={$saving} on:click={importRecipe}
-        >{!$saving ? "Import" : "Importing..."}</button
+      <button type="button" disabled={$error != null || $saving || $loading} on:click={importRecipe}
+        >{$loading ? "Loading..." : !$saving ? "Import" : "Importing..."}</button
       >
     </div>
   </div>
