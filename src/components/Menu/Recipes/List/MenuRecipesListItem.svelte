@@ -11,7 +11,7 @@
   import DeleteButton from "./DeleteButton.svelte";
   import ContextMenu from "./ContextMenu/ContextMenu.svelte";
 
-  export let index, id, name, tags, created, last_edited;
+  export let index, id, name, tags, created, last_edited, editable;
 
   let sortKey, ref, timeSince;
   const focus = writable(false);
@@ -94,7 +94,9 @@
     </div>
   </a>
   <ShareButton {id} />
+  {#if editable}
   <DeleteButton {id} />
+  {/if}
   <ContextMenu
     show={$showContextMenu}
     pos={$contextPos}
