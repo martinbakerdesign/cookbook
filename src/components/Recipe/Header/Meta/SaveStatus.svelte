@@ -43,9 +43,9 @@
 </div>
 
 <style lang="scss">
-  @use "../../../styles/sizes" as s;
-  @use "../../../styles/colours" as c;
-  @use "../../../styles/typo" as t;
+  @use "../../../../styles/sizes" as s;
+  @use "../../../../styles/colours" as c;
+  @use "../../../../styles/typo" as t;
 
   #recipe__status {
     // position: fixed;
@@ -56,11 +56,18 @@
     align-items: center;
     font-size: 0.8125rem;
     line-height: 1.5rem;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    width: 8rem;
+    justify-content: flex-end;
+    margin-left: s.$s5;
+    flex: none;
 
     &__icon {
       width: 1.5rem;
       height: 1.5rem;
       margin-left: s.$s2;
+      flex: none;
 
       &[data-state="0"] {
         fill: var(--success);
