@@ -30,7 +30,7 @@
   }
 </script>
 
-<Modal show={$deleteModal}>
+<Modal show={deleteModal}>
   <div class="menu__recipes__item__delete menu__recipes__item__modal">
     <h2 class="menu__recipes__item__modal__heading">Are you sure?</h2>
     <div class="menu__recipes__item__modal__actions">

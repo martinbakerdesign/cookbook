@@ -2,19 +2,14 @@
   import Switch from "components/Inputs/Switch.svelte";
 
   import Modal from "components/Modal/Modal.svelte";
-  import recipe from "store/";
   import { url, recipes } from "store/";
   import { getContext, onDestroy } from "svelte";
-  import { get, writable } from "svelte/store";
+  import { writable } from "svelte/store";
 
   const { id, shareModal: show } = getContext("menu__modals");
 
   const saving = writable(false);
 
-  // TODO Recipe sharing functionality
-  // 1. Set recipe:shared attr to true
-  // $: $show && recipes.toggleShare(get(id), true);
-  // 2. Create link
   let link = "";
   $: link = `${$url}/#/${$id}`;
 
@@ -73,7 +68,7 @@
   }
 </script>
 
-<Modal show={$show}>
+<Modal {show}>
   <div class="menu__recipes__item__share">
     <h2 class="menu__recipes__item__modal__heading">Share recipe</h2>
     <div class="menu__recipes__item__modal__copylink">
@@ -98,7 +93,9 @@
       <Switch {...switchProps} />
     </div>
     <div class="menu__recipes__item__modal__actions">
-      <button type="button" on:click={cancel} disabled={$saving}>Done</button>
+      <button type="button" on:click={cancel} disabled={$saving}>
+        {$saving ? "Updating..." : "Done"}
+      </button>
     </div>
   </div>
 </Modal>
