@@ -2,7 +2,9 @@ export default function applySort(recipes, { key, dir }) {
   if (!key || !dir) return recipes;
 
   let aKey, bKey;
-  return recipes.sort((a, b) => {
+  return recipes.filter(
+    r => r?.name != null
+  ).sort((a, b) => {
     (aKey = key), (bKey = key);
     if (key === "last_edited") {
       !a[key] && (aKey = "created");

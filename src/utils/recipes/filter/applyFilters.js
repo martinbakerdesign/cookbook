@@ -1,16 +1,21 @@
 import { recipes, searchQuery } from "store/";
+import { authorSelection } from "store/menu";
 import { get } from "svelte/store";
 
 export default function applyFilters() {
+  console.log('applying filters')
   let { query, tags } = get(searchQuery);
-  if (!query && !tags.length) return get(recipes);
+  let authorFilter = get(authorSelection);
+  if (!query && !tags.length && authorFilter === 0) return get(recipes);
 
   let filters = {
     ...(query && { name: query }),
     ...(tags && { tags }),
   };
 
-  let stack = [];
+  let stack = !query && !tags.length
+    ? get(recipes)
+    : [];
 
   for (let param in filters) {
     query = filters[param];
@@ -28,7 +33,10 @@ export default function applyFilters() {
     }
   }
 
-  let set = new Set(stack.flat(2));
+  const results = [...new Set(stack.flat(2))]
+    // .filter(r => r.editable === (authorFilter === 1));
 
-  return [...set];
+  console.log({results})
+
+  return results
 }
