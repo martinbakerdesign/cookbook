@@ -5,6 +5,7 @@ import { cleanText } from "./parseUtils";
 export default function useTemplate(dom, template) {
   let recipe = {
     name: "",
+    src: "",
     duration: {
       text: "",
       quantity: 0,

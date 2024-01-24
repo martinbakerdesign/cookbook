@@ -1,7 +1,7 @@
 <script>
   import { searchQuery } from "store/";
   import { suggestion } from "store/searchQuery";
-  import relative from "utils/units/relative";
+  // import relative from "data/units/relative";
 
   export let tag, index;
 
@@ -10,7 +10,7 @@
   $: selected = $suggestion === index;
 
   let matchMarkup;
-  $: matchMarkup = tag.name.replace(
+  $: matchMarkup = tag.replace(
     new RegExp($searchQuery.query, "gi"),
     (match) => `<b>${match}</b>`
   );

@@ -1,4 +1,5 @@
 import Fraction from "fraction.js";
+import { recipeNodeTypes } from "src/schemas/recipe";
 import { scaleFactor } from "store/";
 import { INGREDIENT_TYPES } from "store/models/ingredients";
 import { get } from "svelte/store";
@@ -19,7 +20,7 @@ export default function stateToIngredients(state) {
     node = content[n];
 
     if (!node.content) continue;
-    type = types[node.type];
+    type = recipeNodeTypes[node.type];
 
     let obj = {
       type,
@@ -51,8 +52,3 @@ export default function stateToIngredients(state) {
 
   return ingredients;
 }
-
-const types = {
-  ingredient: INGREDIENT_TYPES.INGREDIENT,
-  header: INGREDIENT_TYPES.HEADER,
-};

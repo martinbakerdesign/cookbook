@@ -4,12 +4,12 @@
   export let tag;
 
   function removeTag() {
-    searchQuery.removeTag(tag.id);
+    searchQuery.removeTag(tag);
   }
 </script>
 
 <tag>
-  <span class="tag__label">{tag.name}</span>
+  <span class="tag__label">{tag?.name ?? tag}</span>
   <button type="button" class="tag__remove" on:click={removeTag}>&times;</button
   >
 </tag>

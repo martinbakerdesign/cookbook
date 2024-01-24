@@ -1,10 +1,14 @@
 <script>
   import { settings } from "store/";
-  import { settingsConfig } from "store/settings";
+  import { getNestedValue, settingsConfig } from "store/settings";
 
   import { writable } from "svelte/store";
 
-  export let key = "";
+  import Select from "components/Inputs/Select.svelte";
+
+  export let key = [];
+
+  const options = getNestedValue(settingsConfig, key).options;
 
   function inputStore(initial = "") {
     const store = writable(initial);
@@ -19,15 +23,23 @@
       subscribe,
     };
   }
-  const value = inputStore($settings[key]);
+  const value = inputStore(getNestedValue($settings, key));
 </script>
 
+<Select
+  {...{
+    value,
+    id: `settings__${key.join("--")}`,
+    options,
+    className: "settings__input--select",
+  }}
+/>
 <div class="settings__input--select">
-  <select bind:value={$value}>
-    {#each settingsConfig[key].options as { value, label }}
+  <!-- <select bind:value={$value}>
+    {#each options as { value, label }}
       <option {value}>{label}</option>
     {/each}
-  </select>
+  </select> -->
 </div>
 
 <style lang="scss">

@@ -1,4 +1,4 @@
-import { ingredientUnits } from "utils/units";
+import ingredientUnits from "data/units/ingredient";
 
 export default function ingredientToContent(ingredient) {
   const { text } = ingredient;

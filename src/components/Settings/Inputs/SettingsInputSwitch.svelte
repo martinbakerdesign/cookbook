@@ -5,7 +5,7 @@
   import { get, writable } from "svelte/store";
   import Switch from 'components/Inputs/Switch.svelte'
 
-  export let key = "";
+  export let key = [];
   export let label = '';
   export let id = '';
   export let store = writable(false);
@@ -26,7 +26,7 @@
     role="switch"
     aria-checked={$value}
     id={id}
-    value={key}
+    value={key.join('--')}
     on:click={onClick}
   >
     <span

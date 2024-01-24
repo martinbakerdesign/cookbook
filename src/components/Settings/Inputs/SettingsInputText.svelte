@@ -1,9 +1,10 @@
 <script>
   import { settings } from "store/";
+  import { getNestedValue } from "store/settings";
 
   import { writable } from "svelte/store";
 
-  export let key = "";
+  export let key = [];
 
   function inputStore(initial = "") {
     const store = writable(initial);
@@ -18,7 +19,7 @@
       subscribe,
     };
   }
-  const value = inputStore($settings[key]);
+  const value = inputStore(getNestedValue($settings, key));
 </script>
 
 <div class="settings__input--text">

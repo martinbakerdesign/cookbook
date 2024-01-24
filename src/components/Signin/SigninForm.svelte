@@ -25,7 +25,7 @@
       position: fixed;
       top: sizes.$s3;
       left: sizes.$s3;
-      @include font-soehne;
+      @include typo.font-soehne;
       font-size: 0.8125rem;
       letter-spacing: calc(0.2 / 13 * 1em);
       line-height: 1rem;

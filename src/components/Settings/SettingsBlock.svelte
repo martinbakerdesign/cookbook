@@ -1,40 +1,14 @@
 <script>
+  import { settingsFocus } from "store/settings";
+
+  import SettingsInput from "./Inputs/SettingsInput.svelte";
+
   export let heading = "Settings Block";
   export let type = "TEXT";
   export let key = "";
   export let index;
-  import InputText from "./Inputs/SettingsInputText.svelte";
-  import InputSelect from "./Inputs/SettingsInputSelect.svelte";
-  import InputSwitch from "components/Inputs/Switch.svelte";
-  import InputRadio from "./Inputs/SettingsInputRadio.svelte";
-  import { settingsConfig, settingsFocus } from "store/settings";
-  import { settings } from "store/";
-
-  let Input = (function () {
-    switch (type) {
-      default:
-      case "TEXT":
-        return InputText;
-      case "SELECT":
-        return InputSelect;
-      case "SWITCH":
-        return InputSwitch;
-      case "RADIO":
-        return InputRadio;
-    }
-  })();
-  const inputProps = {
-    key,
-    ...(type === "SWITCH" && {
-      initialValue: $settings[key],
-      onToggle: onSwitchToggle,
-      label: settingsConfig[key].heading,
-      id: `settings--${key}`,
-    }),
-  };
-  function onSwitchToggle(value) {
-    settings.set(key, value);
-  }
+  export let isGroup = false;
+  export let controls = {};
 </script>
 
 <li
@@ -44,7 +18,28 @@
   data-focus={$settingsFocus === index}
 >
   <h3 class="settings__block__heading">{heading}</h3>
-  <Input {...inputProps} />
+  {#if !isGroup}
+    <SettingsInput
+      {...{
+        key: [key],
+        type,
+      }}
+    />
+  {:else}
+    <ul class="settings__block__group">
+      {#each Object.entries(controls) as [_key, def]}
+        <li>
+          <h4 class="settings__block__subheading">{def.heading}</h4>
+          <SettingsInput
+            {...{
+              key: [key, _key],
+              type: def.type,
+            }}
+          />
+        </li>
+      {/each}
+    </ul>
+  {/if}
 </li>
 
 <style lang="scss">
@@ -81,7 +76,28 @@
     &__heading {
       font-size: 1.125rem;
       font-weight: 500;
-      margin-bottom: s.$s3;
+      margin-bottom: s.$s4;
+    }
+    &__subheading {
+      font-weight: 400;
+      font-size: 0.75rem;
+      // margin-bottom: s.$s2;
+      letter-spacing: calc(0.3 / 12 * 1em);
+    }
+
+    &__group {
+      list-style: none;
+
+      li {
+        display: grid;
+        grid-template-columns: 8rem 1fr;
+        grid-column-gap: s.$s5;
+        align-items: center;
+        margin-bottom: s.$s4;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
 
     &[data-focus="true"] {

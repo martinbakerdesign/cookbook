@@ -4,7 +4,7 @@
 
   import { writable } from "svelte/store";
 
-  export let key = "";
+  export let key = [];
 
   function inputStore(initial = "") {
     const store = writable(initial);
@@ -19,7 +19,7 @@
       subscribe,
     };
   }
-  const value = inputStore($settings[key]);
+  const value = inputStore(getNestedValue($settings, key));
 </script>
 
 <div class="settings__input--radio">
@@ -27,7 +27,7 @@
     <label>
       <input
         type="radio"
-        name={`settings--${key}`}
+        name={`settings--${key.join("--")}`}
         bind:group={$value}
         value={_value}
       />

@@ -1,14 +1,11 @@
 <script>
-  import Scale from "./Scale.svelte";
-  import Translate from "./Translate.svelte";
   import Notes from "./Notes.svelte";
+
   import "./RecipeMeta.scss";
 </script>
 
 <aside id="recipe__meta">
   <ul>
-    <Scale />
-    <Translate />
     <Notes />
   </ul>
 </aside>

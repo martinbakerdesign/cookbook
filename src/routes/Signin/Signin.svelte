@@ -1,6 +1,9 @@
 <script>
-  import SigninForm from "components/Signin/SigninForm.svelte";
   import { bg } from "store/";
+
+  import SigninForm from "components/Signin/SigninForm.svelte";
+
+  import "components/Signin/ButtonDefault.scss";
 </script>
 
 <svelte:head>
@@ -14,8 +17,6 @@
 <style lang="scss">
   @use "../../styles/colours" as c;
   @use "../../styles/sizes" as s;
-  @use "../../styles/typo" as t;
-  @import "../../components/Signin/ButtonDefault.scss";
 
   #signin {
     width: 100vw;

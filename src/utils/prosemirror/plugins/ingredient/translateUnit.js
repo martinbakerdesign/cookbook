@@ -1,7 +1,8 @@
 import { Plugin } from "prosemirror-state";
 
 import schema from "schemas/ingredient";
-import { ingredientUnits, unitsByType } from "utils/units";
+import ingredientUnits from "data/units/ingredient";
+import { unitsByType } from "data/units";
 import convertUnit from "utils/units/convert";
 import pluralize from "pluralize";
 import limitFloat from "utils/math/limitFloat";

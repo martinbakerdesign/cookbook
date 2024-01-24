@@ -1,6 +1,5 @@
 <script>
-  import { tags } from "store/";
-  import user from "store/user";
+  import { tags, isUserAuthor } from "store/";
   import { writable } from "svelte/store";
   import getSuggestions from "utils/tags/getSuggestions";
 
@@ -23,7 +22,7 @@
     if (isEnter) {
       e.preventDefault();
       $selectedSuggestion != null
-        ? tags.add($suggestions[$selectedSuggestion].name)
+        ? tags.add($suggestions[$selectedSuggestion])
         : tags.add(value);
       value = "";
       return;
@@ -83,22 +82,24 @@
   }
 </script>
 
-<label class="tags" for="recipe__tags">
+<li class="tags" for="recipe__tags">
   {#each $tags as tag}
     <div class="tag">
       {tag}
-      {#if $user}<button on:click={removeTag} data-tag={tag}>&times;</button
+      {#if $isUserAuthor}<button on:click={removeTag} data-tag={tag}
+          >&times;</button
         >{/if}
     </div>
   {/each}
-  {#if $user}
+  {#if $isUserAuthor}
     <div class="inputcontainer">
+      <span class="icon--add">+</span>
       <input
         type="text"
         bind:value
         bind:this={input}
         id="recipe__tags"
-        placeholder="Tag"
+        placeholder="Add tag"
         on:keyup={onChange}
         on:change={onChange}
         on:keydown={onKeydown}
@@ -109,42 +110,49 @@
         <div class="tags__suggestions">
           {#each $suggestions as suggestion, index}
             <button
-              data-tag={suggestion.name}
+              data-tag={suggestion}
               on:click={addTag}
               class:selected={index === $selectedSuggestion}
-              >{suggestion.name}</button
+              >{suggestion}</button
             >
           {/each}
           {#if !$suggestions.length}
-            <span>No suggestions</span>
+            <span class="no-suggestions">No suggestions</span>
           {/if}
         </div>
       {/if}
     </div>
   {/if}
-</label>
+</li>
 
 <style lang="scss">
   @use "../../../../styles/sizes" as sizes;
 
   .tags {
+    width: 100%;
     position: relative;
     display: flex;
     gap: sizes.$s1;
     color: var(--text-primary);
+    flex-wrap: wrap;
 
     .tag,
     input {
+      font-size: 0.75rem;
+      letter-spacing: calc(0.3 / 12 * 1em);
       padding: sizes.$s1 sizes.$s2;
       line-height: 1rem;
-      padding: $s1;
       color: inherit;
+      border-radius: 0.25rem;
+      height: 1.5rem;
     }
     .tag {
       display: flex;
       align-items: center;
       gap: sizes.$s1;
       background-color: var(--bg-secondary);
+      padding-right: 0.375rem;
+      cursor: default;
 
       button {
         border: 0;
@@ -158,32 +166,94 @@
         line-height: inherit;
         height: 1rem;
         color: var(--text-secondary);
+        transform: translateY(-0.0625rem);
+
+        @media (hover: hover) {
+          &:hover {
+            color: var(--accent);
+          }
+        }
       }
     }
+    .icon--add {
+      position: absolute;
+      left: 0.375rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+      color: var(--border);
+      font-size: 0.875rem;
+    }
     input {
-      line-height: 1.5rem;
       font-family: inherit;
       border: 0;
-      padding: 0;
       margin: 0;
       outline: 0;
       background-color: transparent;
+      box-shadow: 0 0 0 0.0625rem inset var(--border);
       padding-left: sizes.$s4;
+      border-radius: 0.25rem;
+      color: inherit;
+      width: 5rem;
+
+      &::placeholder {
+        color: var(--border);
+        opacity: 1;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.0625rem inset var(--text-primary);
+        width: 10rem;
+
+        &::placeholder {
+          opacity: 0;
+        }
+      }
     }
     .inputcontainer {
       position: relative;
+      &,
+      input {
+        display: inline-block;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          .icon--add {
+            color: var(--text-primary);
+          }
+          input {
+            box-shadow: 0 0 0 0.0625rem inset var(--text-primary);
+            color: var(--text-primary);
+
+            &::placeholder {
+              color: var(--text-primary);
+            }
+          }
+        }
+      }
+      &:focus-within {
+        .icon--add {
+          color: var(--text-primary);
+        }
+        input {
+          width: 10rem;
+        }
+      }
     }
 
     &__suggestions {
       position: absolute;
       top: calc(100% + 0.25rem);
-      left: -0.5rem;
-      width: calc(100% + 1rem);
+      left: 0;
+      width: 100%;
       background-color: var(--bg-primary);
       border: 1px solid var(--border);
       color: var(--text-primary);
-      padding: 0.25rem 0.5rem;
+      padding: 0.25rem;
       border-radius: 0.375rem;
+      z-index: 100;
 
       button {
         border: 0;
@@ -200,9 +270,13 @@
         text-align: left;
         color: inherit;
         border-radius: 0.25rem;
+        margin-bottom: 0.125rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
 
         @mixin focus {
-          background-color: $accent;
+          background-color: var(--accent);
         }
         &:focus {
           @include focus;
@@ -215,6 +289,15 @@
         &.selected {
           @include focus;
         }
+      }
+
+      .no-suggestions {
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
+        font-style: italic;
+        font-size: 0.8125rem;
+        padding: 0 sizes.$s3;
       }
     }
   }

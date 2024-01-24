@@ -1,5 +1,6 @@
 <script>
   import { link } from "svelte-spa-router";
+
   import Icon from "components/Icon/Icon.svelte";
 
   const iconProps = {
@@ -7,7 +8,6 @@
     size: 24,
     label: "Menu",
     role: "img",
-    fill: "#645656",
   };
 </script>
 
@@ -23,6 +23,12 @@
     width: 1.5rem;
     height: 1.5rem;
     position: relative;
+    color: var(--text-secondary);
+    --fill: var(--text-secondary);
+    outline: none;
+    box-shadow: none;
+    border: 0;
+    text-decoration: none;
 
     .label {
       position: absolute;
@@ -38,15 +44,40 @@
       opacity: 0;
       pointer-events: none;
       display: block;
-      color: #8a8480;
       text-align: left;
       white-space: nowrap;
     }
 
-    &:hover {
+    @mixin focus {
+      color: var(--text-primary);
+      --fill: var(--text-primary);
       .label {
         pointer-events: auto;
         opacity: 1;
+      }
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        @include focus;
+      }
+    }
+
+    &:focus-visible {
+      @include focus;
+      width: unset;
+      height: unset;
+      transform: translateX(calc(0.5rem * -1));
+      padding: sizes.$s1 sizes.$s2;
+      border-radius: 0.25rem;
+      box-shadow: 0 0 0 0.0625rem var(--text-primary);
+      display: flex;
+      align-items: center;
+      .label {
+        position: static;
+        transform: none;
+        margin-left: 0.5rem;
+        transition: none;
       }
     }
   }

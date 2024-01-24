@@ -18,11 +18,11 @@
   });
 
   $: $show && inputRef.focus();
-  $: scale($scaleFactor);
+  $: scale(+$scaleFactor);
 
   function scale(scaleFactor) {
     if (!view) return;
-    let scaled = scaleRecipe($recipe, scaleFactor);
+    let scaled = scaleRecipe($recipe, +scaleFactor);
     let newState = stateFromIngredients(scaled.ingredients);
     view.updateState(newState);
   }

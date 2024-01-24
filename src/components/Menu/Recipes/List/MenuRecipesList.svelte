@@ -13,6 +13,8 @@
       : applyFilters(),
     sortingOptions[$sortingSelection]
   );
+
+  $: console.log($searchQuery.query, $tagsFilter)
 </script>
 
 <ul id="menu__recipes__list">

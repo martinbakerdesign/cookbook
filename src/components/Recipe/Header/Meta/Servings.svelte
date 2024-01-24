@@ -5,47 +5,62 @@
   import scaleAmount from "utils/text/scaleAmount";
   import unscaleAmount from "utils/text/unscaleAmount";
 
-  let inputRef;
+  const refs = {
+    input: null,
+  };
+  const placeholder = "# of servings";
+
   const value = writable($amount);
 
   $: value.set(scaleAmount($amount, $scaleFactor));
 
   function onInput() {
-    amount.set(unscaleAmount(inputRef.innerHTML, $scaleFactor));
+    let unscaled = unscaleAmount(refs.input.value, $scaleFactor);
+    unscaled !== amount && amount.set(unscaled);
   }
 </script>
 
-{#if $isUserAuthor != null}
-  <div
-    contenteditable="true"
-    bind:innerHTML={$value}
-    placeholder="1 serving"
-    id="recipe__header__servings"
-    on:input={onInput}
-    bind:this={inputRef}
-  />
-{:else}
-  <div placeholder="1 serving" id="recipe__header__servings">
-    {$amount.text}
-  </div>
-{/if}
+<li id="recipe__header__servings">
+  {#if $isUserAuthor}
+    <input
+      id="recipe__header__servings__input"
+      type="text"
+      bind:this={refs.input}
+      bind:value={$value}
+      {placeholder}
+      on:input={onInput}
+    />
+  {:else}
+    {$amount ?? ""}
+  {/if}
+</li>
 
 <style lang="scss">
   #recipe__header__servings {
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    letter-spacing: inherit;
-    line-height: 1.5rem;
-    outline: 0;
-    border: 0;
-    background-color: transparent;
+    width: 100%;
+    white-space: nowrap;
 
-    &[placeholder]:empty:before {
-      content: attr(placeholder);
-      opacity: 0.5;
-      cursor: text;
+    &,
+    &__input {
+      width: 100%;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      line-height: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    &__input {
+      color: inherit;
+      background-color: transparent;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      outline: 0;
+      &::placeholder {
+        color: inherit;
+        opacity: 0.5;
+      }
     }
   }
 </style>

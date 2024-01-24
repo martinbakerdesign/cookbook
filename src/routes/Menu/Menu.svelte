@@ -1,10 +1,10 @@
 <script>
   import Recipes from "components/Menu/Recipes/MenuRecipes.svelte";
-  import getAllRecipes from "utils/db/recipes/getAll";
   import user from "store/user";
   import "components/Menu/Recipes/Modals/menu__recipe__modal.scss";
+  import { recipes } from "store/";
 
-  $: $user && getAllRecipes($user.id);
+  $: $user && recipes.refresh();
 </script>
 
 <svelte:head>

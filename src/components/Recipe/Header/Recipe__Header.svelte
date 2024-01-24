@@ -10,15 +10,17 @@
 </script>
 
 <header id="recipe__header" class:loading={$loading}>
-  <Name />
-  <!-- <Description /> -->
-  <URL />
-  <Meta />
-  {#if $isUserAuthor}
-    <Toolbar />
-  {:else if $user && !$loading}
-    <AddToBook />
-  {/if}
+  <!-- <div id="recipe__header__inner"> -->
+    <Name />
+    <!-- <Description /> -->
+    <URL />
+    <Meta />
+    {#if $isUserAuthor}
+      <Toolbar />
+    {:else if $user && !$loading}
+      <AddToBook />
+    {/if}
+  <!-- </div> -->
 </header>
 
 <style lang="scss">
@@ -42,6 +44,12 @@
     // background-color: c.$white;
     z-index: 100;
     position: relative;
+
+    &__inner {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 57rem;
+    }
 
     &.min {
       padding: s.$s3 var(--pad-x);

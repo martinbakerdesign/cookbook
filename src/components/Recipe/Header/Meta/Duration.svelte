@@ -1,37 +1,47 @@
 <script>
-  import { duration } from "store/";
-  import user from "store/user";
+  import { duration, isUserAuthor } from "store/";
+
+  const placeholder = "Duration";
 </script>
 
-{#if $user != null}
-  <div
-    bind:textContent={$duration.text}
-    contenteditable="true"
-    placeholder="1 hour"
-    id="recipe__header__duration"
-  />
-{:else}
-  <div placeholder="1 hour" id="recipe__header__duration">{$duration.text}</div>
-{/if}
+<li id="recipe__header__duration">
+  {#if $isUserAuthor}
+    <input
+      id="recipe__header__duration__input"
+      type="text"
+      bind:value={$duration.text}
+      {placeholder}
+    />
+  {:else}
+    {$duration?.text ?? $duration ?? ""}
+  {/if}
+</li>
 
 <style lang="scss">
   #recipe__header__duration {
-    color: var(--text-primary);
+    white-space: nowrap;
 
-    &[contenteditable="true"] {
-      outline: 0;
+    &,
+    &__input {
+      width: 100%;
       font-family: inherit;
       font-size: inherit;
-      color: inherit;
       letter-spacing: inherit;
-      outline: 0;
-      border: 0;
-      background-color: transparent;
+      line-height: 1.5rem;
+      color: var(--text-primary);
     }
-    &[placeholder]:empty:before {
-      content: attr(placeholder);
-      cursor: text;
-      opacity: 0.5;
+
+    &__input {
+      color: inherit;
+      background-color: transparent;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      outline: 0;
+      &::placeholder {
+        color: inherit;
+        opacity: 0.5;
+      }
     }
   }
 </style>

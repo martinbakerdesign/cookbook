@@ -3,6 +3,3 @@
 /.vscode/
 .DS_Store
 .env
-src/utils/text
-src/store
-src/components/Recipe/Main

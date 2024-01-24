@@ -1,36 +1,61 @@
 <script>
-  import Modal from "components/Modal/Modal.svelte";
-  import { settingsConfig, showSettings } from "store/settings";
+  import { reservedKeys, settingsConfig, showSettings } from "store/settings";
+  import { writable } from "svelte/store";
   import { onDestroy } from "svelte";
+  import Modal from "components/Modal/Modal.svelte";
   import SettingsAsideItem from "./SettingsAsideItem.svelte";
   import SettingsBlock from "./SettingsBlock.svelte";
 
-  function onEscape(e) {
-    if (e.key === "Escape" || e.keyCode === 27) showSettings.set(false);
-  }
-  function onClickOut(e) {
-    if (e.target.closest("#settings") || e.target.closest("#header__settings"))
-      return;
-    showSettings.set(false);
-  }
+  const refs = {
+    container: null,
+  };
 
-  $: $showSettings
-    ? (window.addEventListener("click", onClickOut),
-      window.addEventListener("keyup", onEscape),
-      document.querySelector("html") &&
-        (document.querySelector("html").style.overflowY = "hidden"))
-    : (window.removeEventListener("click", onClickOut),
-      window.removeEventListener("keyup", onEscape),
-      document.querySelector("html") &&
-        (document.querySelector("html").style.overflowY = "auto"));
+  $: window[`${$showSettings ? "add" : "remove"}EventListener`](
+    "click",
+    onClickOut
+  ),
+    document.querySelector("html") &&
+      (document.querySelector("html").style.overflowY = $showSettings
+        ? "hidden"
+        : "auto");
 
   onDestroy(() => {
     window.removeEventListener("click", onClickOut);
   });
+
+  function getControls(config) {
+    let controls = {};
+
+    for (let key in config) {
+      if (reservedKeys.includes(key)) continue;
+      controls[key] = config[key];
+    }
+
+    return controls;
+  }
+  function onEscape(e) {
+    console.log(e);
+    if (e.keyCode !== 27) return;
+    showSettings.set(false);
+  }
+  function onClickOut(e) {
+    if (
+      e.target.closest("#settings") ||
+      e.target.closest("#header__settings") ||
+      e.target.closest(".input__option") ||
+      refs.container.contains(e.target)
+    )
+      return;
+    showSettings.set(false);
+  }
 </script>
 
-<Modal show={$showSettings}>
-  <div id="settings" aria-labelledby="settings__aside__heading">
+<Modal show={showSettings}>
+  <div
+    id="settings"
+    aria-labelledby="settings__aside__heading"
+    bind:this={refs.container}
+  >
     <aside id="settings__aside">
       <h2 id="settings__aside__heading">Settings</h2>
       <ul id="settings__aside__list">
@@ -41,8 +66,15 @@
     </aside>
     <main id="settings__main">
       <ul id="settings__main__list">
-        {#each Object.entries(settingsConfig) as [key, { type, heading }], index}
-          <SettingsBlock {type} {heading} {key} {index} />
+        {#each Object.entries(settingsConfig) as [key, config], index}
+          <SettingsBlock
+            {...{
+              ...config,
+              ...(config.isGroup === true && { controls: getControls(config) }),
+            }}
+            {key}
+            {index}
+          />
         {/each}
       </ul>
     </main>

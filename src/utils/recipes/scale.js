@@ -1,34 +1,39 @@
-import Fraction from "fraction.js";
-import limitFloat from "utils/math/limitFloat";
+import { recipeNodeTypes } from "schemas/recipe";
 import scaleAmount from "utils/text/scaleAmount";
+import RecipeFragment from "./fragment/RecipeFragment";
 
 let scaled;
+
+const fragmentTypes = [recipeNodeTypes.INGREDIENT, recipeNodeTypes.STEP];
 
 export default function scaleRecipe(recipe = null, scaleFactor = 1) {
   if (!recipe || !Object.keys(recipe).length || scaleFactor === 1)
     return recipe ?? null;
 
-  let amount = scaleAmount(recipe.amount);
+  let amount = scaleAmount(recipe.amount, +scaleFactor);
+
+  let scaledText;
 
   scaled = {
     ...recipe,
     ingredients: recipe.ingredients.map((i) => {
-      if (i.type === "INGREDIENTS__HEADER") return i;
-      let quantityMatches = new RegExp(
-        `(?<range>\\d+ to \\d+)|(?<fraction>(\\d+ )?\\d+\\/\\d+)|(?<decimal>\\d+\\.\\d+)|(?<digit>\\d+)`
-      ).exec(i.text);
-      let isFraction = quantityMatches?.groups?.fraction != null;
-      let quantityString = new Fraction(i.quantity * scaleFactor)[
-        isFraction ? "toFraction" : "valueOf"
-      ]();
+      if (!fragmentTypes.includes(i.type)) return i;
+
+      scaledText = new RecipeFragment(i.text, 0).scale(+scaleFactor);
 
       return {
         ...i,
-        quantity: i.quantity * scaleFactor,
-        text: i.text.replace(
-          /(\d* *\d+\/\d+|\d+.\d+|\d+)/,
-          isFraction ? quantityString : +limitFloat(quantityString, 2, 24)
-        ),
+        text: scaledText,
+      };
+    }),
+    method: recipe.method.map((i) => {
+      if (!fragmentTypes.includes(i.type)) return i;
+
+      scaledText = new RecipeFragment(i.text, 0).scale(+scaleFactor);
+
+      return {
+        ...i,
+        text: scaledText,
       };
     }),
     amount,

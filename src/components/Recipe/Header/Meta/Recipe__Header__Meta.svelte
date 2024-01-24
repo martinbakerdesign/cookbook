@@ -24,25 +24,35 @@
   @use "../../../../styles/sizes" as sizes;
 
   #recipe__header__meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: flex-start;
 
     .inputs {
-      display: flex;
-      gap: sizes.$s7;
+      display: grid;
+      grid-auto-flow: row;
+      gap: sizes.$s3;
       list-style: none;
       font-size: 0.875rem;
       color: var(--text-primary);
       letter-spacing: calc(0.2 / 14 * 1em);
       line-height: 1.5rem;
-
+      
       li span {
         outline: none;
         border: 0;
         box-shadow: none;
         min-width: calc(10 / 14 * 1em);
         display: inline-block;
+      }
+      @media (min-width:1440px) {
+        gap: sizes.$s4;
+        grid-auto-flow: none;
+        grid-template-columns: repeat(3,1fr);
       }
     }
 

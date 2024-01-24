@@ -8,7 +8,7 @@ const methodSchema = new Schema({
     header: {
       content: "text*",
       inline: false,
-      draggable: true,
+      draggable: false,
       attrs: {
         index: {
           default: null,
@@ -21,7 +21,6 @@ const methodSchema = new Schema({
             class: "method__item",
             "data-index": node.attrs.index,
             "data-type": "header",
-            // draggable: "true",
           },
           0,
         ];
@@ -40,7 +39,7 @@ const methodSchema = new Schema({
     step: {
       content: "text*",
       inline: false,
-      draggable: true,
+      draggable: false,
       attrs: {
         index: {
           default: null,
@@ -53,7 +52,6 @@ const methodSchema = new Schema({
             class: "method__item",
             "data-index": node.attrs.index,
             "data-type": "step",
-            // draggable: "true",
           },
           0,
         ];

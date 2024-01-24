@@ -7,7 +7,7 @@ const testSites = [
   "https://cooking.nytimes.com/recipes/1023316-loaded-vegan-nachos",
 ];
 
-("thespruceeats");
+// ("thespruceeats");
 
 function getHostTemplate(url) {
   let sitename = new URL(url).host.replace("www.", "").split(".co")[0];
@@ -24,7 +24,7 @@ async function scrapeRecipe(url = "") {
   let template = getHostTemplate(url);
 
   try {
-    let pageMarkup = await getPage(url);
+    let pageMarkup = await getPage(url) ?? "";
 
     let shadow = document.createElement("div");
     shadow.innerHTML = pageMarkup;
@@ -54,10 +54,15 @@ async function scrapeRecipe(url = "") {
 }
 
 function getPage(url) {
-  let proxyUrl = "https://thingproxy.freeboard.io/fetch/";
+  // let proxyUrl = "https://thingproxy.freeboard.io/fetch/";
+  let proxyUrl = "https://creative-kataifi-668d50.netlify.app/.netlify/functions/fetch-website/";
+
   return fetch(proxyUrl + url, {})
-    .then((r) => r.text())
-    .catch((err) => console.error(err));
+    .then(async (r) => await r.text())
+    .catch((err) => {
+      console.error(err)
+      return ""
+    });
 }
 
 export default scrapeRecipe;

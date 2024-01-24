@@ -1,6 +1,6 @@
 import Fraction from "fraction.js";
 import limitFloat from "utils/math/limitFloat";
-import units from "./index";
+import units from "data/units";
 
 function convertUnit(value, fromUnitAbbrev, toUnitAbbrev) {
   let isFraction = value.toString().includes("/");
@@ -21,9 +21,6 @@ function convertUnit(value, fromUnitAbbrev, toUnitAbbrev) {
   let fromBase = calculateValueFromBase(toBase, toUnit.base);
 
   let converted = fromBase;
-
-  /* TODO toggle fractions/decimals depending on unit system
-  ie. use decimals for kg and fractions for lbs */
 
   return !isFraction
     ? converted

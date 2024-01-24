@@ -1,10 +1,8 @@
 <script>
-  import { name, loading } from "store/";
-  import user from "store/user";
-  export let min = false;
+  import { name, loading, isUserAuthor } from "store/";
 </script>
 
-{#if $user}
+{#if $isUserAuthor}
   <!-- <div
     id="recipe__header__name"
     placeholder={"My recipe"}
@@ -16,7 +14,6 @@
   <input
     id="recipe__header__name"
     bind:value={$name}
-    class:min
     placeholder={"My recipe"}
     class:loading={$loading}
   />
@@ -31,18 +28,19 @@
 
   #recipe__header__name {
     @include typo.font-soehne;
-      letter-spacing: calc(-0.4 / 42 * 1em);
-      line-height: 2.75rem;
-      font-weight: 500;
-      line-height: 3.5rem;
-    }
+    font-size: 2rem;
+    color: var(--text-primary);
+    letter-spacing: 0;
+    line-height: 2.5rem;
+    font-weight: 500;
     outline: none;
     box-shadow: none;
     border: 0;
+    // margin-bottom: s.$s4;
     margin-bottom: s.$s5;
     background-color: transparent;
     width: 100%;
-    min-height: 3.5rem;
+    min-height: 2.5rem;
 
     &.min {
       font-size: 1.125rem;
@@ -57,8 +55,10 @@
       opacity: 0.5;
       cursor: text;
       user-select: none;
+      color: inherit;
     }
     &::placeholder {
+      color: inherit;
       opacity: 0.5;
     }
 
