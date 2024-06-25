@@ -37,7 +37,8 @@ const seriouseats = {
     ],
   },
   method: {
-    id: "mntl-sc-block_3-0",
+    // id: "",
+    selector: '#section--instructions_1-0 ol',
     // className: "",
     contents: [
       {
