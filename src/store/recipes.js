@@ -4,25 +4,35 @@ import { deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "firestore/";
 import getAllRecipes from "utils/db/recipes/getAll";
 import userStore from "./user";
+import uFuzzy from "@leeoniya/ufuzzy";
 
 export default function recipeStore(initial = []) {
   const recipes = writable(initial);
   const { set, update, subscribe } = recipes;
 
-  function filterByName(Name = "") {
-    if (!Name || !Name.length) return [];
+  let recipesQueryable = []
 
-    let name = Name.toLowerCase();
+  function filterByName(needle = "") {
+    if (!needle || !needle.length) return [];
 
-    const _recipes = get(recipes);
+    const $recipes = get(recipes);
 
-    let filtered = _recipes.filter(
-      (recipe) => {
-        if (!recipe.name && !recipe.tags) return false;
+    const uf = new uFuzzy({
+      intraMode: 1,
+    });
 
-        return recipe.name.toLowerCase().includes(name) ||
-        recipe.tags.filter((t) => t.toLowerCase().includes(name)).length
-      });
+    const idxs = uf.filter(recipesQueryable, needle);
+
+    const filtered = $recipes.filter((recipe, i) => {
+      return idxs.includes(i);
+    });
+
+    // const filtered = $recipes.filter(
+    //   (recipe) => {
+    //     if (!recipe.tags) return false;
+    //     return recipe.name.toLowerCase().includes(needle.toLowerCase()) ||
+    //     recipe.tags.some((t) => t.toLowerCase().includes(needle.toLowerCase()));
+    //   });
 
     return filtered;
   }
@@ -112,7 +122,11 @@ export default function recipeStore(initial = []) {
     let user = get(userStore);
     if (!user) return;
     try {
-      let recipes = await getAllRecipes(user.id);
+      const recipes = await getAllRecipes(user.id);
+
+      // recipeNames = recipes.map((r) => r.name);
+      // recipeTags = recipes.map((r) => r.tags.join(', '));
+      recipesQueryable = recipes.map(r => `${r.name} ${r.tags.join(' ')}`)
 
       set(recipes);
     } catch (err) {

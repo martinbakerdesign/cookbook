@@ -2,6 +2,7 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "firestore/";
 import { get, writable } from "svelte/store";
 import removeEmojis from "utils/text/removeEmojis";
+import uFuzzy from "@leeoniya/ufuzzy";
 
 export default function globalTagsStore(init = []) {
   const globalTags = writable(init);
@@ -17,7 +18,9 @@ export default function globalTagsStore(init = []) {
         });
       });
 
-      set([...new Set(tags)]);
+      const newTags = [...new Set(tags)];
+
+      set(newTags);
     } catch (err) {
       throw err;
       console.error(err);
@@ -55,11 +58,15 @@ export default function globalTagsStore(init = []) {
   }
 
   function find(query = "") {
-    const tags = get(globalTags)
+    const $tags = get(globalTags)
 
-    const results = tags.filter((tag) =>
-      tag.toLowerCase().includes(query.toLowerCase())
-    );
+    const uf = new uFuzzy({
+      intraMode: 1,
+    });
+
+    const idxs = uf.filter($tags, query);
+
+    const results = $tags.filter((tag, i) => idxs.includes(i));
 
     return results.sort((a, b) =>
       removeEmojis(a).toLowerCase().indexOf(query.toLowerCase()) <

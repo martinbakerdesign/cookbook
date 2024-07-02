@@ -5,23 +5,22 @@ import { get } from "svelte/store";
 const debug = true;
 
 export default function applyFilters() {
-  console.log('applying filters')
-  let { query, tags } = get(searchQuery);
-  let authorFilter = get(authorSelection);
+  const { query, tags } = get(searchQuery);
+  const authorFilter = get(authorSelection);
   debug && console.log({query, tags, authorFilter})
   if (!query && !tags.length && authorFilter === 0) return get(recipes);
 
-  let filters = {
+  const filters = {
     ...(query && { name: query }),
     ...(tags && { tags }),
   };
 
-  let stack = !query && !tags.length
+  const stack = !query && !tags.length
     ? get(recipes)
     : [];
 
   for (let param in filters) {
-    query = filters[param];
+    // query = filters[param];
     switch (param) {
       default:
       case "name":
