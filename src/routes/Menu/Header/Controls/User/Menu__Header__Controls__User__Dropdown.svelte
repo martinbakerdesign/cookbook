@@ -1,17 +1,18 @@
 <script>
-  import NameCard from "./NameCard.svelte";
-  import SignOut from "./SignOut.svelte";
+  import { showDropdown, NameCard, SignOut } from ".";
 </script>
 
+{#if $showDropdown}
 <div class="dropdown">
   <NameCard />
   <SignOut />
 </div>
+{/if}
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
-  @use "../../../../styles/sizes" as s;
-  @use "../../../../styles/typo" as t;
+  @use "../../../../../styles/colours" as c;
+  @use "../../../../../styles/sizes" as s;
+  @use "../../../../../styles/typo" as t;
 
   .dropdown {
     position: fixed;

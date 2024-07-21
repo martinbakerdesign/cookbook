@@ -1,26 +1,7 @@
 <script>
-  import { searchQuery } from "store/";
-  import { suggestion } from "store/searchQuery";
-  // import relative from "data/units/relative";
-
-  export let tag, index;
-
-  let selected;
-
-  $: selected = $suggestion === index;
-
-  let matchMarkup;
-  $: matchMarkup = tag.replace(
-    new RegExp($searchQuery.query, "gi"),
-    (match) => `<b>${match}</b>`
-  );
-
-  function onClick() {
-    searchQuery.addTag(tag);
-  }
-  function onPointerEnter() {
-    suggestion.set(index);
-  }
+  export let selected = false,
+            onClick = () => {},
+            onPointerEnter = () => {};
 </script>
 
 <li class="header__search__suggestion">
@@ -31,13 +12,13 @@
     class:selected
     class="header__search__suggestion__button"
   >
-    {@html matchMarkup}
+    <slot />
   </button>
 </li>
 
 <style lang="scss">
-  @use "../../../styles/sizes" as s;
-  @use "../../../styles/colours" as c;
+  @use "../../../../styles/sizes" as s;
+  @use "../../../../styles/colours" as c;
 
   .header__search__suggestion {
     font-size: 0.875rem;

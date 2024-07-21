@@ -6,9 +6,9 @@
 <h1 id="header__title"><a href="/" use:link>Cookbook</a></h1>
 
 <style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-  @use "../../styles/typo" as typo;
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/typo" as typo;
 
   #header__title {
     @include typo.font-soehne;

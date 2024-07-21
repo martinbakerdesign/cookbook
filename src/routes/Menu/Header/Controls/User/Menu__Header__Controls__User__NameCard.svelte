@@ -10,9 +10,9 @@
 </div>
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
-  @use "../../../../styles/sizes" as s;
-  @use "../../../../styles/typo" as t;
+  @use "../../../../../styles/colours" as c;
+  @use "../../../../../styles/sizes" as s;
+  @use "../../../../../styles/typo" as t;
 
   .namecard {
     padding: s.$s4 s.$s3 0;

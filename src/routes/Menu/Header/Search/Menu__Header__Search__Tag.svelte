@@ -1,11 +1,9 @@
 <script>
-  import { searchQuery } from "store/";
+  import { getRemoveTagCallback } from ".";
 
   export let tag;
 
-  function removeTag() {
-    searchQuery.removeTag(tag);
-  }
+  $: removeTag = getRemoveTagCallback(tag);
 </script>
 
 <tag>
@@ -15,8 +13,8 @@
 </tag>
 
 <style lang="scss">
-  @use "../../../styles/_sizes" as s;
-  @use "../../../styles/_colours" as c;
+  @use "../../../../styles/_sizes" as s;
+  @use "../../../../styles/_colours" as c;
 
   tag {
     padding: s.$s1;

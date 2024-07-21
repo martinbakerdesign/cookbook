@@ -1,30 +1,26 @@
 <script>
   import user from "store/user";
-  import Dropmenu from "./HeaderUserDropmenu.svelte";
   import { link } from "svelte-spa-router";
+  import {Dropdown, toggleDropdown} from '.'
 
-  let show = false;
-
-  function toggle() {
-    show = !show;
-  }
 </script>
 
 {#if $user}
-  <button id="header__user" on:click={toggle}
-    ><img src={$user?.thumb} alt={$user?.name} /></button
+  <button
+    id="header__user"
+    on:click={toggleDropdown}
   >
-  {#if show}
-    <Dropmenu />
-  {/if}
+  <img src={$user?.thumb} alt={$user?.name} />
+  </button>
+  <Dropdown />
 {:else}
   <a use:link id="header__sign-in" href="/">Sign In</a>
 {/if}
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
-  @use "../../../../styles/sizes" as s;
-  @use "../../../../styles/typo" as t;
+  @use "../../../../../styles/colours" as c;
+  @use "../../../../../styles/sizes" as s;
+  @use "../../../../../styles/typo" as t;
 
   #header__user {
     border-radius: 50%;

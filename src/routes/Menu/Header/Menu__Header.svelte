@@ -1,9 +1,8 @@
 <script>
-  import Title from "./HeaderTitle.svelte";
-  import Search from "./Search/HeaderSearch.svelte";
-  import Controls from "./Controls/HeaderControls.svelte";
+  import {Title, Search, Controls} from ".";
   import { location } from "svelte-spa-router";
   import { scrollY } from "store/menu";
+  import user, {checked} from 'store/user'
 
   let state, stuck;
   let offset = 0;
@@ -14,22 +13,25 @@
     (offset = $location === "/" ? Math.min($scrollY, 20) * -1 : 0);
 </script>
 
-<header
-  id="header"
-  data-state={state}
-  class:stuck
-  style={`transform: translate3d(-50%,${offset}px,0)`}
->
-  <Title />
-  <Search />
-  <Controls />
-</header>
+<svelte:window bind:scrollY={$scrollY} />
+{#if $checked && ((!$user && $location !== "/") || $user)}
+  <header
+    id="header"
+    data-state={state}
+    class:stuck
+    style={`transform: translate3d(-50%,${offset}px,0)`}
+  >
+    <Title />
+    <Search />
+    <Controls />
+  </header>
+{/if}
 
 <style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-  @use "../../styles/typo" as t;
-  @use "../../styles/layers" as l;
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/typo" as t;
+  @use "../../../styles/layers" as l;
 
   #header {
     position: fixed;

@@ -5,9 +5,9 @@
 <button class="signout" on:click={user.signOut}>Sign Out</button>
 
 <style lang="scss">
-  @use "../../../../styles/colours" as c;
-  @use "../../../../styles/sizes" as s;
-  @use "../../../../styles/typo" as t;
+  @use "../../../../../styles/colours" as c;
+  @use "../../../../../styles/sizes" as s;
+  @use "../../../../../styles/typo" as t;
 
   .signout {
     font-family: inherit;

@@ -1,18 +1,13 @@
 <script>
   import Icon from "components/Icon/Icon.svelte";
-  import { showSettings } from "store/settings";
-
-  const iconProps = {
-    icon: "settings--24",
-    size: 24,
-  };
-  function show() {
-    showSettings.set(true);
-  }
+  import {show as showSettings} from '.'
 </script>
 
-<button id="header__settings" type="button" on:click={show}>
-  <Icon {...iconProps} />
+<button id="header__settings" type="button" on:click={showSettings}>
+  <Icon {...{
+    icon: "settings--24",
+    size: 24,
+  }} />
 </button>
 
 <style lang="scss">
