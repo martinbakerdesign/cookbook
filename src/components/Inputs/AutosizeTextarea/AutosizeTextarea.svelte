@@ -1,40 +1,30 @@
 <script>
-  import { onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import getStyles from "utils/dom/getStyles";
+  import { createEventDispatcher, onMount } from "svelte";
+  import {useStore} from '.'
+  
+  let initValue = '';
+  $: $value !== initValue && (initValue = $value);
+  export {initValue as value};
 
-  export let value = writable("");
+  const dispatch = createEventDispatcher();
+  
+  const store = useStore(dispatch);
+  const {init, value, style, setRef} = store;
+
   export let id = "";
   export let name = "";
   export let placeholder = "";
+  export let readonly = false;
 
-  let ref;
-
-  let style;
-
-  onMount(() => {
-    ref.children[0] && (style = getTextStyles(ref.children[0]));
-  });
-
-  function getTextStyles(el) {
-    return getStyles(el, [
-      "font-family",
-      "font-size",
-      "font-weight",
-      "font-style",
-      "color",
-      "letter-spacing",
-      "line-height",
-    ]);
-  }
+  onMount(init);
 </script>
 
-<div class="textarea-autosize" {style}>
+<div class="textarea-autosize" style={$style}>
   <div
     class="textarea-autosize__spacer"
     hidden
     aria-hidden="true"
-    bind:this={ref}
+    use:setRef={'spacer'}
   >
     <slot />
   </div>
@@ -44,6 +34,8 @@
     bind:value={$value}
     {placeholder}
     class="textarea-autosize__input"
+    use:setRef={'textarea'}
+    {readonly}
   />
 </div>
 
