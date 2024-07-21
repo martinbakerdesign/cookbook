@@ -27,8 +27,8 @@
 </li>
 
 <style lang="scss">
-  @use "../../../styles/colours" as c;
-  @use "../../../styles/sizes" as s;
+  @use "../../styles/colours" as c;
+  @use "../../styles/sizes" as s;
 
   .contextmenu__list__item {
     button {

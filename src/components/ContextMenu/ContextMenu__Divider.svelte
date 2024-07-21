@@ -5,8 +5,8 @@
 />
 
 <style lang="scss">
-  @use "../../../styles/colours" as c;
-  @use "../../../styles/sizes" as s;
+  @use "../../styles/colours" as c;
+  @use "../../styles/sizes" as s;
 
   .contextmenu__list__divider {
     margin: s.$s2 0.625rem;
