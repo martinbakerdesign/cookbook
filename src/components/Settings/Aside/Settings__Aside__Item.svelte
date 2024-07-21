@@ -1,52 +1,32 @@
 <script>
   import { settingsFocus } from "store/settings";
   import { onDestroy } from "svelte";
+  import { getClickHandler, cleanup, getClickOutHandler, setRef, getFocusChangeHandler } from ".";
 
   export let key, index, heading, type;
 
-  let ref;
+  const clickHandler = getClickHandler(index)
+  const clickoutHandler = getClickOutHandler(index)
+  const focusChangeHandler = getFocusChangeHandler(index, clickoutHandler)
 
-  function onClick(e) {
-    let main = document.querySelector("#settings__main");
-    let list = document.querySelector("#settings__main__list");
-    let block = document.querySelector(
-      `.settings__block[data-index="${index}"]`
-    );
-    let mainTop = main.getBoundingClientRect().top;
-    let blockTop = block.getBoundingClientRect().top - mainTop;
-    let scrollTo = blockTop + main.scrollTop;
-    main.scrollTo(0, scrollTo);
-    settingsFocus.set(index);
-  }
+  $: focusChangeHandler($settingsFocus);
 
-  function clickOut(e) {
-    if (e.target.closest(`.settings__aside__item[data-index='${index}']`))
-      return;
-    settingsFocus.set(null);
-  }
-
-  $: $settingsFocus === index
-    ? window.addEventListener("click", clickOut)
-    : window.removeEventListener("click", clickOut);
-
-  onDestroy(() => {
-    window.removeEventListener("click", clickOut);
-  });
+  onDestroy(cleanup(clickoutHandler));
 </script>
 
 <li
   class="settings__aside__item"
   data-index={index}
   data-active={$settingsFocus === index}
-  bind:this={ref}
+  use:setRef={index}
 >
-  <button type="button" on:click={onClick}>{heading}</button>
+  <button type="button" on:click={clickHandler}>{heading}</button>
 </li>
 
 <style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-  @use "../../styles/typo" as t;
+  @use "../../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/typo" as t;
 
   .settings__aside__item {
     color: var(--text-primary);

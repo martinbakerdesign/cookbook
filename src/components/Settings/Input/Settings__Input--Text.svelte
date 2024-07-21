@@ -25,9 +25,3 @@
 <div class="settings__input--text">
   <input type="text" bind:value={$value} />
 </div>
-
-<style lang="scss">
-  @use "../../../styles/_sizes.scss" as s;
-  @use "../../../styles/_colours.scss" as c;
-  @use "../../../styles/_typo.scss" as t;
-</style>

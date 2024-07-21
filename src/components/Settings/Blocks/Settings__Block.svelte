@@ -1,7 +1,8 @@
 <script>
   import { settingsFocus } from "store/settings";
 
-  import SettingsInput from "./Inputs/SettingsInput.svelte";
+  import {Input} from "../";
+  import {Group} from '.'
 
   export let heading = "Settings Block";
   export let type = "TEXT";
@@ -19,33 +20,16 @@
 >
   <h3 class="settings__block__heading">{heading}</h3>
   {#if !isGroup}
-    <SettingsInput
-      {...{
-        key: [key],
-        type,
-      }}
-    />
+    <Input {...{ key: key, type, }} />
   {:else}
-    <ul class="settings__block__group">
-      {#each Object.entries(controls) as [_key, def]}
-        <li>
-          <h4 class="settings__block__subheading">{def.heading}</h4>
-          <SettingsInput
-            {...{
-              key: [key, _key],
-              type: def.type,
-            }}
-          />
-        </li>
-      {/each}
-    </ul>
+    <Group {...{ key, controls }} />
   {/if}
 </li>
 
 <style lang="scss">
-  @use "../../styles/_sizes" as s;
-  @use "../../styles/_colours" as c;
-  @use "../../styles/_typo" as t;
+  @use "../../../styles/_sizes" as s;
+  @use "../../../styles/_colours" as c;
+  @use "../../../styles/_typo" as t;
 
   .settings__block {
     padding: s.$s5 0;

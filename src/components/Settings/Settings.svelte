@@ -1,83 +1,21 @@
 <script>
-  import { reservedKeys, settingsConfig, showSettings } from "store/settings";
-  import { writable } from "svelte/store";
-  import { onDestroy } from "svelte";
-  import Modal from "components/Modal/Modal.svelte";
-  import SettingsAsideItem from "./SettingsAsideItem.svelte";
-  import SettingsBlock from "./SettingsBlock.svelte";
+  import { showSettings } from "store/settings";
+  import { onDestroy, onMount } from "svelte";
+  import Modal from "components/Modal";
+  import { Aside, Blocks, refs, init, cleanup } from ".";
 
-  const refs = {
-    container: null,
-  };
-
-  $: window[`${$showSettings ? "add" : "remove"}EventListener`](
-    "click",
-    onClickOut
-  ),
-    document.querySelector("html") &&
-      (document.querySelector("html").style.overflowY = $showSettings
-        ? "hidden"
-        : "auto");
-
-  onDestroy(() => {
-    window.removeEventListener("click", onClickOut);
-  });
-
-  function getControls(config) {
-    let controls = {};
-
-    for (let key in config) {
-      if (reservedKeys.includes(key)) continue;
-      controls[key] = config[key];
-    }
-
-    return controls;
-  }
-  function onEscape(e) {
-    console.log(e);
-    if (e.keyCode !== 27) return;
-    showSettings.set(false);
-  }
-  function onClickOut(e) {
-    if (
-      e.target.closest("#settings") ||
-      e.target.closest("#header__settings") ||
-      e.target.closest(".input__option") ||
-      refs.container.contains(e.target)
-    )
-      return;
-    showSettings.set(false);
-  }
+  onMount(init);
+  onDestroy(cleanup);
 </script>
 
-<Modal show={showSettings}>
+<Modal show={$showSettings}>
   <div
     id="settings"
     aria-labelledby="settings__aside__heading"
     bind:this={refs.container}
   >
-    <aside id="settings__aside">
-      <h2 id="settings__aside__heading">Settings</h2>
-      <ul id="settings__aside__list">
-        {#each Object.entries(settingsConfig) as [key, { type, heading }], index}
-          <SettingsAsideItem {type} {heading} {key} {index} />
-        {/each}
-      </ul>
-    </aside>
-    <main id="settings__main">
-      <ul id="settings__main__list">
-        {#each Object.entries(settingsConfig) as [key, config], index}
-          <SettingsBlock
-            {...{
-              ...config,
-              ...(config.isGroup === true && { controls: getControls(config) }),
-            }}
-            {key}
-            {index}
-          />
-        {/each}
-      </ul>
-    </main>
+    <Aside />
+    <Blocks />
   </div>
 </Modal>
 
@@ -92,62 +30,5 @@
     width: calc(100% - 58.25rem);
     min-width: 48rem;
     min-height: 32rem;
-
-    &__aside {
-      background-color: var(--bg-secondary);
-      padding: s.$s4 s.$s3;
-      height: 100%;
-      overflow: hidden;
-      overflow-y: auto;
-      // border-right: 1px solid ;
-
-      &__heading {
-        font-size: 0.875rem;
-        font-weight: 600;
-        margin: 0 s.$s2 s.$s5;
-        color: var(--text-primary);
-        opacity: 0.55;
-      }
-      &__list {
-        list-style: none;
-        // height: 200vh;
-      }
-
-      &::-webkit-scrollbar {
-        width: 1rem;
-        background: none;
-      }
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-        border: 0;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: c.$grey-63;
-        border-radius: 0;
-        border: 0.375rem solid transparent;
-        border-top-width: s.$s4;
-        border-bottom-width: s.$s4;
-        background-clip: content-box;
-
-        &:hover {
-          background: c.$grey-52;
-          border: 0.375rem solid transparent;
-          border-top-width: s.$s4;
-          border-bottom-width: s.$s4;
-          background-clip: content-box;
-        }
-      }
-    }
-    &__main {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      overflow-y: auto;
-      padding: 0 s.$s5;
-
-      &__list {
-        list-style: none;
-      }
-    }
   }
 </style>
