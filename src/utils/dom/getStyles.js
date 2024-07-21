@@ -1,14 +1,14 @@
 /**
  * Utility function for getting specific dom element style property values
  * @param {*} el DOM Element to get style values from
- * @param {[]} props Array of property key names to get values for
+ * @param {string[]} props Array of property key names to get values for
  * @returns
  */
 
 export default function getStyles(el, props) {
-  let computedStyles = getComputedStyle(el);
+  const computedStyles = getComputedStyle(el);
 
-  let styles = props
+  const styles = props
     .map(
       (propName) =>
         `${propName}: ${computedStyles[getCamelPropName(propName)]};`
