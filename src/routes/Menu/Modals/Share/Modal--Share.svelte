@@ -1,81 +1,40 @@
 <script>
-  import Switch from "components/Inputs/Switch.svelte";
+  import { onDestroy, onMount } from "svelte";
+  import { url, recipes } from "store";
+  import { recipeId, showShareModal } from "../";
+  import {
+    updateShareLink,
+    getSwitchProps,
+    refs,
+    success,
+    copyToClipboard,
+    cancel,
+    saving,
+    selectAll,
+    shareLink,
+    cleanup,
+    init
+  } from ".";
 
-  import Modal from "components/Modal/Modal.svelte";
-  import { url, recipes } from "store/";
-  import { getContext, onDestroy } from "svelte";
-  import { writable } from "svelte/store";
+  import {Switch} from "components/Inputs";
+  import Modal from "components/Modal";
 
-  const { id, shareModal: show } = getContext("menu__modals");
+  $: updateShareLink($url, $recipeId);
+  $: switchProps = getSwitchProps($recipes, $recipeId);
+  $: saveButtonLabel = ["Done", "Updating..."][+$saving];
 
-  const saving = writable(false);
-
-  let link = "";
-  $: link = `${$url}/#/${$id}`;
-
-  let switchProps = {
-    id: "menu__recipe__share__public",
-    label: "Allow anyone with the link to see this recipe",
-    initialValue: $recipes.filter((r) => r.id === $id)[0]?.shared ?? false,
-    onToggle: toggleShared,
-  };
-
-  $: switchProps.initialValue =
-    $recipes.filter((r) => r.id === $id)[0]?.shared ?? false;
-
-  async function toggleShared(value) {
-    try {
-      saving.set(true);
-      await recipes.toggleShare($id, value);
-      saving.set(false);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  function selectAll(e) {
-    e.target.select();
-  }
-  function cancel() {
-    show.set(false);
-  }
-  let copyButton;
-  let success = writable(false);
-  let timeout = null;
-  
-  $: !$show && timeout != null && clear();
-  onDestroy(() => {
-    clear();
-  });
-
-  function resetButton() {
-    copyButton.querySelector("span").innerHTML = "Copy link";
-  }
-  function copyToClipboard() {
-    navigator.clipboard.writeText(link);
-    onLinkCopied();
-  }
-  function onLinkCopied() {
-    clear();
-    copyButton.querySelector("span").innerHTML = "Link copied";
-    success.set(true);
-    timeout = setTimeout(clear, 3000);
-  }
-  function clear() {
-    timeout && (clearTimeout(timeout), (timeout = null));
-    saving.set(false);
-    success.set(false);
-    resetButton();
-  }
+  onMount(init);
+  onDestroy(cleanup);
 </script>
 
-<Modal {show}>
+<Modal show={$showShareModal}>
   <div class="menu__recipes__item__share">
     <h2 class="menu__recipes__item__modal__heading">Share recipe</h2>
     <div class="menu__recipes__item__modal__copylink">
       <input
         class="menu__recipes__item__modal__copylink__input"
         type="text"
-        value={link}
+        value={$shareLink}
         readonly
         on:click={selectAll}
       />
@@ -83,18 +42,22 @@
         class="menu__recipes__item__modal__copylink__button"
         type="button"
         on:click={copyToClipboard}
-        bind:this={copyButton}
+        bind:this={refs.copyButton}
         class:success={$success}
       >
-        <span>Copy link</span>
+        <span bind:this={refs.copyButtonLabel}>Copy link</span>
       </button>
     </div>
     <div class="menu__recipes__item__modal__switch">
       <Switch {...switchProps} />
     </div>
     <div class="menu__recipes__item__modal__actions">
-      <button type="button" on:click={cancel} disabled={$saving}>
-        {$saving ? "Updating..." : "Done"}
+      <button
+        type="button"
+        on:click={cancel}
+        disabled={$saving}
+      >
+        {saveButtonLabel}
       </button>
     </div>
   </div>

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import _$ from 'utils/dom/querySelector'
 
   import NewRecipeButton from "./NewRecipeButton.svelte";
   import ImportRecipe from "./ImportRecipe.svelte";
@@ -37,7 +38,7 @@
     stuck = lastEntry.intersectionRatio < 1;
   }
   function onResize() {
-    let header = document.querySelector("#header");
+    let header = _$("#header");
     if (!header) return;
     top = header.getBoundingClientRect().height;
   }
@@ -96,6 +97,8 @@
     }
 
     &.stuck {
+      box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.05);
+      
       &:before,
       &:after {
         content: "";
@@ -115,7 +118,6 @@
         bottom: 0;
       }
 
-      box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.05);
     }
 
     .lhs {

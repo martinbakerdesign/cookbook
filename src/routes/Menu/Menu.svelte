@@ -1,17 +1,28 @@
 <script>
-  import Recipes from "components/Menu/Recipes/MenuRecipes.svelte";
+  import { onDestroy } from "svelte";
+  import { recipes } from "store";
   import user from "store/user";
-  import "components/Menu/Recipes/Modals/menu__recipe__modal.scss";
-  import { recipes } from "store/";
+  import { Header, Main, Modals } from ".";
+  import { modalsCleanUp } from "./Modals";
 
   $: $user && recipes.refresh();
+
+  onDestroy(modalsCleanUp);
 </script>
 
 <svelte:head>
   <title>Cookbook</title>
 </svelte:head>
+
+<Header />
 <article id="menu">
-  <Recipes />
+  <main id="menu__recipes">
+    <div class="slide">
+      <Main />
+    </div>
+  </main>
+
+  <Modals />
 </article>
 
 <style lang="scss">
@@ -21,5 +32,17 @@
 
   #menu {
     position: relative;
+  }
+  #menu__recipes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .slide {
+      margin-top: s.$s9;
+      background-color: var(--bg-primary);
+      height: 100%;
+      position: relative;
+    }
   }
 </style>

@@ -5,11 +5,12 @@
   import timestampToDate from "utils/db/timestamp/timestampToDate";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
+  import _$ from "utils/dom/querySelector";
 
-  import Tags from "./MenuRecipesListItemTags.svelte";
+  import Tags from "./Tags.svelte";
   import ShareButton from "./ShareButton.svelte";
   import DeleteButton from "./DeleteButton.svelte";
-  import ContextMenu from "./ContextMenu/ContextMenu.svelte";
+  import ContextMenu from "../ContextMenu";
 
   export let index, id, name, tags, created, last_edited, editable;
 
@@ -39,7 +40,7 @@
   }
   function toggleBorder(type) {
     if (!index) return;
-    let prevRow = document.querySelector(
+    let prevRow = _$(
       `.menu__recipes__list__item[data-index="${index - 1}"]`
     );
 

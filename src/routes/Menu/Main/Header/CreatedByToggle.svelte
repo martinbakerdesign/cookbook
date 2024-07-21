@@ -1,22 +1,22 @@
 <script>
-  import { sortingSelection, sortingOptions } from "store/menu";
+  import { authorSelection, authorOptions } from "store/menu";
 
-  import Select from "components/Inputs/Select.svelte";
+  import {Select} from "components/Inputs";
 </script>
 
 <Select
   {...{
     id: "menu__header__sorting",
-    className: "sortingtoggle",
-    options: sortingOptions,
-    value: sortingSelection,
+    className: "created-by-toggle",
+    options: authorOptions,
   }}
+  bind:value={$authorSelection}
 />
 
 <style lang="scss">
   @use "../../../../styles/colours" as colours;
   @use "../../../../styles/sizes" as sizes;
-  :global(.sortingtoggle__option .icon) {
+  :global(.created-by-toggle__option .icon) {
     width: 0.8125rem;
     height: 0.8125rem;
     flex: none;
