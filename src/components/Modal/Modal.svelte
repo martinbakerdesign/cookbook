@@ -1,62 +1,23 @@
 <script>
-  import { onMount } from "svelte";
-  import { writable } from "svelte/store";
+  import { onDestroy, onMount } from "svelte";
+  import {show, refs, toggleAutofocus, onClickOut, setAttributes, cleanup} from '.'
+  import { registerModal } from "store/modals";
 
   import "./Modal.scss";
 
-  export let show = writable(false);
   export let id = "";
+
+  let showInitially = false;
+  export {showInitially as show};
+  $: show.set(showInitially);
+
   export let autofocus = false;
-
-  const refs = {
-    modal: null,
-    bg: null,
-  };
-
-  $: toggleListeners($show);
+  $: toggleAutofocus(autofocus);
 
   onMount(() => {
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("click", onClickOut);
-    };
-  });
-
-  function toggleListeners(show) {
-    window[`${show ? "add" : "remove"}EventListener`]("keydown", onKeyDown),
-      window[`${show ? "add" : "remove"}EventListener`]("click", onClickOut);
-  }
-  function toggleModal(s = null) {
-    let shouldShow = s ?? !$show;
-    show.set(shouldShow);
-  }
-  function addTags(el) {
-    if (!el.childNodes || !el.childNodes.length) return;
-    let child = el.childNodes[0];
-
-    child.setAttribute("role", "dialog");
-    child.setAttribute("tabindex", "-1");
-    let input = el.querySelector("input");
-    if (!input) return;
-
-    input.focus();
-    if (!autofocus) input.blur();
-  }
-  function onKeyDown(e) {
-    if (
-      !$show ||
-      e.key !== "Escape" ||
-      e.target.closest("button.input__option")
-    )
-      return;
-    e.preventDefault();
-    window.event.preventDefault();
-    toggleModal(false);
-  }
-  function onClickOut(e) {
-    if (refs.bg !== e.target) return;
-    toggleModal(false);
-  }
+    registerModal(refs.modal, showInitially);
+  })
+  onDestroy(cleanup);  
 </script>
 
 <div
@@ -66,11 +27,11 @@
   on:click={onClickOut}
 />
 <div
+  {id}
   class="modal"
-  use:addTags
+  use:setAttributes
   aria-hidden={!$show}
   hidden={!$show}
-  {id}
   on:click={onClickOut}
   bind:this={refs.modal}
 >
