@@ -1,7 +1,8 @@
 <script>
   import { settings } from "store/";
-  import { settingsConfig, getNestedValue } from "store/settings";
+  import { settingsConfig } from "store/settings";
   import {inputStore} from '.'
+  import getNestedValue from "utils/getNestedValue";
 
   export let key = '';
 

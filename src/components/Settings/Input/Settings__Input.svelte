@@ -1,8 +1,6 @@
 <script>
   import { settings } from "store";
-  import {
-    getNestedValue,
-  } from "store/settings";
+  import getNestedValue from "utils/getNestedValue";
 
   import {Radio, Text, Select} from '.'
   import {Switch} from "components/Inputs";

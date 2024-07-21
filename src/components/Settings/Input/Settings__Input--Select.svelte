@@ -1,8 +1,9 @@
 <script>
   import { writable } from "svelte/store";
   import { settings } from "store";
-  import { getNestedValue, settingsConfig } from "store/settings";
+  import { settingsConfig } from "store/settings";
   import {Select} from "components/Inputs";
+  import getNestedValue from "utils/getNestedValue";
 
   export let key = '';
 

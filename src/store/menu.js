@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 import { location, querystring } from "svelte-spa-router";
-import { storage } from "store/";
+import { localStorage } from "store/";
 
 const sortKey = "menu__list--sort";
 const authorKey = "menu__list--author";
@@ -33,7 +33,7 @@ function menuSelectionStore(init, key = "") {
   const { set: _set, update, subscribe } = writable(+init);
 
   function set(newVal) {
-    storage.set(key, +newVal);
+    localStorage.set(key, +newVal);
     _set(+newVal);
   }
   return {
@@ -42,15 +42,15 @@ function menuSelectionStore(init, key = "") {
   };
 }
 
-let sortingSelectionInStorage = storage.get(sortKey) ?? 0;
-let authorSelectionInStorage = storage.get(authorKey) ?? 0;
+let sortingSelectionInStorage = localStorage.get(sortKey) ?? 0;
+let authorSelectionInStorage = localStorage.get(authorKey) ?? 0;
 
 sortingSelectionInStorage == null &&
   ((sortingSelectionInStorage = 0),
-  storage.set(sortKey, sortingSelectionInStorage));
+  localStorage.set(sortKey, sortingSelectionInStorage));
 authorSelectionInStorage == null &&
   ((authorSelectionInStorage = 0),
-  storage.set(authorKey, authorSelectionInStorage));
+  localStorage.set(authorKey, authorSelectionInStorage));
 
 export const sortingSelection = menuSelectionStore(
   sortingSelectionInStorage, sortKey

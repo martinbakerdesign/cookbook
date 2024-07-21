@@ -1,6 +1,6 @@
 <script>
   import { settings } from "store/";
-  import { getNestedValue } from "store/settings";
+  import getNestedValue from "utils/getNestedValue";
 
   import { writable } from "svelte/store";
 
