@@ -10,6 +10,7 @@
   import Settings from "components/Settings";
   import Animation from "components/Animation";
 
+  import "styles/app.css";
   import "styles/styles.scss";
   import "styles/_colours.scss";
 
