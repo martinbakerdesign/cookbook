@@ -1,33 +1,15 @@
 <script>
-  import { get, writable } from "svelte/store";
+  import {setToggleHandler, value, onClick} from '.'
 
   export let key = "",
     label = "",
     id = "";
-  export let onToggle = (value) => {
-    console.log("onToggle: ", { value });
-  };
-  export let initialValue = false;
+  export let onToggle = () => {};
+  $: setToggleHandler(onToggle)
 
-  const value = inputStore(initialValue);
-
-  function inputStore(initial = false) {
-    const store = writable(initial);
-    const { set, subscribe } = store;
-
-    function toggle() {
-      let value = !get(store);
-      onToggle(value);
-      set(value);
-    }
-    return {
-      toggle,
-      subscribe,
-    };
-  }
-  function onClick() {
-    value.toggle();
-  }
+  let initialValue = false;
+  export {initialValue as value};
+  $: value.set(initialValue);  
 </script>
 
 <div class="input--switch" data-checked={$value}>
@@ -54,8 +36,8 @@
 </div>
 
 <style lang="scss">
-  @use "../../styles/sizes" as s;
-  @use "../../styles/colours" as c;
+  @use "../../../styles/sizes" as s;
+  @use "../../../styles/colours" as c;
 
   .input--switch {
     display: flex;
