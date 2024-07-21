@@ -1,6 +1,8 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import getMins from "./getMins";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const sbs = {
   name: {
@@ -72,16 +74,12 @@ const sbs = {
     // recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let amount = dom.querySelector('[itemprop="recipeYield"]');
+    let amount = $(dom, '[itemprop="recipeYield"]');
     amount.innerHTML = amount.textContent.trim() + " serves";
 
-    let prepTimeStr = dom
-      .querySelector('[itemprop="prepTime"]~.field')
-      .textContent.trim();
+    let prepTimeStr = $(dom, '[itemprop="prepTime"]~.field').textContent.trim();
     let prepTimeMins = getMins(prepTimeStr);
-    let cookTimeStr = dom
-      .querySelector('[itemprop="cookTime"]~.field')
-      .textContent.trim();
+    let cookTimeStr = $(dom, '[itemprop="cookTime"]~.field').textContent.trim();
     let cookTimeMins = getMins(cookTimeStr);
 
     let totalMins = prepTimeMins + cookTimeMins;
@@ -92,19 +90,19 @@ const sbs = {
         ? `${totalHrs}hrs${totalMins % 60 > 0 ? ` ${totalMins % 60}mins` : ""}`
         : `${totalMins}mins`;
 
-    dom.querySelector('[itemprop="cookTime"]~.field').innerHTML = totalTimeStr;
+    $(dom, '[itemprop="cookTime"]~.field').innerHTML = totalTimeStr;
 
-    let method = dom.querySelector(".field-name-field-cooking-instructions");
+    let method = $(dom, ".field-name-field-cooking-instructions");
 
-    let steps = [...method.querySelectorAll("ol li, p")];
+    let steps = $$(method, "ol li, p");
     let hasLi = !!steps.filter((el) => el.tagName === "LI").length;
     hasLi &&
       ((steps = steps.filter((el) => el.tagName === "LI")),
-      method.querySelectorAll("p").forEach((p) => p.remove()),
-      (method = method.querySelector("ol")));
+      $$(method, "p").forEach((p) => p.remove()),
+      (method = $(method, "ol")));
     let strong, hasStrong, heading;
     for (let step of steps) {
-      strong = step.querySelector("strong");
+      strong = $(step, "strong");
       hasStrong = strong != null;
       if (!hasStrong) continue;
       heading = document.createElement("h4");

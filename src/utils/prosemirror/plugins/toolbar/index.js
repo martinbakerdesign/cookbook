@@ -1,4 +1,5 @@
 import { Plugin } from "prosemirror-state";
+import $ from "utils/dom/querySelector";
 
 class ToolbarView {
   constructor(items = [], editorView) {
@@ -10,7 +11,7 @@ class ToolbarView {
     this.dom = null;
   }
   init() {
-    this.dom = document.querySelector("#recipe__header__toolbar main");
+    this.dom = $("#recipe__header__toolbar main");
     for (let item of this.items) {
       item.init(this.editorView);
     }

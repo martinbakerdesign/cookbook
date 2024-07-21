@@ -1,12 +1,13 @@
 import { undoDepth } from "prosemirror-history";
 import { undo } from "prosemirror-history";
+import $ from "utils/dom/querySelector";
 
 class UndoButton {
   constructor() {
     this.command = undo;
   }
   init = function (view) {
-    this.dom = document.querySelector("#recipe__header__toolbar__undo");
+    this.dom = $("#recipe__header__toolbar__undo");
     this.view = view;
   }
   update = function (state) {

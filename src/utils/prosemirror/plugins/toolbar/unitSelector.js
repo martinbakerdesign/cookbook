@@ -7,6 +7,8 @@ import temperatureUnits from "data/units/temperature";
 import sortByPreferred from "utils/units/sortByPreferred";
 import { recipeNodeTypes } from "schemas/recipe";
 import RecipeFragment from "utils/recipes/fragment/RecipeFragment";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const usableUnits = {
   ...ingredientUnits,
@@ -58,11 +60,9 @@ class UnitSelector {
   // init
   init(view) {
     this.hasInit = true;
-    this.dom = document.querySelector("#recipe__header__toolbar__unit-select");
-    this.optionsList = this.dom.querySelector(
-      ".recipe__header__select__options"
-    );
-    this.button = this.dom.querySelector(".recipe__header__select__button");
+    this.dom = $("#recipe__header__toolbar__unit-select");
+    this.optionsList = $(this.dom, ".recipe__header__select__options");
+    this.button = $(this.dom, ".recipe__header__select__button");
     this.view = view;
 
     window.addEventListener("click", this.onClickOut);
@@ -210,9 +210,7 @@ class UnitSelector {
       index++;
     }
 
-    this.options = [
-      ...this.dom.querySelectorAll(".recipe__header__select__option"),
-    ];
+    this.options = $$(this.dom, ".recipe__header__select__option");
     this.addOptionListeners();
   }
   updateCurrent() {
@@ -228,12 +226,8 @@ class UnitSelector {
     );
   }
   updateButton() {
-    let abbrev = this.button.querySelector(
-        ".recipe__header__select__button__abbrev"
-      ),
-      label = this.button.querySelector(
-        ".recipe__header__select__button__label"
-      );
+    let abbrev = $(this.button, ".recipe__header__select__button__abbrev"),
+      label = $(this.button, ".recipe__header__select__button__label");
 
     this.button.disabled = this.unit == null;
 

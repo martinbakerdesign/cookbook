@@ -1,5 +1,7 @@
 import recipeSchema, { recipeNodeTypes } from "schemas/recipe";
 import { clamp } from "lodash";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const blockTypes = {
   ingredients: [
@@ -53,11 +55,12 @@ class BlockTypeSelector {
   // init
   init(view) {
     this.hasInit = true;
-    this.dom = document.querySelector("#recipe__header__toolbar__block-type");
-    this.optionsList = this.dom.querySelector(
-      ".recipe__header__select__options"
+    this.dom = $("#recipe__header__toolbar__block-type");
+    this.optionsList = $(
+      this.dom,
+      ".recipe__header__select__options",
     );
-    this.button = this.dom.querySelector(".recipe__header__select__button");
+    this.button = $(this.dom, ".recipe__header__select__button");
     this.view = view;
 
     this.optionIdPrefix = "block-type__";
@@ -163,9 +166,7 @@ class BlockTypeSelector {
       index++;
     }
 
-    this.options = [
-      ...this.dom.querySelectorAll(".recipe__header__select__option"),
-    ];
+    this.options = $$(this.dom, ".recipe__header__select__option");
     this.addOptionListeners();
   }
   updateCurrent() {
@@ -181,8 +182,9 @@ class BlockTypeSelector {
     );
   }
   updateButton() {
-    let label = this.button.querySelector(
-      ".recipe__header__select__button__label"
+    let label = $(
+      this.button,
+      ".recipe__header__select__button__label",
     );
     this.button.disabled = this.editorType == null;
 

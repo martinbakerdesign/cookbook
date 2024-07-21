@@ -1,5 +1,6 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
 
 const tasty = {
   name: {
@@ -73,8 +74,7 @@ const tasty = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    dom.querySelector(".servings-display").innerHTML = dom
-      .querySelector(".servings-display")
+    $(dom, ".servings-display").innerHTML = $(dom, ".servings-display")
       .textContent.replace("for ", "")
       .trim();
   },

@@ -1,5 +1,7 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const bonappetit = {
   name: {
@@ -73,8 +75,9 @@ const bonappetit = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let ingredientsContainer = dom.querySelector(
-      '[data-testid="IngredientList"] .List-Xtjuf'
+    let ingredientsContainer = $(
+      dom,
+      '[data-testid="IngredientList"] .List-Xtjuf',
     );
     let children = ingredientsContainer.children;
     let li, thisType, prevType;
@@ -96,7 +99,8 @@ const bonappetit = {
     for (let ingredient of ingredients) {
       ingredientsContainer.appendChild(ingredient);
     }
-    console.log(ingredientsContainer.querySelectorAll("li.ingredient"));
+
+    console.log($$(ingredientsContainer, "li.ingredient"));
   },
 };
 

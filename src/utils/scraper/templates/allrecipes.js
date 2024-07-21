@@ -1,6 +1,8 @@
 import { doc } from "firebase/firestore";
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const allrecipes = {
   name: {
@@ -80,9 +82,7 @@ const allrecipes = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let headers = [
-      ...dom.querySelectorAll(".recipe-info-section .recipe-meta-item-header"),
-    ];
+    let headers = $$(dom, ".recipe-info-section .recipe-meta-item-header");
     headers
       .filter((h) => h.textContent.toLowerCase().includes("total"))[0]
       .nextElementSibling.classList.add("duration--total");
@@ -90,7 +90,7 @@ const allrecipes = {
       .filter((h) => h.textContent.toLowerCase().includes("yield"))[0]
       .nextElementSibling.classList.add("yield");
 
-    let breadCrumbs = [...dom.querySelectorAll(".breadcrumbs__item")].filter(
+    let breadCrumbs = $$(dom, ".breadcrumbs__item").filter(
       (b) =>
         !b.className.includes("visually-hidden") &&
         b.textContent.trim() !== "Home" &&

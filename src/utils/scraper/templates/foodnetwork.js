@@ -1,5 +1,7 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const foodnetwork = {
   name: {
@@ -72,18 +74,16 @@ const foodnetwork = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    dom.querySelector(".o-Ingredients__a-Ingredient--SelectAll").remove();
-    // let headers = [
-    //   ...dom.querySelectorAll(".recipe-info-section .recipe-meta-item-header"),
-    // ];
+    $(dom, ".o-Ingredients__a-Ingredient--SelectAll").remove();
+    // let headers = $$(dom, ".recipe-info-section .recipe-meta-item-header");
     // headers
     //   .filter((h) => h.textContent.toLowerCase().includes("total"))[0]
     //   .nextElementSibling.classList.add("duration--total");
-    // console.log(dom.querySelector(".duration--total"));
+    // console.log($(dom, ".duration--total"));
     // headers
     //   .filter((h) => h.textContent.toLowerCase().includes("yield"))[0]
     //   .nextElementSibling.classList.add("yield");
-    // console.log(dom.querySelector(".yield"));
+    // console.log($(dom, ".yield"));
   },
 };
 

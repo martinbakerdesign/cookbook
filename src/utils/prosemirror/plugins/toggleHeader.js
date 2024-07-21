@@ -1,5 +1,6 @@
 import { Plugin } from "prosemirror-state";
 import iconDefs from "components/Icon/iconDefs";
+import $ from "utils/dom/querySelector";
 
 export function getHeaderTogglePlugin(items, View) {
   return new Plugin({
@@ -89,13 +90,9 @@ export function toggleBlockType(nodeTypes) {
 export function getOffset(view) {
   // let { selection } = view.state.tr;
   // let editorTop = view.dom.getBoundingClientRect().top ?? 0;
-  let editorHeader = view.dom
-    .closest(".recipe__editor")
-    .parentElement.querySelector(".header h2.header__heading");
+  let editorHeader = $(view.dom.closest('.recipe__editor').parentElement, ".header h2.header__heading");
   let headerBox = editorHeader.getBoundingClientRect();
   let { left, top, height } = headerBox;
-
-  console.log({ left, top, height, editorHeader });
 
   return [left, top + height * 0.5];
 
@@ -103,8 +100,9 @@ export function getOffset(view) {
   //   selection.$anchor.parent.attrs.index !== selection.$head.parent.attrs.index
   // )
   //   return;
-  // let node = view.dom?.querySelector(
-  //   `[data-index="${selection.$head.parent.attrs.index}"]`
+  // let node = $(
+  //   `[data-index="${selection.$head.parent.attrs.index}"]`,
+  //   view.dom
   // );
   // let nodeRect = node?.getBoundingClientRect() ?? { top: 0, height: 0 };
   // let nodeHeight = nodeRect.height;

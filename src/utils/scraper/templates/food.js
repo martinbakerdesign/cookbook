@@ -1,5 +1,6 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $$ from "utils/dom/querySelectorAll";
 
 const food = {
   name: {
@@ -72,7 +73,7 @@ const food = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let metaHeadings = [...dom.querySelectorAll(".facts__label")];
+    let metaHeadings = $$(dom, ".facts__label");
     let duration, amount;
     console.log(metaHeadings.map((m) => m.textContent));
     for (let heading of metaHeadings) {

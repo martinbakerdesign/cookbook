@@ -1,5 +1,7 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const thespruceeats = {
   name: {
@@ -79,7 +81,7 @@ const thespruceeats = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    for (let tag of [...dom.querySelectorAll(".tag-nav__link")]) {
+    for (let tag of $$(dom, ".tag-nav__link")) {
       tag.innerHTML = tag.textContent
         .replace("recipes", "")
         .replace("Recipes", "")

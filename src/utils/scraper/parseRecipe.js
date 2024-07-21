@@ -1,3 +1,6 @@
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
+
 function applyTransformations(src, transformations = []) {
   if (!transformations.length || !src || !src.length) return src;
 
@@ -56,12 +59,12 @@ function replaceNewLines(src) {
 function allDescendants(node, addFn) {
   let isHeader;
   for (const child of node.children) {
-    if (child.querySelector("a")) {
+    if ($(child, "a")) {
       for (const a of child.getElementsByTagName("a")) {
         a.parentElement.innerHTML = a.parentElement.textContent;
       }
     }
-    if (child.querySelector("span")) {
+    if ($(child, "span")) {
       for (const a of child.getElementsByTagName("span")) {
         a.parentElement.innerHTML = a.parentElement.textContent;
       }
@@ -102,23 +105,22 @@ function parseRecipe() {
       content.length && method.push({ isHeader, text: content });
   }
   let article =
-    document.querySelector("h1").closest("article") ??
-    document.querySelector("h1").closest("main") ??
+    $("h1").closest("article") ??
+    $("h1").closest("main") ??
     document.body;
 
   let shadowArticle = document.createElement("div");
   shadowArticle.innerHTML = article.innerHTML;
-  let images = Array.from(shadowArticle.querySelectorAll("img"))
+  let images = $$(shadowArticle, "img")
     .map((el) => el.src)
     .filter((src) => src.trim().length);
-  let videos = Array.from(shadowArticle.querySelectorAll("video, iframe"))
+  let videos = $$(shadowArticle, 'video, iframe')
     .map((el) =>
       el.tagName === "video" ? el.src : el.src.includes("youtu") ? el.src : null
     )
     .filter((v) => v != null);
-  Array.from(
-    shadowArticle.querySelectorAll("figure, img, input, video, button, svg")
-  ).forEach((el) => el.remove());
+  $$(shadowArticle, "figure, img, input, video, button, svg")
+    .forEach((el) => el.remove());
 
   for (const el of shadowArticle.getElementsByTagName("script")) {
     el.remove();
@@ -138,10 +140,10 @@ function parseRecipe() {
   for (const el of shadowArticle.getElementsByTagName("u")) {
     el.parentElement.innerHTML = el.parentElement.textContent;
   }
-  Array.from(shadowArticle.querySelectorAll("*")).forEach(
+  $$(shadowArticle, '*').forEach(
     (n) => window.getComputedStyle(n).display === "none" && console.log(n)
   );
-  Array.from(shadowArticle.querySelectorAll("*")).forEach(
+  $$(shadowArticle, '*').forEach(
     (n) =>
       (!cleanText(n.textContent).length ||
         window.getComputedStyle(n).display === "none") &&
@@ -149,19 +151,17 @@ function parseRecipe() {
   );
 
   let title =
-    article.querySelector("h1")?.textContent ??
-    document.querySelector("h1")?.textContent ??
+    $(article, "h1")?.textContent ??
+    $("h1")?.textContent ??
     document.title;
   title = title.replace(/recipe/i, "").trim();
   let dom = {
-    headings: Array.from(
-      shadowArticle.querySelectorAll('h2, h3, h4, h5, [role="heading"]')
-    ),
-    lists: Array.from(
-      shadowArticle.querySelectorAll(
-        'ol, ul, dl, [class*="ingredients" i], [class*="list" i], [class*="instruction" i], [class*="step" i], [class*="method" i]'
+    headings: $$(shadowArticle, "h2, h3, h4, h5, [role='heading']"),
+    lists: $$(
+      shadowArticle,
+        'ol, ul, dl, [class*="ingredients" i], [class*="list" i], [class*="instruction" i], [class*="step" i], [class*="method" i]',
       )
-    ).filter((l) => l.children.length),
+    .filter((l) => l.children.length),
   };
 
   let ingredients = [],
@@ -237,68 +237,62 @@ function parseRecipe() {
 
 const parsers = {
   seriousEats() {
-    const title = document.querySelector(".heading__title").textContent;
+    const title = $(".heading__title").textContent;
     const description =
-      document.querySelector(".heading__subtitle").textContent;
-    const ingredients = document.querySelector(".structured-ingredients")
-      ? Array.from(
-          document.querySelectorAll(
+      $(".heading__subtitle").textContent;
+    const ingredients = $(".structured-ingredients")
+      ? $$(
             ".structured-ingredients .structured-ingredients__list-heading, .structured-ingredients .structured-ingredients__list-item"
-          )
-        ).map((el) => ({
+          ).map((el) => ({
           type: el.className.includes("heading") ? "header" : "ingredient",
           text: parseIngredient(el.textContent),
         }))
-      : Array.from(document.querySelectorAll(".ingredient-list li")).map(
+      : $$(".ingredient-list li").map(
           (el) => ({
             type: "ingredient",
             text: parseIngredient(el.textContent),
           })
         );
-    const method = Array.from(
-      document.querySelectorAll(".mntl-sc-block-group--OL li")
-    )
+    const method = $$(".mntl-sc-block-group--OL li")
       .map((el) =>
-        el.querySelector("strong")
+        $(el, "strong")
           ? [
               {
                 type: "header",
                 text: parseMethod(
-                  el.querySelector("strong").textContent.replace(":", "")
+                  $(el, "strong").textContent.replace(":", "")
                 ),
               },
               {
                 type: "step",
                 text: parseMethod(
-                  el.querySelector("strong").nextSibling.textContent
+                  $(el, "strong").nextSibling.textContent
                 ),
               },
             ]
           : { type: "step", text: parseMethod(el.textContent) }
       )
       .flat();
-    const images = Array.from(
-      document.querySelectorAll("#article--structured-project_1-0 img")
-    )
+    const images = $$("#article--structured-project_1-0 img")
       .map((img) => img.src)
       ?.filter((src) => src.length);
-    const videos = Array.from(document.querySelectorAll(".inline-video video"))
+    const videos = $$(".inline-video video")
       .map((vid) => vid.src)
       ?.filter((src) => src.length);
-    const notes = Array.from(document.querySelectorAll("h2"))
+    const notes = $$("h2")
       .filter(
         (el) =>
           el.textContent.trim() === "Notes" ||
           el.textContent.trim() === "Make-Ahead and Storage"
       )
       .map((el) => cleanText(el.nextElementSibling.textContent)) ?? [];
-    const equipment = Array.from(document.querySelectorAll("h2"))
+    const equipment = $$("h2")
       .filter((el) => el.textContent.trim() === "Special equipment")
       .map((el) => cleanText(el.nextElementSibling.textContent))[0]
       ?.split(",")
       ?.map((str) => str.trim()) ?? [];
 
-    const tags = Array.from(document.querySelectorAll('.tag-nav__list li')).map((el) => replaceNewLines(el.textContent).trim())
+    const tags = $$('.tag-nav__list li').map((el) => replaceNewLines(el.textContent).trim())
 
     return {
       title,

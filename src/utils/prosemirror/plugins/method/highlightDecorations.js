@@ -2,6 +2,7 @@ import { Plugin } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import quantity from "utils/text/expressions/quantity";
 import units from "utils/text/expressions/units";
+import $ from "utils/dom/querySelector";
 
 let currentIndex;
 
@@ -11,9 +12,7 @@ function onClickOut(e) {
     e.target.closest(".unit")
   )
     return;
-  document
-    .querySelector("#method__translateunit")
-    .classList.remove("show");
+  $("#method__translateunit").classList.remove("show");
   window.removeEventListener("click", onClickOut);
   currentIndex = null;
 }
@@ -117,7 +116,7 @@ const highlightDecorationsPlugin = new Plugin({
     handleClickOn(view, pos, node, nodePos, event) {
       let { target } = event;
       let container = view.dom;
-      let tool = document.querySelector("#method__translateunit");
+      let tool = $("#method__translateunit");
       let targetIsUnit = target.className?.includes("unit") ?? false;
       let index = targetIsUnit
         ? target.closest("dd").dataset.index

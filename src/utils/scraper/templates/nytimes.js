@@ -1,5 +1,6 @@
 import { recipeNodeTypes } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
 
 const nytimes = {
   name: {
@@ -72,9 +73,7 @@ const nytimes = {
     // recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let nutrition = dom
-      .querySelector(".nutrition-container")
-      .closest(".recipe-ingredients");
+    let nutrition = $(dom, ".nutrition-container").closest(".recipe-ingredients");
     nutrition.remove();
   },
 };

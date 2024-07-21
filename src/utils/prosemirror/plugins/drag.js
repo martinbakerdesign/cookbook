@@ -1,5 +1,7 @@
 import { Plugin } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 export default new Plugin({
   state: {
@@ -78,9 +80,8 @@ function onDragOver(view, event) {
   return true;
 }
 function removeShadows() {
-  Array.from(
-    dragSrc.parentElement.querySelectorAll("h3, ingredient, dt, dd")
-  ).forEach((el) => el.style.removeProperty("box-shadow"));
+  $$(dragSrc.parentElement, "h3, ingredient, dt, dd")
+    .forEach((el) => el.style.removeProperty("box-shadow"));
 }
 function onDragEnd(view, event) {
   let { state } = view.state;
@@ -110,9 +111,7 @@ function onClickOut(e) {
     e.target.closest(".unit")
   )
     return;
-  document
-    .querySelector("#ingredients__translateunit")
-    .classList.remove("show");
+  $("#ingredients__translateunit").classList.remove("show");
   window.removeEventListener("click", onClickOut);
   currentIndex = null;
 }
