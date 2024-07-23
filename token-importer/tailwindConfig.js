@@ -4,7 +4,7 @@ const tailwindConfig = {
       current: "currentColor",
     },
     borderColor: {
-        DEFAULT: 'rgb(var(--border) / <alpha-value>)'
+      DEFAULT: 'rgb(var(--border) / <alpha-value>)'
     }
   };
 

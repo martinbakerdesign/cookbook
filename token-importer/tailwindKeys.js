@@ -20,7 +20,8 @@ export const spaceKeys = [
 ];
 export const textKeys = ["fontSize", "lineHeight", "letterSpacing", "fontWeight"];
 export const numberKeys = [...radiusKeys, ...spaceKeys, ...textKeys];
-export const allKeys = [...colorKeys, ...radiusKeys, ...spaceKeys, ...textKeys, ...numberKeys];
+export const compositeKeys = ['typography'];
+export const allKeys = [...colorKeys, ...radiusKeys, ...spaceKeys, ...textKeys, ...numberKeys, ...compositeKeys];
 
 const tailwindKeys = {
     color: colorKeys,
@@ -28,7 +29,8 @@ const tailwindKeys = {
     space: spaceKeys,
     text: textKeys,
     number: numberKeys,
-    all: allKeys
+    all: allKeys,
+    composite: compositeKeys
 }
 
 export default tailwindKeys;

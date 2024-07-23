@@ -64,7 +64,7 @@ export function processModeVariableObject(
         const formatter = propFormatters[varType];
 
         formatter?.setCSSValue(cssStyles, fullPath, value, mode);
-        formatter?.setTailwindValue(tailwindConfig, fullPath, value);
+        formatter?.setTailwindValue(tailwindConfig, fullPath, value, null, mode);
       } else {
         processModeVariableObject(
           cssStyles,
