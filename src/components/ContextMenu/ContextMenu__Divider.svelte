@@ -1,16 +1,5 @@
 <div
-  class="contextmenu__list__divider"
+  class="contextmenu__list__divider h-px bg-border my-4 mx-5"
   role="separator"
   aria-orientation="horizontal"
 />
-
-<style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-
-  .contextmenu__list__divider {
-    margin: s.$s2 0.625rem;
-    height: 1px;
-    background-color: var(--border);
-  }
-</style>

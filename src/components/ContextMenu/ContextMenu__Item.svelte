@@ -12,83 +12,25 @@
   };
 </script>
 
-<li class="contextmenu__list__item" role="menuitem">
-  <button type="button" tabindex={index + 1} {disabled} on:click={onClick}>
+<li
+  class="contextmenu__list__item"
+  role="menuitem"
+>
+  <button 
+    type="button"
+    tabindex={index + 1}
+    {disabled}
+    on:click={onClick}
+    class="flex relative pointer py-2 pl-14 pr-3 text-left w-full bg-transparent rounded-md border-0 leading-500 text-text-default fill-current focus-visible:bg-primary focus-visible:fill-white disabled:pointer-events-none disabled:opacity-25 hover:bg-primary hover:fill-current hover:text-text-inverted"
+  >
     {#if icon}
-      <Icon {...iconProps} />
+      <Icon {...iconProps} class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none user-select-none" />
     {/if}
     {label}
     {#if shortcut}
-      <span class="shortcut">
+      <span class="shortcut opacity-15 ml-auto pl-6">
         {shortcut}
       </span>
     {/if}
   </button>
 </li>
-
-<style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-
-  .contextmenu__list__item {
-    button {
-      // --fill: #8a8480;
-      --fill: #211e20;
-      --hover: #fff;
-      font-family: inherit;
-      padding: s.$s1 0;
-      padding-left: 1.75rem;
-      padding-right: 0.375rem;
-      display: flex;
-      text-align: left;
-      color: var(--text-primary);
-      width: 100%;
-      background-color: transparent;
-      border-radius: 0.25rem;
-      border: 0;
-      outline: 0;
-      line-height: 1.125rem;
-      font-size: inherit;
-      cursor: pointer;
-      position: relative;
-
-      .shortcut {
-        opacity: 0.15;
-        margin-left: auto;
-        padding-left: s.$s3;
-      }
-
-      @mixin focus {
-        background-color: c.$accent;
-        --fill: var(--white);
-
-        &,
-        .shortcut {
-          color: var(--white);
-        }
-      }
-
-      &:focus-visible {
-        @include focus;
-      }
-      @media (hover: hover) {
-        &:hover {
-          @include focus;
-        }
-      }
-      &:disabled {
-        pointer-events: none;
-        opacity: 0.25;
-      }
-    }
-  }
-
-  :global(.contextmenu__list__item .icon) {
-    position: absolute;
-    left: 0.375rem;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    user-select: none;
-  }
-</style>
