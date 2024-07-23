@@ -2,22 +2,6 @@
   export let hotkey = "";
 </script>
 
-<div class="hotkey">
+<div class="hotkey text-text-default py-2 px-4 rounded-md border-text-default inline-block border-px text-body-sm opacity-40 user-select-none pointer-events-none">
   {hotkey}
 </div>
-
-<style lang="scss">
-  @use "../../styles/sizes" as sizes;
-
-  .hotkey {
-    border: 1px solid var(--text-primary);
-    color: var(--text-primary);
-    padding: sizes.$s1 sizes.$s2;
-    border-radius: 0.5em;
-    display: inline-block;
-    font-size: 0.75rem;
-    user-select: none;
-    opacity: 0.65;
-    pointer-events: none;
-  }
-</style>
