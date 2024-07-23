@@ -122,6 +122,38 @@ function tailwindValueSetterFactory(ctx) {
         return tailwindConfig;
       };
     },
+    inheritSpacing: (ctx) => {
+      return (
+        tailwindConfig = {},
+        path = [],
+        { $value, $type },
+        tokenLevel = "base",
+        mode = null
+      ) => {
+        const tailwindKeyPath = getTailwindKeyPath(ctx.key, path)
+        const ref = ctx.getTailwindConfigRef(
+          tailwindConfig,
+          tailwindKeyPath
+        );
+
+        if (!ref) return tailwindConfig;
+
+        const $key = tailwindKeyPath.slice(-1).join("");
+
+        const isMode = null != mode;
+
+        const cssVarName = ctx.getCSSVarName(
+          isMode
+            ? path
+            : isRefValue($value) && tokenLevel === "base"
+              ? $value.replace(/[{}]/g, "").split(".")
+              : tailwindKeyPath
+        );
+        ref[$key] = `var(--${cssVarName})`;
+
+        return tailwindConfig;
+      };
+    },
     radius: (ctx) => {
       return (tailwindConfig = {}, path = []) => {
         const tailwindKeyPath = getTailwindKeyPath(ctx.key, path)
@@ -179,6 +211,8 @@ function tailwindValueSetterFactory(ctx) {
     return tailwindValueSetters.color(ctx);
   } else if (tailwindKeys.radius.includes(ctx.key)) {
     return tailwindValueSetters.radius(ctx);
+  } else if (tailwindKeys.inheritSpacing.includes(ctx.key)) {
+    return tailwindValueSetters.inheritSpacing(ctx)
   } else if (tailwindKeys.number.includes(ctx.key)) {
     return tailwindValueSetters.spacing(ctx);
   }

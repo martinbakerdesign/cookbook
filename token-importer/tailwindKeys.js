@@ -22,6 +22,7 @@ export const textKeys = ["fontSize", "lineHeight", "letterSpacing", "fontWeight"
 export const numberKeys = [...radiusKeys, ...spaceKeys, ...textKeys];
 export const compositeKeys = ['typography'];
 export const allKeys = [...colorKeys, ...radiusKeys, ...spaceKeys, ...textKeys, ...numberKeys, ...compositeKeys];
+export const inheritSpacingKeys = spaceKeys.filter((key) => key !== 'spacing');
 
 const tailwindKeys = {
     color: colorKeys,
@@ -30,6 +31,7 @@ const tailwindKeys = {
     text: textKeys,
     number: numberKeys,
     all: allKeys,
+    inheritSpacing: inheritSpacingKeys,
     composite: compositeKeys
 }
 
