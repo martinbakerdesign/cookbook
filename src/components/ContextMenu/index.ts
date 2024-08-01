@@ -6,6 +6,7 @@ import Divider from "./ContextMenu__Divider.svelte";
 export { default as Divider } from "./ContextMenu__Divider.svelte";
 
 import Item from "./ContextMenu__Item.svelte";
+import { recipeId } from "routes/Menu/Modals";
 export { default as Item } from "./ContextMenu__Item.svelte";
 
 export type ContextMenuItem = {
@@ -15,9 +16,9 @@ export type ContextMenuItem = {
   onClick?: Function,
 };
 
-let recipeId = "";
-export function setRecipeId($recipeId) {
-  recipeId = $recipeId;
+export function setRecipeId(show, $recipeId) {
+  if (!show) return;
+  recipeId.set($recipeId);
 }
 
 let hideContextCallback = () => {};

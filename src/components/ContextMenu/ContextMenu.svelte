@@ -3,12 +3,13 @@
 
   export let pos = [0, 0];
   export let show = false;
+  
   let defaultItems = []
   export {defaultItems as items};
   $: setItems(defaultItems);
   
   export let recipeId;
-  $: setRecipeId(recipeId);
+  $: setRecipeId(show, recipeId);
 
   export let hideContext = () => {};
   $: setHideContextCallback(hideContext)
