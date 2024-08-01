@@ -6,7 +6,9 @@
   export let role = "presentation";
   export let size = defaultSize;
   export let style: string|undefined = undefined;
-  export let style = "";
+
+  let className: string|undefined = undefined;
+  export {className as class}
 
   const viewBox = getViewbox(icon, size ?? defaultSize);
 
@@ -18,7 +20,7 @@
   viewBox={`0 0 ${viewBox} ${viewBox}`}
   width={size}
   height={size}
-  class="icon"
+  class="icon {className}"
   {role}
   aria-label={label}
   {style}
