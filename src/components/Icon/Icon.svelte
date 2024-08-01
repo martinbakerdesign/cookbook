@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import {getViewbox, defaultSize} from '.'
-  import "./Icon.scss";
 
-  export let icon = "";
-  export let label = "";
+  export let icon: string = "";
+  export let label: string|undefined = "";
   export let role = "presentation";
   export let size = defaultSize;
+  export let style: string|undefined = undefined;
   export let style = "";
 
   const viewBox = getViewbox(icon, size ?? defaultSize);
