@@ -21,10 +21,10 @@
     tabindex={index + 1}
     {disabled}
     on:click={onClick}
-    class="flex relative pointer py-2 pl-14 pr-3 text-left w-full bg-transparent rounded-md border-0 leading-500 text-text-default fill-current focus-visible:bg-primary focus-visible:fill-white disabled:pointer-events-none disabled:opacity-25 hover:bg-primary hover:fill-current hover:text-text-inverted"
+    class="flex relative pointer py-6 lg:py-2 pl-20 pr-3 text-left w-full text-body-sm rounded-1 border-0 text-text fill-icon disabled:pointer-events-none disabled:opacity-25 hover:bg-background-fill-accent hover:text-text-accent-on-fill hover:fill-icon-accent-on-fill"
   >
     {#if icon}
-      <Icon {...iconProps} class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none user-select-none" />
+      <Icon {...iconProps} class="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none user-select-none" />
     {/if}
     {label}
     {#if shortcut}

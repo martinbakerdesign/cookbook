@@ -12,15 +12,26 @@
 
   export let hideContext = () => {};
   $: setHideContextCallback(hideContext)
+
+  let width, height, vW, vH;
+
+  $: translateX = pos[0] - (pos[0] + width > vW ? width : 0);
+  $: translateY = pos[1] - (pos[1] + height > vH ? width : 0);
 </script>
 
-{#if show}
+<svelte:window bind:innerWidth={vW} bind:innerHeight={vH} />
+
+
   <div
-    class="contextmenu absolute top-0 left-0 rounded-md p-3 bg-bg-default min-w-max w-110 will-change-transform text-body-sm tracking-loose shadow-lg z-20"
-    style={`transform: translate3d(${pos[0]}px, ${pos[1]}px, 0);`}
+    class="absolute top-0 left-0 rounded-2 p-2 bg-bg-default min-w-max w-110 will-change-transform text-body-sm tracking-loose shadow-lg z-50 bg-background hidden [&[aria-hidden=false]]:block"
+    style={`transform: translate3d(${translateX}px, ${translateY}px, 0);`}
+    bind:clientWidth={width}
+    bind:clientHeight={height}
+    hidden={!show}
+    aria-hidden={!show}
   >
     <ul
-      class="contextmenu__list"
+      class="flex flex-col gap-y-1"
       role="menu"
       aria-orientation="vertical"
       dir="ltr"
@@ -34,4 +45,3 @@
       {/each}
     </ul>
   </div>
-{/if}
