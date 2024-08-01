@@ -92,5 +92,6 @@ function createSymbol(def, paths) {
 function createPath(d) {
   const path = document.createElementNS(xmlns, "path");
   path.setAttributeNS(null, "d", d);
+  path.setAttributeNS(null, "fill-rule", "evenodd");
   return path;
 }
