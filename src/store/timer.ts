@@ -2,7 +2,7 @@ import {
   updateProgressBar,
   updateToggleTime,
   alarm,
-  enableBrowserNotifications,
+  // enableBrowserNotifications,
 } from "components/Nav/Recipe/Timer";
 import Timer from 'components/Nav/Recipe/Timer/Timer';
 import { milliseconds } from "types";
@@ -60,7 +60,7 @@ const timer = new Timer(
 function onStart() {
   console.log("onStart");
 
-  enableBrowserNotifications();
+  // enableBrowserNotifications();
   dispatch(ACTIONS.PLAY);
 }
 function onPause() {

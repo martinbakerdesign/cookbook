@@ -200,14 +200,14 @@ function isRemoveKey(event) {
   return ["Backspace", "Delete"].includes(key);
 }
 
-let notiPermission = Notification ? Notification?.permission : "denied";
-function enableBrowserNotifications() {
-  if (Notification && notiPermission !== "granted") {
-    Notification.requestPermission().then((status) => {
-      notiPermission = status;
-    });
-  }
-}
+// let notiPermission = Notification ? Notification?.permission : "denied";
+// function enableBrowserNotifications() {
+//   if (Notification && notiPermission !== "granted") {
+//     Notification.requestPermission().then((status) => {
+//       notiPermission = status;
+//     });
+//   }
+// }
 function alarm() {
   if (notiPermission !== "granted") return;
 
@@ -331,5 +331,5 @@ export {
   updateToggleTime,
   updateProgressBar,
   alarm,
-  enableBrowserNotifications
+  // enableBrowserNotifications
 };
