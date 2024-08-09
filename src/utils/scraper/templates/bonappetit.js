@@ -1,5 +1,7 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const bonappetit = {
   name: {
@@ -26,12 +28,12 @@ const bonappetit = {
     selector: '[data-testid="IngredientList"] .List-Xtjuf',
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "h3",
         className: "SubHed-ieytQr",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "ingredient",
       },
@@ -43,13 +45,13 @@ const bonappetit = {
     // selector: "",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "",
         className: "InstructionGroupHed-hQJUKz",
         // selector: "",
       },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         // tag: "li",
         className: "InstructionBody-huDCkh",
         // selector: ".instructions-section-item .section-body",
@@ -61,7 +63,7 @@ const bonappetit = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,
@@ -73,8 +75,9 @@ const bonappetit = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    let ingredientsContainer = dom.querySelector(
-      '[data-testid="IngredientList"] .List-Xtjuf'
+    let ingredientsContainer = $(
+      dom,
+      '[data-testid="IngredientList"] .List-Xtjuf',
     );
     let children = ingredientsContainer.children;
     let li, thisType, prevType;
@@ -96,7 +99,8 @@ const bonappetit = {
     for (let ingredient of ingredients) {
       ingredientsContainer.appendChild(ingredient);
     }
-    console.log(ingredientsContainer.querySelectorAll("li.ingredient"));
+
+    console.log($$(ingredientsContainer, "li.ingredient"));
   },
 };
 

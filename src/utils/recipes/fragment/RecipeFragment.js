@@ -5,7 +5,10 @@ import unitRegexp from "utils/units/unitExpression";
 import cleanUpText from "utils/text/cleanUpText";
 import wordToNumber from "utils/text/wordToNumber";
 import replaceSlice from "utils/text/replaceSlice";
-import { stubString } from "lodash";
+import time from "data/units/time";
+import temperature from "data/units/temperature";
+import units, { unitsByType } from "data/units";
+import { UNIT_TEMPERATURE, UNIT_TIME } from "data/units/_types";
 
 const regExpAtoms = {
   range: "\\s?(?:to|-)\\s?",
@@ -168,7 +171,10 @@ class RecipeFragment {
   parse(text = "", startPos = 0) {
     if (!text || !text.length) return [];
 
-    let decorations = attachPos(startPos, findUnits(text, findValues(text)))
+    const decorations = attachPos(
+      startPos,
+      findUnits(text, findValues(text))
+    )
       .sort((a, b) => (a.pos < b.pos ? -1 : 1))
       .map((q) => new QuantityDeco(q));
 
@@ -187,6 +193,17 @@ class RecipeFragment {
   }
 }
 
+function getUnitType (unitStr) {
+  if (Object.keys(time).includes(unitStr)) {
+    return UNIT_TIME
+  }
+  if (Object.keys(temperature).includes(unitStr)) {
+    return UNIT_TEMPERATURE
+  }
+  
+  return null;
+}
+
 export default RecipeFragment;
 
 function attachPos(startPos = 0, matches) {
@@ -194,6 +211,7 @@ function attachPos(startPos = 0, matches) {
 
   for (let match of matches) {
     values.push({
+      ...match,
       quantityType: match.quantityType,
       // pos: startPos + str.indexOf(match.text),
       pos: startPos + match.pos,
@@ -203,6 +221,7 @@ function attachPos(startPos = 0, matches) {
       unitPos: match.unitPos != null ? match.unitPos : null,
       unitSize: match.unitSize,
       unitText: match.unitText,
+      unitType: match.unitType,
       value: match.value,
       quantityPos: match.quantityPos != null ? match.quantityPos : null,
       quantitySize: match.quantitySize,
@@ -217,7 +236,9 @@ function findUnits(str, srcValues) {
   let values = [];
   let unitValue;
 
-  for (let value of srcValues.sort((a, b) => (a.pos < b.pos ? -1 : 1))) {
+  const sortedByPos = srcValues.sort((a, b) => (a.pos < b.pos ? -1 : 1));
+
+  for (let value of sortedByPos) {
     unitValue = findValuedUnit(str, value);
     values.push(unitValue);
   }
@@ -243,6 +264,7 @@ function findValuedUnit(str, value) {
           unitSize: match.groups.unit.length,
           unitText: match.groups.unit,
           unit: match.groups.unit,
+          unitType: getUnitType(match.groups.unit),
           text: !isDeconstructed ? match[0] : value.text,
         }
       : value;
@@ -404,4 +426,9 @@ function getRangeProps(match, isRange) {
     rangePos,
     rangeSizes,
   };
+}
+
+
+export {
+  findValues
 }

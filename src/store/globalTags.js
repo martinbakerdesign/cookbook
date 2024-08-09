@@ -66,14 +66,24 @@ export default function globalTagsStore(init = []) {
 
     const idxs = uf.filter($tags, query);
 
-    const results = $tags.filter((tag, i) => idxs.includes(i));
+    const results = idxs ? $tags.filter((tag, i) => idxs.includes(i)) : [];
 
-    return results.sort((a, b) =>
-      removeEmojis(a).toLowerCase().indexOf(query.toLowerCase()) <
-      removeEmojis(b).toLowerCase().indexOf(query.toLowerCase())
-        ? -1
-        : 1
-    );
+    const sortFn = getSortByMatchIndexFn(query)
+    
+    const sorted = results.sort(sortFn);
+    
+    return sorted;
+  }
+  function getSortByMatchIndexFn (query) {
+    const getMatchIndex = getMatchIndexHelperFn(query);
+    return (a, b) => {
+      return getMatchIndex(a) - getMatchIndex(b)
+    }
+  }
+  function getMatchIndexHelperFn(query) {
+    return (result) => {
+      return removeEmojis(result).toLowerCase().indexOf(query.toLowerCase())
+    }
   }
 
   function findById(query = "") {

@@ -1,10 +1,14 @@
 import RecipeFragment from "utils/recipes/fragment/RecipeFragment";
 
-export default function scaleAmount(amount, scaleFactor) {
-  if (!amount || !amount.length) return "";
-  if (+scaleFactor === 1) return amount;
+function getText (amount) {
+  return amount?.text ?? amount;
+}
 
-  let fragment = new RecipeFragment(amount);
+export default function scaleAmount(amount, scaleFactor) {
+  if (!amount || !getText(amount).length) return "";
+  if (+scaleFactor === 1) return getText(amount);
+
+  const fragment = new RecipeFragment(getText(amount));
   if (!fragment.decorations.length) return amount;
 
   return fragment.scale(scaleFactor);

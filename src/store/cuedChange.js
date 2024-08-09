@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import { scaleFactor } from "./index";
+import { scaleFactor } from "store/index";
 import scaleRecipe from "utils/recipes/scale";
 
 export default function cuedChangeStore() {

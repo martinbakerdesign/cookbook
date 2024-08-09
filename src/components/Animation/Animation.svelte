@@ -1,34 +1,17 @@
 <script>
-  import { onDestroy, onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import animDefs from "./animDefs";
+  import { onDestroy } from "svelte";
+  import { animFrames, getViewbox, start, cleanup, frame } from '.'
 
   export let animation = "";
   export let fps = 12;
   export let size = 64;
   export let fill = "#000";
-  const viewbox = animation.includes("--")
-    ? animation.split("--")[animation.split("--").length - 1]
-    : 64;
-  const frames = animDefs[animation] ?? null;
-  let it = 0;
-  let interval;
-  const frame = writable(frames[it]);
 
-  onMount(() => {
-    if (frames) {
-      interval = setInterval(onInterval, 1000 / fps);
-    }
-  });
-  onDestroy(() => {
-    clearInterval(interval);
-    interval = null;
-  });
+  $: viewbox = getViewbox(animation);
+  $: frames = animFrames[animation] ?? null;
+  $: start(frames, fps);
 
-  function onInterval() {
-    it = (it + 1) % frames.length;
-    frame.set(frames[it]);
-  }
+  onDestroy(cleanup);
 </script>
 
 <svg

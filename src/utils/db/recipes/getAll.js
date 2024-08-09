@@ -19,18 +19,6 @@ export default async function getAllRecipes(userId) {
       editable: r.author === userId,
     }))
 
-    console.log({results})
-
-    // let results = await db
-    //   .collection("recipes")
-    //   .where("author", "==", userId)
-    //   .get()
-    //   .then((snapshot) => {
-    //     let r = [];
-    //     snapshot.forEach((doc) => r.push({ ...doc.data(), id: doc.id }));
-    //     return r;
-    //   });
-
     return results;
   } catch (err) {
     console.error(err);

@@ -1,4 +1,4 @@
-import { storage } from "store/
+import { localStorage } from "store/
 
 export default async function autosave(recipe) {
   try {
@@ -16,7 +16,7 @@ export default async function autosave(recipe) {
 // Store latest version in localstorage
 
 function saveToLocal(recipe) {
-  let recipes = JSON.parse(storage.get("recipes"));
+  let recipes = JSON.parse(localStorage.get("recipes"));
 
   if (recipes.find((r) => r.id === recipe.id)) {
     recipes = recipes.map((r) => (r.id === recipe.id ? recipe : r));
@@ -24,5 +24,5 @@ function saveToLocal(recipe) {
     recipes = [...recipes, recipe];
   }
 
-  storage.set("recipes", recipes);
+  localStorage.set("recipes", recipes);
 }

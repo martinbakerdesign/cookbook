@@ -1,5 +1,5 @@
 import parseIngredient from "utils/text/parseIngredient";
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 
 const seriouseats = {
   name: {
@@ -25,12 +25,12 @@ const seriouseats = {
     className: "structured-ingredients",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "",
         className: "structured-ingredients__list-heading",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "structured-ingredients__list-item",
       },
@@ -42,13 +42,13 @@ const seriouseats = {
     // className: "",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "",
         // className: "",
         selector: ".mntl-sc-block-html strong",
       },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         // tag: "",
         className: "mntl-sc-block-html",
       },
@@ -67,7 +67,7 @@ const seriouseats = {
     let parsed, ingredient;
     for (let i in recipe.ingredients) {
       ingredient = recipe.ingredients[i];
-      if (ingredient.type === recipeNodeTypes.HEADER) continue;
+      if (ingredient.type === NODES.HEADER) continue;
       parsed = parseIngredient(ingredient.text);
       recipe.ingredients[i] = {
         ...ingredient,
@@ -81,7 +81,7 @@ const seriouseats = {
       step = recipe.method[m];
       nextStep = m < recipe.method.length - 1 ? recipe.method[m + 1] : null;
 
-      if (nextStep && nextStep.type === recipeNodeTypes.HEADER) {
+      if (nextStep && nextStep.type === NODES.HEADER) {
         method.push({ ...nextStep, text: nextStep.text.trim().slice(0, -1) });
         method.push({
           ...step,

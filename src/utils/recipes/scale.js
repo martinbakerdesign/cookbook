@@ -1,10 +1,10 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import scaleAmount from "utils/text/scaleAmount";
 import RecipeFragment from "./fragment/RecipeFragment";
 
 let scaled;
 
-const fragmentTypes = [recipeNodeTypes.INGREDIENT, recipeNodeTypes.STEP];
+const fragmentTypes = [NODES.INGREDIENT, NODES.STEP];
 
 export default function scaleRecipe(recipe = null, scaleFactor = 1) {
   if (!recipe || !Object.keys(recipe).length || scaleFactor === 1)

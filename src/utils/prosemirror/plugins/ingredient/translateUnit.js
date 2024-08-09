@@ -6,6 +6,7 @@ import { unitsByType } from "data/units";
 import convertUnit from "utils/units/convert";
 import pluralize from "pluralize";
 import limitFloat from "utils/math/limitFloat";
+import $ from "utils/dom/querySelector";
 
 const unitKeys = Object.keys(ingredientUnits).sort((a, b) =>
   a.length < b.length ? 1 : -1
@@ -114,7 +115,7 @@ function translateOptions() {
 
 // Helper functions
 function updateTranslationOptions(unit) {
-  const list = document.querySelector("#ingredients__translateunit__list");
+  const list = $("#ingredients__translateunit__list");
 
   list.innerHTML = "";
   let units = unitsByType[unit.type];
@@ -142,9 +143,7 @@ function updateTranslationOptions(unit) {
   list.dataset.unitType = unit.title;
 }
 function hideTranslate() {
-  document
-    .querySelector("#ingredients__translateunit")
-    .classList.remove("show");
+  $("#ingredients__translateunit").classList.remove("show");
 }
 function translateIngredient(
   state,

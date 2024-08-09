@@ -1,5 +1,7 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
+import $ from "utils/dom/querySelector";
+import $$ from "utils/dom/querySelectorAll";
 
 const foodnetwork = {
   name: {
@@ -25,12 +27,12 @@ const foodnetwork = {
     className: "o-Ingredients__m-Body",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         tag: "h3",
         // className: "structured-ingredients__list-heading",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "o-Ingredients__a-Ingredient--CheckboxLabel",
       },
@@ -42,13 +44,13 @@ const foodnetwork = {
     selector: ".o-Method__m-Body>ol",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   // className: "",
       //   selector: ".mntl-sc-block-html strong",
       // },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         tag: "li",
         // className: "",
         // selector: ".instructions-section-item .section-body",
@@ -60,7 +62,7 @@ const foodnetwork = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,
@@ -72,18 +74,16 @@ const foodnetwork = {
     recipe.method = reorderMethod(recipe);
   },
   prepare(dom) {
-    dom.querySelector(".o-Ingredients__a-Ingredient--SelectAll").remove();
-    // let headers = [
-    //   ...dom.querySelectorAll(".recipe-info-section .recipe-meta-item-header"),
-    // ];
+    $(dom, ".o-Ingredients__a-Ingredient--SelectAll").remove();
+    // let headers = $$(dom, ".recipe-info-section .recipe-meta-item-header");
     // headers
     //   .filter((h) => h.textContent.toLowerCase().includes("total"))[0]
     //   .nextElementSibling.classList.add("duration--total");
-    // console.log(dom.querySelector(".duration--total"));
+    // console.log($(dom, ".duration--total"));
     // headers
     //   .filter((h) => h.textContent.toLowerCase().includes("yield"))[0]
     //   .nextElementSibling.classList.add("yield");
-    // console.log(dom.querySelector(".yield"));
+    // console.log($(dom, ".yield"));
   },
 };
 

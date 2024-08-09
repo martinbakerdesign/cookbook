@@ -1,8 +1,8 @@
 export default function timestampToDate(sortKey, created, last_edited) {
   let timestamp =
-    sortKey === "created"
+    sortKey === "date-created"
       ? created
-      : sortKey === "last_edited"
+      : sortKey === "date-edited"
       ? last_edited ?? created
       : last_edited ?? created;
   if (!timestamp) return null;

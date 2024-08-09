@@ -1,5 +1,4 @@
 export default function dateToRecencyString(src) {
-  if (!src) console.log(src);
   if (!src) return null;
   let now = Date.now();
   let timeSince = now - src;

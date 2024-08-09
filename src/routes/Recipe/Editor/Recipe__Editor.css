@@ -1,0 +1,40 @@
+#recipe__editor [contenteditable] {
+    @apply outline-none;
+  }
+
+  #recipe__editor section:before {
+    content: attr(data-title);
+    @apply text-body-xs uppercase leading-[0.625rem] text-text-secondary mb-10 block tracking-[0.08em] font-medium select-none pointer-events-none;
+  }
+
+  [data-section=METHOD] {
+    counter-reset: method;
+  }
+  [data-type=STEP] {
+    @apply relative;
+  }
+  [data-type=STEP]:after {
+    content: counter(method);
+    counter-increment: method;
+    @apply absolute inline-block text-heading-sm top-0 left-0;
+  }
+
+  .empty.has-focus:before {
+    content: attr(data-placeholder);
+    @apply text-text-secondary pointer-events-none float-left h-0 w-full;
+  }
+
+  .quantity {
+    @apply text-accent font-medium;
+  }
+  /* .quantity:before {
+    content: '';
+    @apply rounded-[999px] bg-background-fill-subtle -left-4 -right-4 -top-px -bottom-px absolute -z-[1];
+  } */
+  /* #recipe__editor:not(.can-edit) .timer-button + .quantity[data-unit=UNIT_TIME] {
+    @apply mr-2;
+  } */
+
+  .timer-button {
+    @apply inline-block aspect-square w-6 h-6 mx-2 ;
+  }

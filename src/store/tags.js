@@ -7,6 +7,7 @@ function tagsStore(initial = []) {
 
   async function add(name) {
     try {
+      if (!name) return;
       if (get(tags).includes(name)) return;
       if (!globalTags.exists(name)) await globalTags.add(name);
     } catch (err) {
@@ -16,6 +17,7 @@ function tagsStore(initial = []) {
     }
   }
   function remove(name) {
+    if (!name) return;
     update((t) => t.filter((tag) => tag !== name));
   }
 

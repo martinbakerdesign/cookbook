@@ -47,16 +47,8 @@ body.dark {
   }
 }
 
-html {
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-origin: content-box;
-}
-
 html,
 body {
-  @include typodefault;
   color: var(--text-primary);
 
   article {

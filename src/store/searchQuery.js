@@ -1,28 +1,25 @@
 import { get, writable } from "svelte/store";
 import { globalTags } from "./index";
+import {addTagToList, removeTagFromList} from "utils/tags";
 
 export const tagSuggestions = writable([]);
 export const suggestion = writable(0);
 
 function searchQueryStore() {
-  const searchQuery = writable({
+  const store = writable({
     query: "",
     tags: [],
   });
-  const { set: _set, update, subscribe } = searchQuery;
+  const { set: _set, update, subscribe } = store;
 
-  function set(query) {
-    let { tags } = get(searchQuery);
-    update((s) => ({ ...s, query }));
-    tagSuggestions.set(
-      !query.length
-        ? []
-        : globalTags
-            .find(query)
-            .filter((t) => !tags.map(({ id }) => id).includes(t.id))
-    );
+  function set($query) {
+    update((s) => ({ ...s, query: $query }));
+
+
+    tagSuggestions.set(getSuggestions($query));
     suggestion.set(0);
   }
+
   function clear() {
     _set({ query: "", tags: [] });
     tagSuggestions.set([]);
@@ -30,27 +27,43 @@ function searchQueryStore() {
   }
 
   function addTag(tag) {
-    update((s) => ({ ...s, query: "", tags: [...s.tags, tag] }));
+    const {tags :$tags} = get(store);
+    const tags = addTagToList($tags, tag);
+    update((s) => ({ ...s, query: "", tags  }));
+
     tagSuggestions.set([]);
     suggestion.set(0);
   }
+
+  /**
+   *
+   * @param {null|string} tag Passing a string will remove the tag that matches the string,
+   * otherwise passing null will remove the last tag in the store's tag list
+   */
   function removeTag(tag = null) {
-    let last = get(searchQuery).tags.length - 1;
-    update((s) => ({
-      ...s,
-      tags: s.tags.filter((t, i) => (t != null ? t !== tag : i !== last)),
-    }));
-    let query = get(searchQuery).query;
-    tagSuggestions.set(
-      !query.length
-        ? []
-        : globalTags
-            .find(query)
-            .filter(
-              (t) =>
-                !get(searchQuery).tags.filter((tt) => tt !== tag).length
-            )
+    const $store = get(store);
+    const { query: $query, tags: $tags } = $store;
+
+    const tags = removeTagFromList($tags, tag);
+    update((s) => ({ ...s, tags }));
+
+    tagSuggestions.set(getSuggestions($query));
+    suggestion.set(0)
+  }
+
+  function queryGlobalTags($query) {
+    const hasQuery = $query && !!$query.length;
+    return hasQuery ? globalTags.find($query) : [];
+  }
+
+  function getSuggestions($query) {
+    const { tags: $tags } = get(store);
+
+    const $suggestions = queryGlobalTags($query).filter(
+      (tag) => !$tags.includes(tag)
     );
+
+    return $suggestions;
   }
 
   return {
