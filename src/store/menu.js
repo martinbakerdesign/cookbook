@@ -1,63 +1,26 @@
-import { get, writable } from "svelte/store";
-import { location, querystring } from "svelte-spa-router";
+import { writable } from "svelte/store";
 import { localStorage } from "store/";
+import menuFilters from "constants/menu__filters";
 
-const sortKey = "menu__list--sort";
-const authorKey = "menu__list--author";
+const authorFilterStore = getMenuFilterStore(menuFilters.author);
+const sortKeyFilterStore = getMenuFilterStore(menuFilters.sortKey);
+const sortOrderFilterStore = getMenuFilterStore(menuFilters.sortOrder);
 
-export const sortingOptions = [
-  { value: 0, label: "Created recently", key: "created", dir: "DESC" },
-  {
-    value: 1,
-    label: "Edited recently",
-    key: "last_edited",
-    dir: "DESC",
-  },
-];
-
-export const authorOptions = [
-  { value: 0, label: "Created by anyone", key: "anyone" },
-  {
-    value: 1,
-    label: "Created by me",
-    key: "by_me",
-  },
-  {
-    value: 2,
-    label: "Not created by me",
-    key: "not_by_me",
-  },
-];
-
-function menuSelectionStore(init, key = "") {
-  const { set: _set, update, subscribe } = writable(+init);
-
-  function set(newVal) {
-    localStorage.set(key, +newVal);
-    _set(+newVal);
+function getMenuFilterStore ({key, items}) {
+  const store = writable('');
+  const initValue = localStorage.get(key) ?? items[0].value;
+  function set ($value) {
+    store.set($value)
+    localStorage.set(key, $value)
   }
+
+  set(initValue);
+
   return {
-    subscribe,
-    set,
-  };
+    ...store,
+    set
+  }
 }
-
-let sortingSelectionInStorage = localStorage.get(sortKey) ?? 0;
-let authorSelectionInStorage = localStorage.get(authorKey) ?? 0;
-
-sortingSelectionInStorage == null &&
-  ((sortingSelectionInStorage = 0),
-  localStorage.set(sortKey, sortingSelectionInStorage));
-authorSelectionInStorage == null &&
-  ((authorSelectionInStorage = 0),
-  localStorage.set(authorKey, authorSelectionInStorage));
-
-export const sortingSelection = menuSelectionStore(
-  sortingSelectionInStorage, sortKey
-);
-export const authorSelection = menuSelectionStore(
-  authorSelectionInStorage, authorKey
-);
 
 function scrollStore() {
   const scrollY = writable(0);
@@ -83,4 +46,12 @@ function scrollStore() {
     set,
   };
 }
-export const scrollY = scrollStore();
+const scrollY = scrollStore();
+
+
+export {
+  authorFilterStore as author,
+  sortKeyFilterStore as sortKey,
+  sortOrderFilterStore as sortOrder,
+  scrollY
+}

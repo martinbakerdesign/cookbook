@@ -1,7 +1,7 @@
 <script>
   import { loading } from "store/index";
   import {Servings, Duration, Tags, SaveStatus} from '.'
-  import {readonly} from 'routes/Recipe'
+  import {readonly} from 'store/recipe'
 </script>
 
 <div id="recipe__header__meta" class:loading={$loading}>

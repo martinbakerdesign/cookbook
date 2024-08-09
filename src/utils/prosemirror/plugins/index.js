@@ -16,6 +16,8 @@ import blockTypeSelector from "./toolbar/blockType";
 import undoButton from "./toolbar/undoButton";
 import redoButton from "./toolbar/redoButton";
 import unitSelector from "./toolbar/unitSelector";
+import degreesButton from "./toolbar/degreesButton";
+import setFocusClassname from "./setFocusClassname";
 // import contextMenuPlugin from "./contextMenu";
 // import { getContextItemButton, toggleBlockType } from "./toggleHeader";
 // import ingredientsSchema from "schemas/ingredient";
@@ -24,16 +26,21 @@ import unitSelector from "./toolbar/unitSelector";
 function plugins() {
   let isAuthor = get(isUserAuthor);
 
+  const toolbar = isAuthor
+    ? toolbarPlugin([
+        undoButton,
+        redoButton,
+        degreesButton,
+        blockTypeSelector,
+        // unitSelector,
+      ])
+    : null;
+
   return isAuthor
     ? [
         keymapping,
-        placeholder,
-        toolbarPlugin([
-          undoButton,
-          redoButton,
-          blockTypeSelector,
-          unitSelector,
-        ]),
+        // placeholder,
+        toolbar,
         // contextMenuPlugin(
         //   [
         //     {
@@ -55,6 +62,7 @@ function plugins() {
         // ),
         // translateUnit(),
         highlightDecorations,
+        setFocusClassname,
         // drag,
         history(),
       ]

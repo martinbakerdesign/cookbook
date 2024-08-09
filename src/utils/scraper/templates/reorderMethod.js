@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 
 export default function reorderMethod(recipe) {
   let method = [];
@@ -7,7 +7,7 @@ export default function reorderMethod(recipe) {
     step = recipe.method[m];
     nextStep = m < recipe.method.length - 1 ? recipe.method[m + 1] : null;
 
-    if (nextStep && nextStep.type === recipeNodeTypes.HEADER) {
+    if (nextStep && nextStep.type === NODES.HEADER) {
       method.push({ ...nextStep, text: nextStep.text.trim().slice(0, -1) });
       method.push({
         ...step,

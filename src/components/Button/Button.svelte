@@ -26,7 +26,8 @@
     variant,
     size,
     className,
-    isIcon
+    isIcon,
+    animation,
   });
   $: contentClassname = contentVariants({
     size,
@@ -43,9 +44,13 @@
   export let isIcon
   // : $$Props["isIcon"]
   = false;
+  export let animation
+  // : $$Props["variant"]
+  = "none";
   export let builders
   // : $$Props["builders"]
   = [];
+  export let label = '';
 </script>
 
 <ButtonPrimitive.Root
@@ -55,6 +60,7 @@
   {...$$restProps}
   on:click
   on:keydown
+  aria-label={label}
 >
 {#if showPrefix}
   <span

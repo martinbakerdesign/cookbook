@@ -1,6 +1,6 @@
 <script>
   import { tags } from "store";
-  import {readonly} from 'routes/Recipe'
+  import {readonly} from 'store/recipe'
   import {value, setRef, focus, suggestions, selectedSuggestion, onChange, onKeydown, toggleFocus, addTag, removeTag} from '.'
 </script>
 

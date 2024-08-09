@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
 
@@ -26,13 +26,13 @@ const nytimes = {
     className: "recipe-ingredients-wrap",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "",
         // className: "structured-ingredients__list-heading",
         selector: ".part-name",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "li",
         // className: "structured-ingredients__list-item",
         selector: ".recipe-ingredients li",
@@ -44,13 +44,13 @@ const nytimes = {
     className: "recipe-steps",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   // className: "",
       //   selector: ".mntl-sc-block-html strong",
       // },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         tag: "li",
         // className: "",
         // selector: ".mntl-sc-block-group--LI .mntl-sc-block-html",
@@ -62,7 +62,7 @@ const nytimes = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,

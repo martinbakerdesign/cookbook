@@ -1,56 +1,17 @@
 <script>
   import { loading } from "store";
-  import { onDestroy, onMount } from "svelte";
-  import { cleanup, mountEditor } from "routes/Recipe";
-  import { setRef } from "store/recipe";
+  import { onMount } from "svelte";
+  import { init, mountEditor } from "routes/Recipe";
+  import {canEdit} from 'store/recipe'
+  import './Recipe__Editor.css'
 
-  import "./MainSection.scss";
-  import "./Ingredients.scss";
-  import "./Method.scss";
-  import "./Editor.scss";
-
-  const sections = [
-    {
-      key: "notes",
-      heading: "Notes",
-    },
-    {
-      key: "ingredients",
-      heading: "Ingredients",
-    },
-    {
-      key: "miseenplace",
-      heading: "Mise En Place",
-    },
-    {
-      key: "method",
-      heading: "Method",
-    },
-  ];
-
-  // onMount();
-  onDestroy(cleanup);
+  onMount(init)
 </script>
 
 <div
   id="recipe__editor"
+  class="block whitespace-pre-wrap text-body-lg"
   class:loading={$loading}
+  class:can-edit={$canEdit}
   use:mountEditor
->
-  <!-- {#each sections as {key, heading}}
-    <h2 data-section={key}>{heading}</h2>
-  {/each} -->
-</div>
-
-<style lang="scss">
-  @use "../../../styles/sizes" as s;
-  @use "../../../styles/colours" as c;
-  @import "../../../styles/typo.scss";
-
-  #recipe__editor {
-    white-space: pre-wrap;
-    display: block;
-    height: 100vh;
-    overflow: hidden;
-  }
-</style>
+/>

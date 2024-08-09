@@ -1,91 +1,44 @@
 <script>
-  import { onDestroy, onMount } from "svelte";
-  import {show, refs, toggleAutofocus, onClickOut, setAttributes, cleanup} from '.'
-  import { registerModal } from "store/modals";
-
-  import "./Modal.scss";
+  import { onMount } from "svelte";
+  import {useModal} from '.'
 
   export let id = "";
 
-  let showInitially = false;
-  export {showInitially as show};
-  $: show.set(showInitially);
-
+  const {
+    show,
+    //
+    init,
+    toggleAutofocus,
+    onClickOut,
+    builder
+  } = useModal(id);
+  
+  onMount(init);
+  
   export let autofocus = false;
   $: toggleAutofocus(autofocus);
-
-  onMount(() => {
-    registerModal(refs.modal, showInitially);
-  })
-  onDestroy(cleanup);  
+  
+  $: hidden = !$show;
 </script>
 
 <div
-  bind:this={refs.bg}
-  class="modal__bg"
-  aria-hidden={!$show}
-  on:click={onClickOut}
+  class="z-50 fixed inset-0 bg-background-surface-backdrop [&[aria-hidden=true]]:opacity-0 [&[aria-hidden=true]]:pointer-events-none backdrop-blur-lg"
+  aria-hidden={hidden}
 />
+
 <div
   {id}
-  class="modal"
-  use:setAttributes
-  aria-hidden={!$show}
-  hidden={!$show}
+  class="fixed flex justify-center items-center inset-0 overflow-hidden z-50 [&[aria-hidden=true]]:opacity-0 [&[aria-hidden=true]]:pointer-events-none"
+  use:builder
+  aria-hidden={hidden}
+  hidden={hidden}
   on:click={onClickOut}
-  bind:this={refs.modal}
 >
-  <slot />
+  <slot/>
 </div>
+
 <span
-  class="modal__focusguard"
-  tabindex={!$show ? -1 : 0}
-  aria-hidden={!$show}
+  class="outline-none opacity-0 fixed z-50"
+  tabindex={hidden ? -1 : 0}
+  aria-hidden={hidden}
 />
-
-<style lang="scss">
-  @use "../../styles/sizes" as s;
-  @use "../../styles/colours" as c;
-  @use "../../styles/layers" as l;
-
-  .modal {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-
-    &,
-    &__bg {
-      z-index: l.$modal;
-    }
-
-    &__bg {
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--bg-primary);
-      opacity: 0.95;
-      position: fixed;
-      inset: 0px;
-    }
-    &__focusguard {
-      outline: none;
-      opacity: 0;
-      position: fixed;
-    }
-
-    &,
-    &__bg,
-    &__focusguard {
-      &[aria-hidden="true"] {
-        opacity: 0;
-        pointer-events: none;
-      }
-    }
-  }
-</style>

@@ -1,11 +1,12 @@
 import figmaVariables from './figmaVariables.js';
 
 /** @type {import('tailwindcss').Config} */
-export default {
+const tailwindConfig = {
   content: [
     "./index.html",
     "./src/**/*.{svelte,js,ts,jsx,tsx,css}",
   ],
+  darkMode: 'selector', // or 'media'
   theme: {
     fontFamily: {
       sans: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", "Helvetica Neue", sans-serif'
@@ -14,4 +15,6 @@ export default {
   },
   plugins: [],
 }
+
+export default tailwindConfig;
 

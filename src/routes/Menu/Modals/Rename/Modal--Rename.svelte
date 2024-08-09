@@ -1,33 +1,57 @@
 <script>
-  import Modal from "components/Modal/Modal.svelte";
-  import { onDestroy, onMount } from "svelte";
-  import {showRenameModal} from '..'
-  import {cleanup, value, onPointerDown, cancel, saving, renameRecipe, refs, init} from '.'
+  import Modal, { Content, Title, Actions } from "components/Modal";
+  import { onMount } from "svelte";
+  import {
+    value,
+    onPointerDown,
+    cancel,
+    saving,
+    renameRecipe,
+    refs,
+    init,
+    id,
+  } from ".";
+  import Button from "components/Button";
 
-  $: saveButtonLabel = ['OK', 'Saving ...'][+$saving];
+  $: saveButtonLabel = ["OK", "Saving ..."][+$saving];
 
-  onMount(init)
-  onDestroy(cleanup);
+  onMount(init);
 </script>
 
-<Modal show={$showRenameModal} autofocus={true}>
-  <div class="menu__recipes__item__rename menu__recipes__item__modal">
-    <h2 class="menu__recipes__item__modal__heading">Rename recipe</h2>
+<Modal
+  autofocus={true}
+  {id}
+>
+  <Content>
+    <Title slot="header">Rename Recipe</Title>
     <input
       type="text"
       bind:this={refs.input}
-      class="menu__recipes__item__modal__input"
+      class="bg-background-fill-subtle hover:bg-background-fill-subtle-hover active:bg-background-fill-subtle-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 w-full outline-none h-20"
       placeholder="My Recipe"
       bind:value={$value}
       on:pointerdown={onPointerDown}
     />
-    <div class="menu__recipes__item__modal__actions">
-      <button type="button" on:click={cancel} disabled={$saving}>Cancel</button>
-      <button type="button" on:click={renameRecipe} disabled={$saving}>
-        {saveButtonLabel}
-      </button>
-    </div>
-  </div>
+
+    <Actions slot="footer">
+      <Button
+        type="button"
+        on:click={cancel}
+        disabled={$saving}
+        variant="secondary"
+        size="lg"
+        class="flex-1">Cancel</Button
+      >
+      <Button
+        type="button"
+        on:click={renameRecipe}
+        disabled={$saving}
+        variant="accent"
+        size="lg"
+        class="flex-1">{saveButtonLabel}</Button
+      >
+    </Actions>
+  </Content>
 </Modal>
 
 <style lang="scss">

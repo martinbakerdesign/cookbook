@@ -1,7 +1,7 @@
 <script>
   import AutosizeTextarea from "components/Inputs/AutosizeTextarea";
   import { loading, description } from "store/";
-  import {readonly} from 'routes/Recipe'
+  import {readonly} from 'store/recipe'
 
   let ref, empty;
 

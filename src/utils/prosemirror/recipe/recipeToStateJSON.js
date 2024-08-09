@@ -1,18 +1,18 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import cleanUpText from "utils/text/cleanUpText";
 
 export default function recipeToStateJSON(recipe) {
-  let doc = {
+  const doc = {
     type: "doc",
     content: [],
   };
   let node, type, ingredient, step;
 
-  let ingredients = {
-    type: recipeNodeTypes.INGREDIENTS,
+  const ingredients = {
+    type: NODES.INGREDIENTS,
     content: [
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         attrs: { index: 0 },
         content: [
           // {
@@ -23,27 +23,42 @@ export default function recipeToStateJSON(recipe) {
       },
     ],
   };
-  let method = {
-    type: recipeNodeTypes.METHOD,
+  const mise_en_place = {
+    type: NODES.MISE_EN_PLACE,
     content: [
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.INGREDIENT,
         attrs: { index: 0 },
-        content: [
-          // {
-          //   type: "text",
-          //   text: "Step",
-          // },
-        ],
+        content: [],
+      },
+    ],
+  }
+  const method = {
+    type: NODES.METHOD,
+    content: [
+      {
+        type: NODES.STEP,
+        attrs: { index: 0 },
+        content: [],
       },
     ],
   };
+  const notes = {
+    type: NODES.NOTES,
+    content: [
+      {
+        type: NODES.NOTE,
+        attrs: { index: 0 },
+        content: [],
+      },
+    ],
+  }
 
   for (let i = 0; i < recipe.ingredients.length; i++) {
     i === 0 && (ingredients.content = []);
     ingredient = recipe.ingredients[i];
     if (!ingredient?.text?.trim()?.length) continue;
-    type = recipeNodeTypes[ingredient.type];
+    type = NODES[ingredient.type];
 
     node = {
       type,
@@ -60,11 +75,32 @@ export default function recipeToStateJSON(recipe) {
 
     ingredients.content.push(node);
   }
+  for (let i = 0; i < recipe.mise_en_place.length; i++) {
+    i === 0 && (mise_en_place.content = []);
+    node = recipe.mise_en_place[i];
+    if (!node.text.trim().length) continue;
+    type = NODES[node.type];
+
+    node = {
+      type,
+      attrs: {
+        index: i,
+      },
+      content: [
+        {
+          type: "text",
+          text: cleanUpText(node.text),
+        },
+      ],
+    };
+
+    mise_en_place.content.push(node);
+  }
   for (let i = 0; i < recipe.method.length; i++) {
     i === 0 && (method.content = []);
     step = recipe.method[i];
     if (!step.text.trim().length) continue;
-    type = recipeNodeTypes[step.type];
+    type = NODES[step.type];
 
     node = {
       type,
@@ -81,8 +117,29 @@ export default function recipeToStateJSON(recipe) {
 
     method.content.push(node);
   }
+  for (let i = 0; i < recipe.notes.length; i++) {
+    i === 0 && (notes.content = []);
+    node = recipe.notes[i];
+    if (!node.text.trim().length) continue;
+    type = NODES[node.type];
 
-  doc.content = [ingredients, method];
+    node = {
+      type,
+      attrs: {
+        index: i,
+      },
+      content: [
+        {
+          type: "text",
+          text: cleanUpText(node.text),
+        },
+      ],
+    };
+
+    notes.content.push(node);
+  }
+
+  doc.content = [ingredients, mise_en_place, method, notes];
 
   return doc;
 }

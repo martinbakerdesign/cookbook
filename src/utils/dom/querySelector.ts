@@ -10,7 +10,6 @@ export default function querySelector(...args: [string|Element, string?]) {
         return el ?? null;
     }
 
-    console.log({el, selector: args[1]})
     if (!args[1]) return null;
     
     return el.querySelector(args[1]);

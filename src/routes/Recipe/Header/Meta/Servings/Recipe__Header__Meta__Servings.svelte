@@ -1,7 +1,7 @@
 <script>
   import { amount, isUserAuthor } from "store/";
   import _quantity from "utils/text/expressions/quantity";
-  import { readonly } from 'routes/Recipe'
+  import {readonly} from 'store/recipe'
   import { cleanup, value, onInput, setRef } from '.'
   import { onDestroy } from "svelte";
 

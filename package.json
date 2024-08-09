@@ -24,6 +24,8 @@
     "@storybook/test": "^8.2.5",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "autoprefixer": "^10.4.19",
+    "bits-ui": "^0.21.12",
+    "class-variance-authority": "^0.7.0",
     "firebase": "^9.0.0",
     "fraction.js": "^4.1.1",
     "lodash": "^4.17.21",
@@ -42,7 +44,9 @@
     "svelte": "^4.2.18",
     "svelte-preprocess": "^6.0.2",
     "svelte-spa-router": "^4.0.1",
+    "tailwind-variants": "^0.2.1",
     "tailwindcss": "^3.4.6",
+    "token-transformer": "^0.0.33",
     "typescript": "^5.5.3",
     "uuid": "^8.3.2",
     "vite": "^5.3.1"

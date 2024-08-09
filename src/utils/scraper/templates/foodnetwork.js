@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
 import $$ from "utils/dom/querySelectorAll";
@@ -27,12 +27,12 @@ const foodnetwork = {
     className: "o-Ingredients__m-Body",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         tag: "h3",
         // className: "structured-ingredients__list-heading",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "o-Ingredients__a-Ingredient--CheckboxLabel",
       },
@@ -44,13 +44,13 @@ const foodnetwork = {
     selector: ".o-Method__m-Body>ol",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   // className: "",
       //   selector: ".mntl-sc-block-html strong",
       // },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         tag: "li",
         // className: "",
         // selector: ".instructions-section-item .section-body",
@@ -62,7 +62,7 @@ const foodnetwork = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,

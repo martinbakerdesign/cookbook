@@ -1,4 +1,6 @@
 <script>
+  import user from "store/user";
+
   export let provider = null;
   export let disabled = true;
   export let icon = [];
@@ -11,7 +13,7 @@
     `background-color: ${bg}`,
     `color: ${text}`,
     `border: ${border ? `calc(1/16 * 1rem) solid ${border}` : "0"}`,
-  ];
+  ].join(';')
 
   function signIn() {
     user.signIn(provider);
@@ -21,11 +23,12 @@
 <button
   on:click={signIn}
   {style}
+  class="w-full flex justify-center items-center gap-4 rounded-1 p-6 text-body-lg font-medium"
 >
   <svg
-    class="icon"
-    width="28"
-    height="28"
+    class="icon w-10 h-10 aspect-square"
+    width="20"
+    height="20"
     viewBox="0 0 28 28"
   >
     <g

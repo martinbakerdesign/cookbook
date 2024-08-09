@@ -2,3 +2,50 @@
 
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+    @apply text-text bg-background;
+}
+
+@keyframes pulseBG {
+    0%, 100% {
+        background-color: rgb(var(--color-1) / 1);
+    }
+    50% {
+        background-color: rgb(var(--color-2) / 1);
+    }
+}
+
+@keyframes pulseFill {
+    0%, 100% {
+        fill: rgb(var(--color-1) / 1);
+    }
+    50% {
+        fill: rgb(var(--color-2) / 1);
+    }
+}
+@keyframes toggleBG {
+    0%, 49.9999999% {
+        background-color: rgb(var(--color) / 0);
+    }
+    50%, 100% {
+        background-color: rgb(var(--color) / 0.25);
+    }
+}
+[class*="animation-"] {
+    --color: var(--colors-accent);
+}
+
+.animation-pulse {
+    /* --color-1: var(--colors-background-fill-inverted);
+    --color-2: var(--colors-accent);
+    animation: pulseBG 1.5s infinite linear; */
+}
+.animation-pulse svg {
+    --color-1: var(--colors-icon-default);
+    --color-2: var(--colors-accent-600);
+    animation: pulseFill 1.5s infinite linear;
+}
+.animation-toggle {
+    animation: toggleBG 1s infinite linear;
+}

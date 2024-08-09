@@ -4,12 +4,11 @@ import { useSetRef } from "utils/refs";
 
 export { default as default } from "./AutosizeTextarea.svelte";
 
-export function useStore(dispatch) {
-  const value = writable("");
-
+export function useStore() {
   const refs = {
     spacer: null,
-    textarea: null
+    textarea: null,
+    label: null
   };
   const setRef = useSetRef(refs);
 
@@ -21,22 +20,36 @@ export function useStore(dispatch) {
     const readonly = textarea && textarea.hasAttribute('readonly');
   
     textarea && !readonly && ['input', 'change'].forEach((event) => {
-      textarea.addEventListener(event, () => {
-        dispatch(event, textarea.value);
-      })
+      // textarea.addEventListener(event, () => {
+      //   dispatch(event, textarea.value);
+      // })
     })
     
-    const spacerChild = refs.spacer.children[0];
-    if (!spacerChild) return;
+    const spacer = refs.spacer;
+    if (!spacer) return;
 
-    style.set(getTextStyles(spacerChild));
+    style.set(getTextStyles(spacer));
+
+    const spacerStyle = getComputedStyle(spacer);
+    spacer.style.minHeight = spacerStyle.lineHeight;
+
+    if (!refs.label) return;
+
+    const spacerParentStyle = getComputedStyle(spacer.parentElement)
+    for (const property of ['paddingLeft']) {
+      const value = spacerParentStyle[property];
+      refs.label.style[property] = value;
+    }
+  }
+  function builder (el) {
+    setRef(el, 'label');
   }
 
   return {
-    value,
     style,
     setRef,
     init,
+    builder
   };
 }
 

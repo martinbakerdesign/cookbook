@@ -5,13 +5,37 @@ import { db } from "firestore/";
 import getAllRecipes from "utils/db/recipes/getAll";
 import userStore from "./user";
 import uFuzzy from "@leeoniya/ufuzzy";
+import { recipeId } from "routes/Menu/Modals";
+import _duplicateRecipe from 'utils/db/recipes/duplicateRecipe'
+import { hideContextMenu } from "./contextMenu";
+import { tick } from "svelte";
 
 export default function recipeStore(initial = []) {
   const recipes = writable(initial);
   const { set, update, subscribe } = recipes;
+  const userId = get(userStore)?.id ?? null;
+
+  let byAuthor = new Map([
+    ['anyone', initial],
+    ['self', initial.filter(r => r.author === userId)],
+    ['others', initial.filter(r => r.author !== userId)],
+  ]);
 
   let recipesQueryable = []
 
+  /**
+   * @param {'self'|'anyone'|'others'} authorFilter
+   * @returns {any[]} recipes filtered by author
+   */
+  function filterByAuthor(authorFilter = 'anyone') {
+    if (!authorFilter || !['self', 'anyone', 'others'].includes(authorFilter)) {
+      console.log('return empty', [])
+      return [];
+    }
+    const filtered = byAuthor.get(authorFilter);
+    console.log('return filtered', filtered)
+    return filtered;
+  }
   function filterByName(needle = "") {
     if (!needle || !needle.length) return [];
 
@@ -122,15 +146,45 @@ export default function recipeStore(initial = []) {
     let user = get(userStore);
     if (!user) return;
     try {
-      const recipes = await getAllRecipes(user.id);
+      const $recipes = await getAllRecipes(user.id);
 
       // recipeNames = recipes.map((r) => r.name);
       // recipeTags = recipes.map((r) => r.tags.join(', '));
-      recipesQueryable = recipes.map(r => `${r.name} ${r.tags.join(' ')}`)
+      recipesQueryable = $recipes.map(r => `${r.name} ${r.tags.join(' ')}`);
 
-      set(recipes);
+      byAuthor = new Map([
+        ['anyone', $recipes],
+        ['self', $recipes.filter(r => r.author === userId)],
+        ['others', $recipes.filter(r => r.author !== userId)],
+      ])
+
+      set($recipes);
     } catch (err) {
       throw err;
+    }
+  }
+  async function duplicate () {
+    const $recipeId = get(recipeId);
+    if (!$recipeId) throw 'Invalid recipe ID';
+
+    const $recipes = get(recipes);
+    try {
+      const toDuplicate = get(recipes).find(r => r.id === $recipeId);
+
+      recipes.set([{
+        ...toDuplicate,
+        id: 'new',
+        name: 'Creating duplicate...',
+        title: 'Creating duplicate...',
+      }, ...$recipes])
+
+      const duplicate = await (_duplicateRecipe($recipeId));
+  
+      refresh()
+    } catch (err) {
+      console.error('Could not duplicate recipe: '+err.message??err)
+    } finally {
+      hideContextMenu.current && hideContextMenu.current();
     }
   }
 
@@ -146,5 +200,7 @@ export default function recipeStore(initial = []) {
     rename,
     delete: deleteRecipe,
     toggleShare,
+    duplicate,
+    filterByAuthor,
   };
 }

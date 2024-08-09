@@ -1,65 +1,103 @@
 import { get, writable } from "svelte/store";
 import $ from 'utils/dom/querySelector'
 
-export { default as default } from "./Modal.svelte";
+import Modal from "./Modal.svelte";
+import Title from "./Modal__Title.svelte";
+import Content from "./Modal__Content.svelte";
+import Actions from "./Modal__Actions.svelte";
 
-export const refs = {
-  modal: null,
-  bg: null,
-};
-
-export const show = writable(false);
-
-let autofocus = false;
-export function toggleAutofocus($autofocus) {
-  autofocus = $autofocus;
-}
-
-export function toggleListeners(show) {
-  const fns = ["removeEventListener", "addEventListener"];
-  window[fns[+show]]("keydown", onKeyDown);
-  window[fns[+show]]("click", onClickOut);
-}
-
-export function toggleModal(s = false) {
-  const $show = get(show);
-  show.set(s ?? !$show);
-}
+import { registerModal } from "store/modals";
 
 type Focusable = HTMLInputElement | HTMLTextAreaElement;
 
-export function setAttributes(el: HTMLElement) {
-  if (!el.children || !el.children.length) return;
+function useModal (id) {
+  const refs = {
+    modal: null,
+    bg: null,
+  };
 
-  const firstChild = el.children[0];
-  firstChild.setAttribute("role", "dialog");
-  firstChild.setAttribute("tabindex", "-1");
+  const show = writable(false);
+  id && registerModal(id, show);
 
-  const input = $(el, 'input, textarea') as Focusable;
-  if (!input) return;
+  let autofocus = false;
 
-  if (!autofocus) return;
-  input.focus();
+  function toggleAutofocus($autofocus) {
+    autofocus = $autofocus;
+  }
+  function toggleModal(s = false) {
+    const $show = s ?? !get(show);
+    show.set($show);
+  }
+  function setAttributes(el: HTMLElement) {
+    if (!el.children || !el.children.length) return;
+  
+    const firstChild = el.children[0];
+    firstChild.setAttribute("role", "dialog");
+    firstChild.setAttribute("tabindex", "-1");
+  
+    const input = $(el, 'input, textarea') as Focusable;
+    if (!input) return;
+  
+    input.autofocus = autofocus;
+    // if (!autofocus) return;
+    // input.focus();
+  }
+  function onKeyDown(e) {
+    const $show = get(show);
+  
+    if (!$show || e.key !== "Escape" || e.target.closest("button.input__option"))
+      return;
+  
+    e.preventDefault();
+    window.event.preventDefault();
+    toggleModal(false);
+  }
+  function onClickOut(e) {
+    const inModal = refs.modal && (refs.modal.contains(e.target) || refs.modal === e.target);
+
+    if (inModal) return;
+  
+    toggleModal(false);
+  }
+  function builder (el) {
+    refs.modal = el.children[0];
+    setAttributes(el)
+  }
+  function init () {
+    const unsub = show.subscribe(($show) => {
+      window.removeEventListener('keydown', onKeyDown)
+      if (!$show) return;
+      window.addEventListener('keydown', onKeyDown)
+    })
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      unsub();
+      // window.removeEventListener("click", onClickOut);
+    }
+  }
+
+  return {
+    refs,
+    //
+    show,
+    //
+    toggleAutofocus,
+    toggleModal,
+    onKeyDown,
+    onClickOut,
+    builder,
+    init
+  }
 }
 
-export function onKeyDown(e) {
-  const $show = get(show);
-
-  if (!$show || e.key !== "Escape" || e.target.closest("button.input__option"))
-    return;
-
-  e.preventDefault();
-  window.event.preventDefault();
-  toggleModal(false);
-}
-
-export function onClickOut(e) {
-  if (refs.bg !== e.target) return;
-
-  toggleModal(false);
-}
-
-export function cleanup() {
-  window.removeEventListener("keydown", onKeyDown);
-  window.removeEventListener("click", onClickOut);
+export {
+  Modal as default,
+  Modal,
+  Title,
+  Content,
+  Actions,
+  //
+  type Focusable,
+  //
+  useModal,
 }

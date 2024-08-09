@@ -1,17 +1,23 @@
 import { writable } from "svelte/store";
 
-export default function notesStore() {
-  const store = writable("");
-  const { set, update, subscribe } = store;
+const initialState = [];
 
-  function clear() {
-    set("");
+function notesStore(arg = initialState) {
+  let { subscribe, update, set: _set } = writable(arg);
+
+  function set(newValue) {
+    _set(
+      newValue.map((i) => ({
+        ...i,
+        type: i.type.replace("NOTES__", ""),
+      }))
+    );
   }
 
   return {
-    set,
-    update,
-    clear,
     subscribe,
+    set,
   };
 }
+
+export default notesStore;

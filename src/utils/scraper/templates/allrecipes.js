@@ -1,5 +1,5 @@
 import { doc } from "firebase/firestore";
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
 import $$ from "utils/dom/querySelectorAll";
@@ -28,12 +28,12 @@ const allrecipes = {
     className: "ingredients-section",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   className: "structured-ingredients__list-heading",
       // },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "ingredients-item-name",
       },
@@ -44,13 +44,13 @@ const allrecipes = {
     className: "instructions-section",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   // className: "",
       //   selector: ".mntl-sc-block-html strong",
       // },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         // tag: "",
         // className: "",
         selector: ".instructions-section-item .section-body",
@@ -70,7 +70,7 @@ const allrecipes = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,

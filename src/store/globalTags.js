@@ -66,7 +66,7 @@ export default function globalTagsStore(init = []) {
 
     const idxs = uf.filter($tags, query);
 
-    const results = $tags.filter((tag, i) => idxs.includes(i));
+    const results = idxs ? $tags.filter((tag, i) => idxs.includes(i)) : [];
 
     const sortFn = getSortByMatchIndexFn(query)
     

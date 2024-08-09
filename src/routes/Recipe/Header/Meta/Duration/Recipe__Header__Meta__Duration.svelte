@@ -1,6 +1,6 @@
 <script>
   import { duration } from "store/";
-  import { readonly } from 'routes/Recipe'
+  import {readonly} from 'store/recipe'
 
   const placeholder = "Duration";
 </script>

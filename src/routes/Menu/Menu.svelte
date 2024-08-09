@@ -2,8 +2,11 @@
   import { onDestroy } from "svelte";
   import { recipes } from "store";
   import user from "store/user";
-  import { Header, Main, Modals } from ".";
+  import { loadingRecipes } from "store";
+  import Animation from "components/Animation";
+  import { wok } from "constants/anim";
   import { modalsCleanUp } from "./Modals";
+  import { Modals, List } from ".";
 
   $: $user && recipes.refresh();
 
@@ -14,35 +17,21 @@
   <title>Cookbook</title>
 </svelte:head>
 
-<Header />
-<article id="menu">
-  <main id="menu__recipes">
-    <div class="slide">
-      <Main />
-    </div>
-  </main>
+<article id="menu" class="relative">
+  <div class="w-full">
+    {#if $loadingRecipes}
+      <div class="p-6 flex w-full justify-center text-center">
+        <Animation
+          {...{
+            ...wok,
+            fill: "#f5853f",
+          }}
+        />
+      </div>
+    {:else}
+      <List />
+    {/if}
+  </div>
 
   <Modals />
 </article>
-
-<style lang="scss">
-  @use "../../styles/colours" as c;
-  @use "../../styles/sizes" as s;
-  @use "../../styles/layers" as l;
-
-  #menu {
-    position: relative;
-  }
-  #menu__recipes {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    .slide {
-      margin-top: s.$s9;
-      background-color: var(--bg-primary);
-      height: 100%;
-      position: relative;
-    }
-  }
-</style>

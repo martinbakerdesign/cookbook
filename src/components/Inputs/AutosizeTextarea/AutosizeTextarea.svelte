@@ -1,78 +1,46 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
+  import Label from 'components/Label'
   import {useStore} from '.'
   
-  let initValue = '';
-  $: $value !== initValue && (initValue = $value);
-  export {initValue as value};
+  const store = useStore();
+  const {init, style, setRef, builder} = store;
 
-  const dispatch = createEventDispatcher();
+  onMount(init);
   
-  const store = useStore(dispatch);
-  const {init, value, style, setRef} = store;
-
+  let className = undefined;
+  export {className as class}
   export let id = "";
   export let name = "";
   export let placeholder = "";
   export let readonly = false;
-
-  onMount(init);
+  export let label = undefined;
+  export let value = '';
 </script>
 
-<div class="textarea-autosize" style={$style}>
+<div class="relative flex-1" style={$style}>
+  {#if null != label && label.length > 0}
+    <Label for={id} class="absolute top-0 left-0 pt-10 pl-page" {builder}>{label}</Label>
+  {/if}
   <div
-    class="textarea-autosize__spacer"
+    class="block opacity-0 pointer-events-none select-none {className}"
+    style={$style}
     hidden
     aria-hidden="true"
-    use:setRef={'spacer'}
+    data-spacer
   >
-    <slot />
+    <div use:setRef={'spacer'} class="break-all">{value}</div>
   </div>
   <textarea
     {name}
     {id}
-    bind:value={$value}
+    bind:value={value}
     {placeholder}
-    class="textarea-autosize__input"
+    class="absolute inset-0 w-full h-full resize-none {className}"
     use:setRef={'textarea'}
     {readonly}
+    on:input
+    on:change
+    data-input
   />
 </div>
-
-<style lang="scss">
-  .textarea-autosize {
-    position: relative;
-
-    &__spacer {
-      display: block;
-      opacity: 0;
-      pointer-events: none;
-      user-select: none;
-    }
-    &__input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      outline: 0;
-      border: 0;
-      padding: 0;
-      margin: 0;
-      background-color: transparent;
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: inherit;
-      font-style: inherit;
-      line-height: inherit;
-      letter-spacing: inherit;
-      color: inherit;
-      resize: none;
-
-      &::placeholder {
-        color: inherit;
-        opacity: 0.5;
-      }
-    }
-  }
-</style>

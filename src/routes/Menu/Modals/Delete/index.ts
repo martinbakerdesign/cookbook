@@ -1,18 +1,20 @@
 import { get, writable } from "svelte/store";
-import { hideModals, recipeId, showDeleteModal } from "../";
+import { hideModals, recipeId } from "../";
 import { recipes } from "store/index";
+import { hideModal } from "store/modals";
 
-export { default as default } from "./Modal--Delete.svelte";
+import DeleteModal from "./Modal--Delete.svelte";
 
-export const deleting = writable(false);
-export const error = writable(null);
+const id = 'menu__delete';
+const deleting = writable(false);
+const error = writable(null);
 
-export function cancel() {
-  hideModals();
+function cancel() {
+  hideModal(id)
   deleting.set(false);
 }
 
-export async function deleteRecipe() {
+async function deleteRecipe() {
   const $recipeId = get(recipeId);
   error.set(null);
   
@@ -21,11 +23,22 @@ export async function deleteRecipe() {
 
     await recipes.delete($recipeId);
 
-    showDeleteModal.set(false);
+    hideModal(id);
   } catch (err) {
     error.set(err);
     throw err;
   } finally {
     deleting.set(false);
   }
+}
+
+export {
+  DeleteModal as default,
+  //
+  id,
+  deleting,
+  error,
+  //
+  cancel,
+  deleteRecipe
 }

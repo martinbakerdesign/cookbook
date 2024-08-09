@@ -1,19 +1,31 @@
 <script>
-  import Modal from "components/Modal/Modal.svelte";
-  import { showDeleteModal } from '..'
-  import {cancel, deleteRecipe, deleting} from '.'
+  import Modal, { Content, Title, Actions } from "components/Modal";
+  import Button from "components/Button";
+  import { cancel, deleteRecipe, deleting, id } from ".";
 
-  $: deleteButtonLabel = ['Yes', 'Deleting ...'][+$deleting];
+  $: deleteButtonLabel = ["Yes", "Deleting ..."][+$deleting];
 </script>
 
-<Modal show={$showDeleteModal}>
-  <div class="menu__recipes__item__delete menu__recipes__item__modal">
-    <h2 class="menu__recipes__item__modal__heading">Are you sure?</h2>
-    <div class="menu__recipes__item__modal__actions">
-      <button type="button" on:click={cancel} disabled={$deleting}>No</button>
-      <button type="button" on:click={deleteRecipe} disabled={$deleting}>
+<Modal {id}>
+  <Content>
+    <Title slot="header">Are you sure?</Title>
+    <Actions>
+      <Button
+        variant="secondary"
+        type="button"
+        on:click={cancel}
+        disabled={$deleting}
+        size="lg">No</Button
+      >
+      <Button
+        type="button"
+        on:click={deleteRecipe}
+        disabled={$deleting}
+        variant="critical"
+        size="lg"
+      >
         {deleteButtonLabel}
-      </button>
-    </div>
-  </div>
+      </Button>
+    </Actions>
+  </Content>
 </Modal>

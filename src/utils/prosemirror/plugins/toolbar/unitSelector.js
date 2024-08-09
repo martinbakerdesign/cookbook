@@ -5,7 +5,7 @@ import { unitsByType } from "data/units";
 import ingredientUnits from "data/units/ingredient";
 import temperatureUnits from "data/units/temperature";
 import sortByPreferred from "utils/units/sortByPreferred";
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import RecipeFragment from "utils/recipes/fragment/RecipeFragment";
 import $ from "utils/dom/querySelector";
 import $$ from "utils/dom/querySelectorAll";
@@ -19,7 +19,7 @@ const unitKeys = Object.keys(usableUnits).sort((a, b) =>
   a.length < b.length ? 1 : -1
 );
 
-const nodeTypes = [recipeNodeTypes.INGREDIENT, recipeNodeTypes.STEP];
+const nodeTypes = [NODES.INGREDIENT, NODES.STEP];
 
 class UnitSelector {
   constructor() {

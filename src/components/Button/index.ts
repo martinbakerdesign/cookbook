@@ -38,12 +38,18 @@ const buttonVariants = tv({
     },
     isIcon: {
       true: ''
-    }
+    },
+    animation: {
+      none: '',
+      pulse: 'animation-pulse',
+      toggle: 'animation-toggle',
+    },
   },
   defaultVariants: {
     variant: "primary",
     size: "md",
-    isIcon: false
+    isIcon: false,
+    animation: 'none'
   },
 });
 

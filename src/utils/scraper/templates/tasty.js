@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
 
@@ -27,12 +27,12 @@ const tasty = {
     // selector: '[data-testid="IngredientList"] .List-Xtjuf',
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "h3",
       //   className: "SubHed-ieytQr",
       // },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "ingredient",
       },
@@ -44,13 +44,13 @@ const tasty = {
     // selector: "",
     contents: [
       // {
-      //   type: recipeNodeTypes.HEADER,
+      //   type: NODES.HEADER,
       //   // tag: "",
       //   className: "InstructionGroupHed-hQJUKz",
       //   // selector: "",
       // },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         tag: "li",
         // className: "InstructionBody-huDCkh",
         // selector: ".instructions-section-item .section-body",
@@ -62,7 +62,7 @@ const tasty = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,

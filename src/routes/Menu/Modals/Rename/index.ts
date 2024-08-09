@@ -1,21 +1,23 @@
 import { get, writable } from "svelte/store";
 import { recipes } from "store/index";
 import { hideModals, recipeId, selecting } from "../";
+import { hideModal } from "store/modals";
 
 export { default as default } from "./Modal--Rename.svelte";
 
 let originalValue: null | string = null;
+
 export const value = writable("");
 export const saving = writable(false);
 export const error = writable();
 
+const id = 'menu__rename';
 
-
-export const refs = {
+const refs = {
   input: null,
 };
 
-export async function renameRecipe() {
+async function renameRecipe() {
   const $value = get(value);
   const $recipeId = get(recipeId);
 
@@ -39,21 +41,21 @@ export async function renameRecipe() {
   }
 }
 
-export function cancel() {
-  hideModals();
+function cancel() {
+  hideModal(id);
   refs.input && (refs.input.value = "");
   saving.set(false);
 }
 
-export function onPointerDown() {
+function onPointerDown() {
   selecting.set(true);
 }
 
-export function onPointerUp() {
+function onPointerUp() {
   selecting.set(false);
 }
 
-export function init () {
+function init () {
   selecting.subscribe(($selecting) => {
     const fns = ["removeEventListener", "addEventListener"];
     window[fns[+$selecting]]("pointerup", onPointerUp);
@@ -68,8 +70,22 @@ export function init () {
     originalValue = name;
     value.set(name);
   });
+
+  return cleanup
 }
 
-export function cleanup() {
+function cleanup() {
   window.removeEventListener("pointerup", onPointerUp);
+}
+
+export {
+  id,
+  refs,
+  //
+  renameRecipe,
+  onPointerUp,
+  onPointerDown,
+  cancel,
+  init,
+
 }

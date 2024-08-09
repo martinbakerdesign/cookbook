@@ -13,6 +13,8 @@ import cuedChangeStore from "./cuedChange";
 import cueTimeoutStore from "./cueTimeout";
 import descriptionStore from "./description";
 import methodStore from "./method";
+import notesStore from "./notes";
+import miseEnPlaceStore from "./miseEnPlace";
 
 export {default as localStorage} from './localStorage'
 
@@ -38,7 +40,7 @@ export const loadingRecipes = writable(true),
  */
 export const id = writable<string>("");
 export const created = writable<string>("");
-export const name = writable<string>("");
+export const title = writable<string>("");
 export const description = descriptionStore();
 export const amount = amountStore(); // aka yield but yield is a reserved word
 export const author = writable<string>('');
@@ -47,49 +49,57 @@ export const duration = durationStore();
 export const tags = tagsStore();
 export const ingredients = ingredientStore();
 export const method = methodStore();
+export const notes = notesStore();
+export const miseEnPlace = miseEnPlaceStore();
 export const src = writable<string>("");
 
 const recipe = derived(
   [
     id,
     created,
-    name,
+    title,
     description,
     amount,
     duration,
     tags,
     ingredients,
+    miseEnPlace,
     method,
+    notes,
     shared,
     author,
     src,
   ],
   ([
-    id,
-    created,
-    name,
-    description,
-    amount,
-    duration,
-    tags,
-    ingredients,
-    method,
-    shared,
-    author,
-    src,
+    $id,
+    $created,
+    $title,
+    $description,
+    $amount,
+    $duration,
+    $tags,
+    $ingredients,
+    $miseEnPlace,
+    $method,
+    $notes,
+    $shared,
+    $author,
+    $src,
   ]) => ({
-    id,
-    created,
-    name,
-    description,
-    amount,
-    duration,
-    tags,
-    ingredients,
-    method,
-    shared,
-    author,
-    src,
+    id: $id,
+    created: $created,
+    title: $title,
+    description: $description,
+    amount: $amount,
+    duration: $duration,
+    tags: $tags,
+    ingredients: $ingredients,
+    method: $method,
+    mise_en_place: $miseEnPlace,
+    notes: $notes,
+    shared: $shared,
+    author: $author,
+    src: $src,
   })
 );
 export default recipe;
@@ -119,10 +129,11 @@ export const mutationSource = writable("local"),
   onCloud = writable(false),
   pushing = writable(false),
   lastSaved = writable(null),
-  scaleFactor = writable("1.0"),
+  scaleFactor = writable(1),
   blockType = writable(null),
   currentUnit = writable(null),
   editorFocus = writable(null);
+  
 recipe.subscribe((r) => {
   if (
     get(loading) ||
@@ -137,10 +148,13 @@ recipe.subscribe((r) => {
 
 export {default as settings} from './settings'
 
+export const navHeight = writable(0);
+export const toolbarHeight = writable(0);
+
 export function clearData() {
   id.set(""),
     created.set(""),
-    name.set(""),
+    title.set(""),
     amount.set(""),
     description.set(""),
     duration.set({ text: "", quantity: 0, unit: "" }),

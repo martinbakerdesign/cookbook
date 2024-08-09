@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import _$ from "utils/dom/querySelector";
-  import { readonly } from "routes/Recipe";
+  import { readonly } from "store/recipe";
 
   const altPressed = writable(false);
 

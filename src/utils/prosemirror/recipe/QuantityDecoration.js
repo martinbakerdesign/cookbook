@@ -15,10 +15,11 @@ class QuantityDeco {
     quantityType = null,
     quantityPos = 0,
     quantitySize = 0,
+    quantityText = "",
     unitPos = 0,
     unitSize = 0,
-    quantityText = "",
     unitText = "",
+    unitType = "",
     rangePos = [],
     rangeSizes = [],
     scale = 1,
@@ -36,6 +37,7 @@ class QuantityDeco {
     this.unitPos = unitPos;
     this.unitSize = unitSize;
     this.unitText = unitText;
+    this.unitType = unitType;
     this.quantity = new Quantity({ value, quantityType, scale });
     this.joiningStr = this.getJoiningStr(this.quantity);
     this.scalable = unit && units[unit]
@@ -99,7 +101,6 @@ class QuantityDeco {
     let start = this.quantityPos ?? this.pos;
     let end = start + this.quantitySize;
     let replaceStr = this.quantity.toString(this.joiningStr);
-    console.log({ start, end, replaceStr });
 
     this.quantity.scale(1);
 

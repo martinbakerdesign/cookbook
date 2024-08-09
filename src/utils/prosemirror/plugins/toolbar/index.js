@@ -1,5 +1,6 @@
 import { Plugin } from "prosemirror-state";
 import $ from "utils/dom/querySelector";
+import {refs} from 'store/recipe'
 
 class ToolbarView {
   constructor(items = [], editorView) {
@@ -8,10 +9,14 @@ class ToolbarView {
 
     this.focus = false;
 
+    this.hasInit = false;
+
     this.dom = null;
   }
   init() {
-    this.dom = $("#recipe__header__toolbar main");
+    this.hasInit = true;
+    this.dom = refs.toolbar;
+
     for (let item of this.items) {
       item.init(this.editorView);
     }
@@ -22,14 +27,15 @@ class ToolbarView {
   }
   onClick(e) {
     e.preventDefault();
-    for (let item of this.items) {
+    for (const item of this.items) {
       if (item.items) {
         item.onClick(e, this.editorView.state, this.editorView.dispatch);
         continue;
       }
+
       if (!item.command) continue;
-      if (e.target === item.dom) console.log(item.passEvent === true);
-      (e.target === item.dom || item.dom.contains(e.target)) &&
+
+      (e.target === item.dom || item.dom.contains(e.target) || item.getDom && item?.getDom().contains(e.target)) &&
         (item.passEvent
           ? item.command(e, this.editorView.state, this.editorView.dispatch)
           : item.command(this.editorView.state, this.editorView.dispatch));
@@ -37,6 +43,8 @@ class ToolbarView {
     this.editorView.focus();
   }
   update() {
+    !this.hasInit && this.init();
+    
     if (!this.items || !this.items.length) return;
 
     for (let item of this.items) {
@@ -58,7 +66,8 @@ class ToolbarView {
 function toolbarPlugin(items) {
   return new Plugin({
     view(editorView) {
-      let contextMenu = new ToolbarView(items, editorView);
+      const contextMenu = new ToolbarView(items, editorView);
+
       return contextMenu;
     },
   });

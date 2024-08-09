@@ -4,7 +4,6 @@ import schema from "schemas/recipe";
 import plugins from "../plugins";
 
 export default function stateFromRecipe(recipe) {
-  console.log({ recipe });
   return EditorState.create({
     schema,
     plugins: plugins(),

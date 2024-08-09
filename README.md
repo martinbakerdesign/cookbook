@@ -21,15 +21,14 @@
     <br />
     <br />
     <div align="center">
-<a href="https://cookbook-b1834.firebaseapp.com/"><img src="images/recipe-view-desktop.png" alt="Recipe View" /></a>
-</div>
+		<a href="https://cookbook-b1834.firebaseapp.com/"><img src="images/recipe-view-desktop.png" alt="Recipe View" /></a>
+	</div>
     <br />
     <br />
 	<a href="https://cookbook-b1834.firebaseapp.com/"><strong>🫕 USE THE APP</strong></a>
     ·
     <a href="https://github.com/martinbakerdesign/cookbook/issues/new?labels=enhancement&template=feature-request---.md"><strong>🙋REQUEST A FEATURE</strong></a>
   </p>
-</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>

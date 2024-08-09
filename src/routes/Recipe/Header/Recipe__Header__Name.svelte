@@ -1,15 +1,13 @@
 <script>
-  import { name, loading } from "store";
-  import { readonly } from '../'
+  import { title, loading } from "store";
   import { setRef } from "store/recipe";
 </script>
 
 <input
   id="recipe__header__name"
-  bind:value={$name}
+  bind:value={$title}
   placeholder={"My recipe"}
   class:loading={$loading}
-  readonly={$readonly}
   use:setRef={'name'}
 />
 

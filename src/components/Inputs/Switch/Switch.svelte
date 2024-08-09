@@ -12,8 +12,8 @@
   $: value.set(initialValue);  
 </script>
 
-<div class="input--switch" data-checked={$value}>
-  <label for={id} class="input--switch__label">{label}</label>
+<div class="input--switch flex w-full" data-checked={$value}>
+  <label for={id} class="input--switch__label flex-1">{label}</label>
   <button
     class="input--switch__switch"
     type="button"

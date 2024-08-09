@@ -1,9 +1,9 @@
 <script>
   import { onDestroy, onMount } from "svelte";
   import { url, recipes } from "store";
-  import { recipeId, showShareModal } from "../";
+  import { recipeId } from "../";
   import {
-    updateShareLink,
+    getShareLink,
     getSwitchProps,
     refs,
     success,
@@ -11,15 +11,16 @@
     cancel,
     saving,
     selectAll,
-    shareLink,
     cleanup,
-    init
+    init,
+    id,
   } from ".";
 
-  import {Switch} from "components/Inputs";
-  import Modal from "components/Modal";
+  import { Switch } from "components/Inputs";
+  import Modal, { Actions, Content, Title } from "components/Modal";
+  import Button from "components/Button/Button.svelte";
 
-  $: updateShareLink($url, $recipeId);
+  $: shareLink = getShareLink($url, $recipeId);
   $: switchProps = getSwitchProps($recipes, $recipeId);
   $: saveButtonLabel = ["Done", "Updating..."][+$saving];
 
@@ -27,40 +28,43 @@
   onDestroy(cleanup);
 </script>
 
-<Modal show={$showShareModal}>
-  <div class="menu__recipes__item__share">
-    <h2 class="menu__recipes__item__modal__heading">Share recipe</h2>
-    <div class="menu__recipes__item__modal__copylink">
-      <input
-        class="menu__recipes__item__modal__copylink__input"
-        type="text"
-        value={$shareLink}
-        readonly
-        on:click={selectAll}
-      />
-      <button
-        class="menu__recipes__item__modal__copylink__button"
-        type="button"
-        on:click={copyToClipboard}
-        bind:this={refs.copyButton}
-        class:success={$success}
-      >
-        <span bind:this={refs.copyButtonLabel}>Copy link</span>
-      </button>
-    </div>
-    <div class="menu__recipes__item__modal__switch">
-      <Switch {...switchProps} />
-    </div>
-    <div class="menu__recipes__item__modal__actions">
-      <button
-        type="button"
-        on:click={cancel}
-        disabled={$saving}
-      >
-        {saveButtonLabel}
-      </button>
-    </div>
-  </div>
+<Modal {id}>
+  <Content>
+      <Title slot="header">Share Recipe</Title>
+
+      
+      <div class="flex gap-2">
+        <input
+          class="bg-background-fill-subtle hover:bg-background-fill-subtle-hover active:bg-background-fill-subtle-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 w-full outline-none h-20"
+          type="text"
+          value={shareLink}
+          readonly
+          on:click={selectAll}
+          bind:this={refs.input}
+        />
+        <Button
+          variant={!$success ? 'secondary' : 'success'}
+          size="lg"
+          class="flex-none"
+          on:click={copyToClipboard}
+        >
+          <span bind:this={refs.copyButtonLabel}>Copy Link</span>
+        </Button>
+      </div>
+      <div class="">
+        <Switch {...switchProps} />
+      </div>
+
+      <Actions slot="footer">
+        <Button
+          variant="accent"
+          size="lg"
+          class="flex-1 w-full"
+          on:click={cancel}
+          disabled={$saving}>{saveButtonLabel}</Button
+        >
+      </Actions>
+  </Content>
 </Modal>
 
 <style lang="scss">

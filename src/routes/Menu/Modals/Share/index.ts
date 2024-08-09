@@ -1,14 +1,18 @@
 import { recipes } from "store/index";
 import { get, writable } from "svelte/store";
-import { recipeId, showShareModal } from "..";
+import { recipeId } from "..";
+import { hideModal, getModalStore } from "store/modals";
 
 export { default as default } from "./Modal--Share.svelte";
 
 export const refs = {
+  input: null,
   copyButton: null,
   copyButtonLabel: null,
   timeout: null,
 };
+
+export const id = 'menu__share';
 
 export const success = writable(false);
 
@@ -27,8 +31,7 @@ export function getSwitchProps(recipes, recipeId: string) {
 
 export const saving = writable(false);
 
-export const shareLink = writable("");
-export function updateShareLink($url, $recipeId) {
+export function getShareLink($url, $recipeId) {
   return `${$url}/#/${$recipeId}`;
 }
 
@@ -48,7 +51,7 @@ export function selectAll(e) {
   e.target.select();
 }
 export function cancel() {
-  showShareModal.set(false);
+  hideModal(id)
 }
 
 export function resetButton() {
@@ -56,7 +59,7 @@ export function resetButton() {
   refs.copyButtonLabel.innerHTML = "Copy link";
 }
 export function copyToClipboard() {
-  navigator.clipboard.writeText(get(shareLink));
+  navigator.clipboard.writeText(refs.input.value);
   onLinkCopied();
 }
 export function onLinkCopied() {
@@ -73,7 +76,7 @@ export function clear() {
   resetButton();
 }
 export function init () {
-  showShareModal.subscribe(($show) => {
+  getModalStore(id)?.subscribe(($show) => {
     if ($show || null == refs.timeout) return;
   
     clear();
@@ -82,5 +85,3 @@ export function init () {
 export function cleanup() {
   clear();
 }
-
-

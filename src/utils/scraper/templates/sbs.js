@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import getMins from "./getMins";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
@@ -28,12 +28,12 @@ const sbs = {
     className: "field-name-field-ingredients",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         tag: "p",
         // className: "structured-ingredients__list-heading",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         tag: "li",
         // className: "structured-ingredients__list-item",
       },
@@ -45,13 +45,13 @@ const sbs = {
     selector: '[itemprop="recipeInstructions"]',
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         tag: "h4",
         // className: "",
         // selector: "h4",
       },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         // tag: "li",
         // className: "",
         selector: "li, p",
@@ -63,7 +63,7 @@ const sbs = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,
