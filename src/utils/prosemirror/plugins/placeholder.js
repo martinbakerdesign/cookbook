@@ -1,20 +1,19 @@
 import { Plugin } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import { recipeNodeTypes } from "schemas/recipe";
+import { CHILD_NODES, NODES } from "schemas/recipe";
+import { canEdit } from "store/recipe";
+import { get } from "svelte/store";
 
-const containerTypes = [
-  recipeNodeTypes.HEADER,
-  recipeNodeTypes.INGREDIENT,
-  recipeNodeTypes.STEP,
-];
-function getPlaceholder(name) {
-  switch (name) {
-    case "header":
-      return "Header";
-    case "ingredient":
+function getPlaceholder(type) {
+  switch (type) {
+    case NODES.HEADER:
+      return "Heading";
+    case NODES.INGREDIENT:
       return "Ingredient";
-    case "step":
-      return "Method";
+    case NODES.STEP:
+      return "Step";
+    case NODES.NOTE:
+      return "Note";
   }
 }
 
@@ -23,12 +22,16 @@ function insertPlaceholders(doc) {
 
   doc.descendants((node, pos) => {
     if (
-      !containerTypes.includes(node.type.name) ||
+      !CHILD_NODES.includes(node.type.name) ||
       !!node.textContent.trim().length
     )
       return;
+
+    const placeholder = document.createElement("span");
+    placeholder.className = "placeholder select-none pointer-events-none text-text-secondary";
+    placeholder.dataset.content = getPlaceholder(node.type.name);
     decos.push(
-      Decoration.widget(pos + 1, document.createElement("placeholder"), {})
+      Decoration.widget(pos+1, placeholder, {})
     );
   });
 

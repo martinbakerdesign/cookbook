@@ -6,15 +6,15 @@ import getById from "./getById";
 
 export default async function duplicateRecipe(originalId, appendCopy = true) {
   try {
-    let contents = await getById(originalId);
+    const contents = await getById(originalId);
 
-    let name = contents.name + (appendCopy ? " - Copy" : "");
+    const title = contents.title + (appendCopy ? " - Copy" : "");
 
-    let duplicate = await addDoc(recipes, {
+    const duplicate = await addDoc(recipes, {
       ...contents,
       created: Timestamp.now(),
       last_edited: Timestamp.now(),
-      name,
+      title,
       author: get(user).id,
     });
 

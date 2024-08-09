@@ -1,44 +1,59 @@
-import { recipes, searchQuery } from "store/";
-import { authorSelection } from "store/menu";
+import uFuzzy from "@leeoniya/ufuzzy";
+import user from "store/user";
 import { get } from "svelte/store";
 
-const debug = true;
+const uf = new uFuzzy({
+  intraMode: 1,
+});
 
-export default function applyFilters() {
-  const { query, tags } = get(searchQuery);
-  const authorFilter = get(authorSelection);
-  debug && console.log({query, tags, authorFilter})
-  if (!query && !tags.length && authorFilter === 0) return get(recipes);
+const filterFns = {
+  author: (item, author) => {
+    return author === 'anyone' || (get(user).id === item?.author) === (author === 'self')
+  },
+  name: (item, needle) => {  
+    const idxs = uf.filter([item.name], needle);
 
-  const filters = {
-    ...(query && { name: query }),
-    ...(tags && { tags }),
+    return idxs && idxs?.length > 0;
+  },
+  tag: (item, tag) => {
+    console.log(tag);
+    return item.tags.includes(tag)
+  },
+  tags: (item, tags) => {
+    console.log(tags)
+    return tags.reduce((carry, tag) => carry && item.tags.includes(tag), true);
+  },
+}
+
+/**
+ * @typedef {{
+ *   id: string,
+ *   name: string,
+ * }} Recipe
+ * @returns {Recipe[]} Filtered recipes
+ */
+export default function applyFilters($recipes, $searchQuery, $author) {
+  const { query, tags } = $searchQuery;
+
+  const hasQuery = query && query.length > 0;
+  const hasTags = tags && Array.isArray(tags) && tags.length > 0;
+
+  if (!hasQuery && !hasTags && $author === "anyone") return $recipes;
+
+  const filtersToApply = {
+    ...($author && {author: $author}),
+    ...(hasQuery && { name: query }),
+    ...(hasTags && { tags }),
   };
 
-  const stack = !query && !tags.length
-    ? get(recipes)
-    : [];
-
-  for (let param in filters) {
-    // query = filters[param];
-    switch (param) {
-      default:
-      case "name":
-        stack.push(recipes.filterByName(filters[param]));
-        continue;
-      case "tag":
-        stack.push(recipes.filterByTag(filters[param]));
-        continue;
-      case "tags":
-        stack.push(recipes.filterByTags(filters[param]));
-        continue;
-    }
+  let results = [...$recipes];
+  for (let [key, value] of Object.entries(filtersToApply)) {
+    results = filterItems(results, filterFns[key], value);
   }
 
-  const results = [...new Set(stack.flat(2))]
-    // .filter(r => r.editable === (authorFilter === 1));
+  return results;
+}
 
-  console.log({results})
-
-  return results
+function filterItems (items, fn, value) {
+  return [...items.filter((item) => fn(item, value))];
 }

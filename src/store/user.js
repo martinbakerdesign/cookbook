@@ -40,7 +40,6 @@ function userStore() {
     set,
   };
 }
-const user = userStore();
 
 auth.onAuthStateChanged((u) => {
   if (!get(checked)) {
@@ -58,4 +57,8 @@ function onError(err) {
   new Error(`${code}: ${message}`)
 }
 
-export default user;
+const user = userStore();
+
+export {
+  user as default
+}

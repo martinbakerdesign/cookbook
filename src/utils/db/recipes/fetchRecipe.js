@@ -4,12 +4,14 @@ import {
   description,
   duration,
   tags,
-  ingredients,
   clearData,
   created,
   id,
-  name,
+  title,
+  ingredients,
+  miseEnPlace,
   method,
+  notes,
   shared,
   author,
   src,
@@ -19,6 +21,7 @@ import { INGREDIENT_TYPES } from "store/models/ingredients";
 import parseIngredient from "utils/text/parseIngredient";
 import time from "data/units/time";
 import getRecipeById from "./getById";
+import {  } from "store/index";
 
 export default async function fetchRecipe(_id) {
   loading.set(true), clearData();
@@ -26,11 +29,11 @@ export default async function fetchRecipe(_id) {
     if (!_id) throw "No ID passed to fetchRecipe";
     if (_id === "new") return;
 
-    let recipe = await getRecipeById(_id);
+    const recipe = await getRecipeById(_id);
 
     id.set(_id),
       created.set(recipe.created),
-      name.set(recipe.name ?? ""),
+      title.set(recipe.name ?? ""),
       amount.set(recipe.amount),
       description.set(recipe.description ?? ""),
       duration.set({
@@ -39,7 +42,9 @@ export default async function fetchRecipe(_id) {
       }),
       tags.set(recipe.tags ?? []),
       ingredients.set(recipe.ingredients ?? []),
+      miseEnPlace.set(recipe.mise_en_place ?? []),
       method.set(recipe.method ?? []),
+      notes.set(recipe.notes ?? []),
       shared.set(recipe.shared ?? false),
       author.set(recipe.author ?? null),
       src.set(recipe.src ?? ""),

@@ -3,3 +3,7 @@
 /.vscode/
 .DS_Store
 .env
+/.firebase/
+*storybook.log
+src/components/Icon/svg
+src/components/Icon/*.svg

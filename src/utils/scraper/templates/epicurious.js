@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "schemas/recipe";
+import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 
 const epicurious = {
@@ -26,12 +26,12 @@ const epicurious = {
     selector: '[data-testid="IngredientList"] .List-Xtjuf',
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "h3",
         className: "SubHed-ieytQr",
       },
       {
-        type: recipeNodeTypes.INGREDIENT,
+        type: NODES.INGREDIENT,
         // tag: "",
         className: "Description-dTsUqb",
       },
@@ -43,13 +43,13 @@ const epicurious = {
     // selector: "",
     contents: [
       {
-        type: recipeNodeTypes.HEADER,
+        type: NODES.HEADER,
         // tag: "",
         className: "InstructionGroupHed-hQJUKz",
         // selector: "",
       },
       {
-        type: recipeNodeTypes.STEP,
+        type: NODES.STEP,
         // tag: "li",
         className: "InstructionBody-huDCkh",
         // selector: ".instructions-section-item .section-body",
@@ -61,7 +61,7 @@ const epicurious = {
     // let parsed, ingredient;
     // for (let i in recipe.ingredients) {
     //   ingredient = recipe.ingredients[i];
-    //   if (ingredient.type === recipeNodeTypes.HEADER) continue;
+    //   if (ingredient.type === NODES.HEADER) continue;
     //   parsed = parseIngredient(ingredient.text);
     //   recipe.ingredients[i] = {
     //     ...ingredient,

@@ -1,4 +1,4 @@
-import { recipeNodeTypes } from "src/schemas/recipe";
+import { NODES } from "schemas/recipe";
 import { INGREDIENT_TYPES } from "store/models/ingredients";
 // import ingredientToContent from "./ingredientToContent";
 
@@ -12,7 +12,8 @@ export default function ingredientsToStateJSON(ingredients) {
   for (let i = 0; i < ingredients.length; i++) {
     ingredient = ingredients[i];
     if (!ingredient.text.trim().length) continue;
-    type = recipeNodeTypes[ingredient.type];
+    type = NODES[ingredient.type];
+    console.log({type})
 
     node = {
       type,

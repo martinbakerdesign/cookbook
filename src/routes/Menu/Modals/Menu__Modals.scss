@@ -1,0 +1,30 @@
+@use "../../../styles/sizes" as s;
+@use "../../../styles/colours" as c;
+@use "../../../styles/typo" as t;
+
+.menu__recipes__item__modal {
+  padding: 0;
+
+  &__heading {
+    font-size: 1rem;
+    font-weight: 600;
+    display: block;
+    margin: s.$s4;
+    margin-bottom: s.$s7;
+  }
+  &__input {
+    display: block;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: calc(0.1 / 16 * 1em);
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    padding: s.$s4;
+    padding-top: 0;
+    width: 100%;
+    outline: 0;
+    background-color: transparent;
+    color: var(--text-primary);
+  }
+}

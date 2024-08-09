@@ -4,18 +4,23 @@ import { pushing, cueTimeout, lastSaved, onCloud, cuedChange } from "store/";
 import { get } from "svelte/store";
 
 export default async function pushUpdatesToDB() {
-  let _cuedChange = get(cuedChange);
-  if (!_cuedChange || !_cuedChange.id) return;
-  let toPush = { ..._cuedChange, last_edited: Timestamp.now() };
+  const $cuedChange = get(cuedChange);
+  const id = $cuedChange.id;
 
+  if (!$cuedChange || !id) return;
+
+  const data = { ...$cuedChange, last_edited: Timestamp.now(), name: $cuedChange.title };
+  
   pushing.set(true);
-
+  
   try {
-    // console.log("Saving ...", toPush);
-    await updateDoc(doc(db, "recipes", _cuedChange.id), toPush);
+    const docRef = doc(db, "recipes", id);
+    
+    // console.log("Saving ...", data);
+    await updateDoc(docRef, data);
     // console.log("Saved");
 
-    onCloud.set(toPush),
+    onCloud.set(data),
       cueTimeout.clear(),
       cuedChange.reset(),
       lastSaved.set(Date.now());
