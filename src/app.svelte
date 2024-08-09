@@ -18,8 +18,8 @@
 </script>
 
 {#if !$checked && $location === "/"}
-  <div id="app__loading" class="z-10 relative">
-    <div class="p-2 m-4 bg-white radius-pill inline-block">
+  <div id="app__loading" class="z-10 fixed inset-0 flex justify-center items-center">
+    <div class="inline-block">
       <Animation {...wok} />
     </div>
   </div>
