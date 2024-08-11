@@ -1,10 +1,14 @@
+import { focusedWidget } from "components/Nav/Recipe";
+import { isExpanded, WIDGETS } from "components/Nav/Recipe";
 import {
   updateProgressBar,
   updateToggleTime,
   alarm,
-  // enableBrowserNotifications,
+  enableBrowserNotifications,
+  setDuration,
 } from "components/Nav/Recipe/Timer";
 import Timer from 'components/Nav/Recipe/Timer/Timer';
+import { get } from "svelte/store";
 import { milliseconds } from "types";
 import useReducer from "utils/useReducer";
 
@@ -60,7 +64,7 @@ const timer = new Timer(
 function onStart() {
   console.log("onStart");
 
-  // enableBrowserNotifications();
+  enableBrowserNotifications();
   dispatch(ACTIONS.PLAY);
 }
 function onPause() {
@@ -85,10 +89,12 @@ function onComplete() {
   dispatch(ACTIONS.COMPLETE);
   alarm();
 }
-function replaceTimer(d) {
+function replaceTimer(timerDuration) {
   timer.stop();
-  timer.setDuration(d);
+  setDuration(timerDuration)
   timer.start();
+  if (get(isExpanded)) return;
+  focusedWidget.set(WIDGETS.TIMER);
 }
 
 const stop = timer.stop;
