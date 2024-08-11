@@ -4,9 +4,10 @@ import schema from "schemas/recipe";
 import plugins from "../plugins";
 
 export default function stateFromRecipe(recipe) {
+  const stateJSON = recipeToStateJSON(recipe);
   return EditorState.create({
     schema,
     plugins: plugins(),
-    doc: schema.nodeFromJSON(recipeToStateJSON(recipe)),
+    doc: schema.nodeFromJSON(stateJSON),
   });
 }

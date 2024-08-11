@@ -2,11 +2,9 @@ import recipe, {
   ingredients,
   method,
   mutationSource,
-  title,
-  editorFocus,
-  blockType,
   notes,
-  miseEnPlace
+  miseEnPlace,
+  scaleFactor
 } from "store/index";
 import { get } from "svelte/store";
 import stateToRecipe from "utils/prosemirror/recipe/stateToRecipe";
@@ -25,6 +23,7 @@ import Editor from "./Editor";
 import EditorBar from "./EditorBar";
 import Overview from "./Overview";
 import { observeSection } from "components/Nav/Recipe/SectionJumper";
+import scaleRecipe from "utils/recipes/scale";
 
 const SECTIONS = {
   OVERVIEW: {
@@ -68,22 +67,30 @@ function mountEditor(editorEl) {
     }
   );
 
-  view.dom.addEventListener("click", onEditorClick);
   setRef(view, "view");
-
-
 
   setSectionRefs(editorEl)
 }
 
-const unsub = canEdit.subscribe($canEdit => {
-  if (!refs.view) return;
+const unsubs = [
+  canEdit.subscribe($canEdit => {
+    if (!refs.view) return;
 
-  refs.view.setProps({editable: () => $canEdit})
+    refs.view.setProps({editable: () => $canEdit})
 
-  const {dispatch, state} = refs.view
-  dispatch(state.tr.setMeta('forceUpdate', true))
-})
+    const {dispatch, state} = refs.view
+    dispatch(state.tr.setMeta('forceUpdate', true))
+  }),
+  scaleFactor.subscribe($scale => {
+    if (!refs.view) return;
+
+    const scaled = scaleRecipe(get(recipe), +$scale);
+  
+    const newState = stateFromRecipe(scaled);
+  
+    refs.view.updateState(newState);
+  })
+]
 
 function setSectionRefs(editorEl) {
   for (const section of $$(editorEl, 'section')) {
@@ -92,21 +99,6 @@ function setSectionRefs(editorEl) {
     refs.sections[id] = section;
     observeSection(section);
   }
-}
-
-function onEditorClick({ target }) {
-  const focusToBlockType = {
-    ingredients: 'ingredient',
-    miseenplace: 'ingredient',
-    method: 'step',
-    notes: 'note',
-  }
-  const nearestSection = target.closest("section");
-  const focus = nearestSection?.dataset.section ?? null;
-  const block = focus ? focusToBlockType[focus] ?? null : null;
-  editorFocus.set(focus),
-    blockType.set(block),
-    refs.view.dom.removeEventListener("click", onEditorClick);
 }
 
 function getPageTitle(params, $title) {
@@ -143,12 +135,11 @@ function dispatchTransaction(transaction) {
 
 function cleanup() {
   destroyView();
-  unsub()
+  unsubs.forEach(unsub => unsub());
 }
 
 function destroyView() {
   if (!refs.view) return;
-  refs.view.dom.removeEventListener("click", onEditorClick),
     refs.view?.destroy();
 }
 
@@ -197,7 +188,6 @@ export {
   
   //
   mountEditor,
-  onEditorClick,
   getPageTitle,
   onExternalMutation,
   dispatchTransaction,
