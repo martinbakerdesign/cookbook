@@ -6,6 +6,7 @@ import applySort from 'utils/recipes/sort/applySort'
 
 import List from './Menu__List.svelte'
 import Item from './Item'
+import ContextMenu from './ContextMenu'
 
 const items = derived(
     [recipes, searchQuery, author, sortKey, sortOrder],
@@ -24,6 +25,7 @@ export {
     List as default,
     List,
     Item,
+    ContextMenu,
     //
     items
 }

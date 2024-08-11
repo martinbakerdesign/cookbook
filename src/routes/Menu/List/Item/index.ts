@@ -1,7 +1,5 @@
 import Item from "./Menu__List__Item.svelte";
 import Tags from "./Menu__List__Item__Tags.svelte";
-import ContextMenuTouchTrigger from "./Menu__List__Item__Touch__ContextMenuTouchTrigger.svelte";
-import ContextMenu from "./ContextMenu";
 import { get, writable } from "svelte/store";
 import { hideContextMenu } from "store/contextMenu";
 import dateToRecencyString from "utils/date/dateToRecencyString";
@@ -72,8 +70,6 @@ export {
   Item as default,
   Item,
   Tags,
-  ContextMenu,
-  ContextMenuTouchTrigger,
   //
   useContextMenu,
   getTimeSince,
