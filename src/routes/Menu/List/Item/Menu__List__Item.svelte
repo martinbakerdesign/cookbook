@@ -4,14 +4,14 @@
   import _$ from "utils/dom/querySelector";
   import {
     Tags,
-    ContextMenu,
     useContextMenu,
     getTimeSince,
-    ContextMenuTouchToggle,
   } from ".";
   import { sortKey } from "store/menu";
+  import { Trigger } from "../ContextMenu";
+  import { recipeId } from "routes/Menu/Modals";
 
-  const { showContextMenu, contextPos, builder, init, hideContext, openContextMenu } =
+  const { builder, init } =
     useContextMenu();
 
   onMount(init);
@@ -19,10 +19,15 @@
   $: timeSince = getTimeSince($sortKey, created, last_edited);
 
   export let id, name, tags, created, last_edited;
+
+  function handleContextClick () {
+    recipeId.set(id);
+  }
 </script>
 
 <li
   use:builder
+  on:contextmenu={handleContextClick}
   class="grid px-page items-center gap-x-16 gap-y-4 py-4 border-b relative grid-cols-[1fr_5.5rem_auto] lg:grid-cols-[3fr_2fr_5.5rem] lg:py-6 last:border-b-0 hover:bg-background-fill-subtle {id === 'new' ? 'pointer-events-none select-none opacity-35' : ''}"
 >
   <a
@@ -43,13 +48,7 @@
   >
     {timeSince}
   </div>
-  <ContextMenuTouchToggle on:click={openContextMenu} />
-  <ContextMenu
-    show={$showContextMenu}
-    pos={$contextPos}
-    {hideContext}
-    recipeId={id}
-  />
+  <Trigger {id}/>
 </li>
 
 <style lang="scss">
