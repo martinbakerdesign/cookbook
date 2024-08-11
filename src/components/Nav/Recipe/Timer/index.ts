@@ -40,7 +40,6 @@ const refs = {
 };
 
 const duration = writable(5 * 60 * 1000);
-const isTouch = writable(false);
 
 let keyDownValue = null,
   keyDownInputName = null;
@@ -212,7 +211,9 @@ function enableBrowserNotifications() {
     });
   }
 }
+
 function soundAlarm() {
+  alarm.play();
   if (notiPermission !== "granted") return;
 
   refs.notification = new Notification("Time's up!", {
@@ -224,8 +225,8 @@ function soundAlarm() {
     requireInteraction: true,
   });
   refs.notification.addEventListener("close", dismissAlarm);
-  alarm.play();
 }
+
 function dismissAlarm() {
   alarm.stop();
   dispatch(ACTIONS.DISMISS);
@@ -278,6 +279,7 @@ function updateToggleTime(elapsed) {
     }
   }
 }
+
 function updateProgressBar(progress) {
   refs?.toggle_progress?.style.setProperty("--progress", progress);
 }
