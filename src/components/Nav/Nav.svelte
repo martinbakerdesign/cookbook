@@ -1,13 +1,11 @@
 <script>
-    import { onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
     import { loading } from 'store/index';
-    import { cleanup, Contents, setFixed } from '.'
+    import { init, Contents, setFixed } from '.'
 
     $: disabled = $loading;
 
-    onDestroy(() => {
-        cleanup();
-    })
+    onMount(init)
 </script>
 
 <nav class="pt-safe-area-inset-top bg-background-surface-backdrop backdrop-blur-lg sticky top-0 w-full z-40" use:setFixed>

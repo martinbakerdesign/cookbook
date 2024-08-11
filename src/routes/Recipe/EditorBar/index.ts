@@ -54,13 +54,13 @@ function setRefBuilder (key: ObjectValues<typeof refs>) {
 }
 function setFixed (el) {
   const vH = window?.visualViewport.height ?? window.innerHeight;
+  const offsetTop = window?.visualViewport.offsetTop ?? 0;
   const height = el.offsetHeight;
 
   toolbarHeight.set(height);
 
   el.style.position = 'fixed';
-  el.style.top = `${vH}px`
-  el.classList.add('-translate-y-full');
+  el.style.top = `${vH + offsetTop - height}px`
   el.parentElement.style.paddingBottom = `${height}px`;
 
   ref = el;
@@ -88,6 +88,7 @@ function onVisualViewportResize () {
 }
 function init () {
   window?.visualViewport.addEventListener('resize', onVisualViewportResize)
+  window?.visualViewport.addEventListener('scroll', onVisualViewportResize)
   initToolbar()
 
   return cleanup
