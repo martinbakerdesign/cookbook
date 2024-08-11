@@ -29,14 +29,25 @@ const ContentsComponent = derived([context], ([$context]) => {
 })
 let ref;
 function setFixed (el) {
+    const offsetTop = window?.visualViewport.offsetTop ?? 0;
     const height = el.offsetHeight;
 
     navHeight.set(height);
 
     el.style.position = 'fixed'
+    el.style.top = `${offsetTop}px`
     el.parentElement.style.paddingTop = `${height}px`
 
     ref = el;
+}
+function onVisualViewportResize () {
+    if (!ref) return;
+    setFixed(ref);
+}
+function init () {
+    window?.visualViewport.addEventListener('resize', onVisualViewportResize)
+    window?.visualViewport.addEventListener('scroll', onVisualViewportResize)
+    return cleanup
 }
 function cleanup () {
     if (!ref) return;
@@ -48,5 +59,5 @@ export {
     ContentsComponent as Contents,
     //
     setFixed,
-    cleanup
+    init
 }
