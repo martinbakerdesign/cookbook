@@ -17,11 +17,10 @@ let currentIndex;
 
 const getTimerClickHandler = (timerDuration) => {
   return (e) => {
-    setDuration(timerDuration)
-    timer.start();
-    // replaceTimer(timerDuration);
+    replaceTimer(timerDuration)
   }
 }
+
 function getDurationFromQuantity (q) {
   const {unit,quantity} = q;
 
@@ -47,6 +46,7 @@ function getDurationFromQuantity (q) {
 
   return value;
 }
+
 function createTimerButton(clickHandler) {
   let timerButton = document.createElement('button')
   timerButton.className = 'timer-button relative z-10'
