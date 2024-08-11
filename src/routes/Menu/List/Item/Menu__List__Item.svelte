@@ -7,7 +7,7 @@
     ContextMenu,
     useContextMenu,
     getTimeSince,
-    ContextMenuTouchToggle,
+    ContextMenuTouchTrigger,
   } from ".";
   import { sortKey } from "store/menu";
 
@@ -43,7 +43,7 @@
   >
     {timeSince}
   </div>
-  <ContextMenuTouchToggle on:click={openContextMenu} />
+  <ContextMenuTouchTrigger on:click={openContextMenu} />
   <ContextMenu
     show={$showContextMenu}
     pos={$contextPos}

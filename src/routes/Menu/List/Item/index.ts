@@ -1,6 +1,6 @@
 import Item from "./Menu__List__Item.svelte";
 import Tags from "./Menu__List__Item__Tags.svelte";
-import ContextMenuTouchToggle from "./Menu__List__Item__Touch__ContextMenuTouchToggle.svelte";
+import ContextMenuTouchTrigger from "./Menu__List__Item__Touch__ContextMenuTouchTrigger.svelte";
 import ContextMenu from "./ContextMenu";
 import { get, writable } from "svelte/store";
 import { hideContextMenu } from "store/contextMenu";
@@ -73,7 +73,7 @@ export {
   Item,
   Tags,
   ContextMenu,
-  ContextMenuTouchToggle,
+  ContextMenuTouchTrigger,
   //
   useContextMenu,
   getTimeSince,
