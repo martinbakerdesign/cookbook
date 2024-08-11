@@ -19,6 +19,9 @@ import TimerComponentDefaultState from "./Nav--Recipe__Timer--Default.svelte";
 import TimerComponentActiveState from "./Nav--Recipe__Timer--Active.svelte";
 import TimerComponentCompleteState from "./Nav--Recipe__Timer--Complete.svelte";
 import TimerComponentToggle from "./Nav--Recipe__Timer__Toggle.svelte";
+import Alarm from "components/Alarm";
+
+type TimerCallback = Function;
 
 const refs = {
   start: null,
@@ -200,15 +203,16 @@ function isRemoveKey(event) {
   return ["Backspace", "Delete"].includes(key);
 }
 
-// let notiPermission = Notification ? Notification?.permission : "denied";
-// function enableBrowserNotifications() {
-//   if (Notification && notiPermission !== "granted") {
-//     Notification.requestPermission().then((status) => {
-//       notiPermission = status;
-//     });
-//   }
-// }
-function alarm() {
+const alarm = new Alarm()
+let notiPermission = window?.Notification ? window?.Notification?.permission : "denied";
+function enableBrowserNotifications() {
+  if (Notification && notiPermission !== "granted") {
+    Notification.requestPermission().then((status) => {
+      notiPermission = status;
+    });
+  }
+}
+function soundAlarm() {
   if (notiPermission !== "granted") return;
 
   refs.notification = new Notification("Time's up!", {
@@ -220,8 +224,10 @@ function alarm() {
     requireInteraction: true,
   });
   refs.notification.addEventListener("close", dismissAlarm);
+  alarm.play();
 }
 function dismissAlarm() {
+  alarm.stop();
   dispatch(ACTIONS.DISMISS);
   if (!refs.notification) return;
 
@@ -280,8 +286,6 @@ function setTouchState () {
     isTouch.set(true)
 }
 
-
-
 function init () {
   window.addEventListener('touch', setTouchState)
 
@@ -309,11 +313,13 @@ export {
   ACTIONS,
   type STATE,
   type ACTION,
+  type TimerCallback,
   //
   refs,
   state,
   duration,
   isTouch,
+  alarm,
   //
   setRef,
   setRefBuilder,
@@ -330,6 +336,6 @@ export {
   toggleTimer,
   updateToggleTime,
   updateProgressBar,
-  alarm,
-  // enableBrowserNotifications
+  soundAlarm,
+  enableBrowserNotifications
 };

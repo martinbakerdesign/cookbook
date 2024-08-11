@@ -3,9 +3,10 @@ import { isExpanded, WIDGETS } from "components/Nav/Recipe";
 import {
   updateProgressBar,
   updateToggleTime,
-  alarm,
+  soundAlarm,
   enableBrowserNotifications,
   setDuration,
+  dismissAlarm,
 } from "components/Nav/Recipe/Timer";
 import Timer from 'components/Nav/Recipe/Timer/Timer';
 import { get } from "svelte/store";
@@ -61,6 +62,7 @@ const timer = new Timer(
     complete: onComplete,
   }
 );
+
 function onStart() {
   console.log("onStart");
 
@@ -87,9 +89,10 @@ function onProgress(elapsed) {
 }
 function onComplete() {
   dispatch(ACTIONS.COMPLETE);
-  alarm();
+  soundAlarm();
 }
 function replaceTimer(timerDuration) {
+  dismissAlarm();
   timer.stop();
   setDuration(timerDuration)
   timer.start();
