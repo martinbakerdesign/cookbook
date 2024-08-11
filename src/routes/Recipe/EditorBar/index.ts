@@ -6,39 +6,9 @@ import {refs} from 'store/recipe'
 import { cuedChange, lastSaved, pushing } from "store/index";
 import { derived, get, writable } from "svelte/store";
 import writableDerived from "utils/store/writableDerived";
+import { initToolbar } from '..';
 
-
-function setRefBuilder (key: ObjectValues<typeof refs>) {
-    return {
-      action: (el: Element | undefined) => {
-        if (!key.includes('.')) {
-          if (!Object.hasOwn(refs, key)) return;
-          refs[key] = el;
-          return;
-        }
-        const path = key.split('.')
-        let ref = refs
-        for (const segment of path.slice(0,-1)) {
-          if (!Object.hasOwn(ref, segment)) return;
-          ref = ref[segment];
-        }
-        ref[path.pop()] = el;
-      }
-    }
-}
-let ref;
-function setFixed (el) {
-  const height = el.offsetHeight;
-
-  toolbarHeight.set(height);
-
-  el.style.position = 'fixed';
-  el.parentElement.style.paddingBottom = `${height}px`;
-
-  ref = el;
-}
-
-let timeout;
+let ref, timeout;
 
 const saveStatus = derived(
   [pushing, cuedChange],
@@ -64,6 +34,37 @@ const saveStatusLabel = writableDerived(
 );
 
 
+function setRefBuilder (key: ObjectValues<typeof refs>) {
+    return {
+      action: (el: Element | undefined) => {
+        if (!key.includes('.')) {
+          if (!Object.hasOwn(refs, key)) return;
+          refs[key] = el;
+          return;
+        }
+        const path = key.split('.')
+        let ref = refs
+        for (const segment of path.slice(0,-1)) {
+          if (!Object.hasOwn(ref, segment)) return;
+          ref = ref[segment];
+        }
+        ref[path.pop()] = el;
+      }
+    }
+}
+function setFixed (el) {
+  const vH = window?.visualViewport.height ?? window.innerHeight;
+  const height = el.offsetHeight;
+
+  toolbarHeight.set(height);
+
+  el.style.position = 'fixed';
+  el.style.top = `${vH}px`
+  el.classList.add('-translate-y-full');
+  el.parentElement.style.paddingBottom = `${height}px`;
+
+  ref = el;
+}
 function initStatusIndicator () {
   saveStatusLabel.subscribe(($label) => {
     if (!$label) return;
@@ -81,8 +82,16 @@ function initStatusIndicator () {
     timeout = null;
   }
 }
+function onVisualViewportResize () {
+  if (!ref) return;
+  setFixed(ref);
+}
+function init () {
+  window?.visualViewport.addEventListener('resize', onVisualViewportResize)
+  initToolbar()
 
-
+  return cleanup
+}
 function cleanup () {
   toolbarHeight.set(0)
   if (!ref) return;
@@ -98,6 +107,6 @@ export {
     //
     setRefBuilder,
     setFixed,
-    cleanup,
+    init,
     initStatusIndicator
 }
