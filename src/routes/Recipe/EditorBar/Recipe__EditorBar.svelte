@@ -2,30 +2,12 @@
   import Button from "components/Button";
   import Icon from "components/Icon";
   import Switch from "components/Switch";
-  import { setFixed, setRefBuilder, cleanup, saveStatus, saveStatusLabel, BlockTypeSwitch } from ".";
-  import { initToolbar, NODES } from "..";
+  import { setFixed, setRefBuilder, saveStatus, init, BlockTypeSwitch } from ".";
+  import { NODES } from "..";
   import { refs } from "store/recipe";
   import { onMount } from "svelte";
 
-  onMount(() => {
-    initToolbar();
-    
-    return () => {
-      cleanup()
-    }
-  })
-
-  let nodeType = NODES.HEADER;
-  $: nodeValues = [
-    {
-      label: "Header",
-      value: NODES.HEADER,
-    },
-    {
-      label: "Ingredient",
-      value: NODES.INGREDIENT,
-    },
-  ];
+  onMount(init)
 
   let vW = 0;
   $: isTouch = vW < 1024;
@@ -46,7 +28,7 @@
 <svelte:window bind:innerWidth={vW} />
 
 <div
-  class="pb-safe-inset-bottom px-page sticky bottom-0 z-40 background-blur-sm bg-background-surface-backdrop backdrop-blur-lg w-full"
+  class="pb-safe-inset-bottom px-page sticky z-40 background-blur-sm bg-background-surface-backdrop backdrop-blur-lg w-full"
   use:setFixed
 >
   <div class="pb-page grid justify-center">
