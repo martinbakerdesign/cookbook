@@ -7,3 +7,4 @@
 *storybook.log
 src/components/Icon/svg
 src/components/Icon/*.svg
+cors-anywhere
