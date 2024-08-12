@@ -10,10 +10,8 @@ import $$ from 'utils/dom/querySelectorAll'
 import { get } from "svelte/store";
 import { canEdit } from "store/recipe";
 import { h, min, s } from "data/units/time";
-import timer, { replaceTimer } from "store/timer";
-import { setDuration } from "components/Nav/Recipe/Timer";
-
-let currentIndex;
+import { replaceTimer } from "store/timer";
+import { unitSwapTooltip } from './unitSwapper'
 
 const getTimerClickHandler = (timerDuration) => {
   return (e) => {
@@ -31,8 +29,6 @@ function getDurationFromQuantity (q) {
   const value = quantity.type !== 'RANGE'
     ? quantity.value
     : quantity.value[1]
-
-  console.log(quantity)
 
   if (isHrs) {
     return value * 60 * 60 * 1000;
@@ -53,6 +49,17 @@ function createTimerButton(clickHandler) {
   timerButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="fill-icon" viewBox="0 0 12 12"><use href="#icon--timer--12" /></svg>`
   timerButton.addEventListener('click', clickHandler)
   return timerButton
+}
+
+function getUnitSwapToggle(quantity) {
+  const toggle = document.createElement('button')
+  toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 12 12" class="inline-block w-8 h-8" ><use href="#icon--chevron--down--16" /></svg>';
+  toggle.className = 'fill-icon active:fill-accent';
+  toggle.dataset.from = quantity.pos;
+  toggle.dataset.to = (quantity.end - 1).toString();
+  toggle.dataset.unit = quantity.unit;
+  toggle.addEventListener('click', unitSwapTooltip.handleToggleClick)
+  return toggle;
 }
 
 function getQuantityDecos(transaction, doc) {
@@ -79,6 +86,20 @@ function getQuantityDecos(transaction, doc) {
             side: -1,
             destroy: () => {
               button.removeEventListener('click', clickHandler)
+            }
+          }
+        )
+      );
+    } else if (null != quantity?.unit) {
+      const unitSwapToggle = getUnitSwapToggle(quantity)
+      decos.push(
+        Decoration.widget(
+          quantity.end,
+          unitSwapToggle,
+          {
+            side: 0,
+            destroy: () => {
+              unitSwapToggle.removeEventListener('click', unitSwapTooltip.handleToggleClick)
             }
           }
         )
