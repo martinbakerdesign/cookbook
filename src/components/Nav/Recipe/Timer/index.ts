@@ -20,6 +20,7 @@ import TimerComponentActiveState from "./Nav--Recipe__Timer--Active.svelte";
 import TimerComponentCompleteState from "./Nav--Recipe__Timer--Complete.svelte";
 import TimerComponentToggle from "./Nav--Recipe__Timer__Toggle.svelte";
 import Alarm from "components/Alarm";
+import isTouch from "store/isTouch";
 
 type TimerCallback = Function;
 
@@ -74,7 +75,7 @@ function onDurationKeypress(e) {
   if (get(state) !== STATES.DEFAULT) return;
   if (!hasAllInputRefs()) return;
 
-  if (isTouch) return;
+  if (get(isTouch)) return;
 
   if (isNumberKey(e) || isRemoveKey(e)) return;
 
@@ -83,7 +84,7 @@ function onDurationKeypress(e) {
   timer.start();
 }
 function onSegmentPointerUp(e) {
-  if (!isTouch) return;
+  if (!get(isTouch)) return;
 
   keyDownValue = e.target.textContent;
   keyDownInputName = e.target.dataset.name;
@@ -93,7 +94,7 @@ function onDurationInput(e) {
   if (get(state) !== STATES.DEFAULT) return;
   if (!hasAllInputRefs()) return;
 
-  if (isTouch) {
+  if (get(isTouch)) {
     onTouchKeyup(e);
   }
 
@@ -122,7 +123,7 @@ function getValues () {
   return values;
 }
 function onTouchKeyup(e) {
-  if (!isTouch) return;
+  if (!get(isTouch)) return;
   if (get(state) !== STATES.DEFAULT) return;
   if (!hasAllInputRefs()) return;
   const target = refs[`input_${keyDownInputName}`];
@@ -284,15 +285,9 @@ function updateProgressBar(progress) {
   refs?.toggle_progress?.style.setProperty("--progress", progress);
 }
 
-function setTouchState () {
-    isTouch.set(true)
-}
-
 function init () {
-  window.addEventListener('touch', setTouchState)
 
   return () => {
-    window.removeEventListener('touch', setTouchState)
     timer?.stop()
   }
 };

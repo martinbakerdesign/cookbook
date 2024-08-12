@@ -7,6 +7,7 @@ import { cuedChange, lastSaved, pushing } from "store/index";
 import { derived, get, writable } from "svelte/store";
 import writableDerived from "utils/store/writableDerived";
 import { initToolbar } from '..';
+import isTouch from 'store/isTouch';
 
 let ref, timeout;
 
@@ -19,6 +20,11 @@ const saveStatus = derived(
   },
   'SAVED'
 );
+
+const buttonSize = derived(
+  [isTouch],
+  ([$isTouch]) => $isTouch ? "lg" : "md"
+)
 
 const saveStatusLabel = writableDerived(
   [pushing, cuedChange, lastSaved],
@@ -105,6 +111,7 @@ export {
     //
     saveStatus,
     saveStatusLabel,
+    buttonSize,
     //
     setRefBuilder,
     setFixed,

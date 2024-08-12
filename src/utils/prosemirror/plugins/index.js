@@ -18,6 +18,7 @@ import redoButton from "./toolbar/redoButton";
 import unitSelector from "./toolbar/unitSelector";
 import degreesButton from "./toolbar/degreesButton";
 import setFocusClassname from "./setFocusClassname";
+import unitSwapper from "./unitSwapper";
 // import contextMenuPlugin from "./contextMenu";
 // import { getContextItemButton, toggleBlockType } from "./toggleHeader";
 // import ingredientsSchema from "schemas/ingredient";
@@ -63,6 +64,7 @@ function plugins() {
         // translateUnit(),
         highlightDecorations,
         setFocusClassname,
+        unitSwapper,
         // drag,
         history(),
       ]

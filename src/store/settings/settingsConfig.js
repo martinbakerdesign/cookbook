@@ -1,11 +1,11 @@
-import { UNITSYSTEM_IMPERIAL, UNITSYSTEM_METRIC } from "data/units/_types";
+import { UNIT_LENGTH, UNIT_MASS, UNIT_TEMPERATURE, UNIT_VOLUME, UNITSYSTEM_IMPERIAL, UNITSYSTEM_METRIC } from "data/units/_types";
 import detectDarkMode from "utils/client/detectDarkMode";
 
 const settingsConfig = {
     units: {
       heading: "Units",
       isGroup: true,
-      volumeUnits: {
+      [UNIT_VOLUME]: {
         heading: "Default Volume Unit",
         type: "SELECT",
         default: UNITSYSTEM_METRIC,
@@ -14,7 +14,7 @@ const settingsConfig = {
           { value: UNITSYSTEM_IMPERIAL, label: "Imperial (qt, gal, pint)" },
         ],
       },
-      massUnits: {
+      [UNIT_MASS]: {
         heading: "Default Mass Unit",
         type: "SELECT",
         default: UNITSYSTEM_METRIC,
@@ -23,7 +23,7 @@ const settingsConfig = {
           { value: UNITSYSTEM_IMPERIAL, label: "Imperial (oz, lb)" },
         ],
       },
-      lengthUnits: {
+      [UNIT_LENGTH]: {
         heading: "Default Length Unit",
         type: "SELECT",
         default: UNITSYSTEM_METRIC,
@@ -32,7 +32,7 @@ const settingsConfig = {
           { value: UNITSYSTEM_IMPERIAL, label: "Imperial (in, ft, yd)" },
         ],
       },
-      temperatureUnit: {
+      [UNIT_TEMPERATURE]: {
         heading: "Default Temperature Unit",
         type: "SELECT",
         default: "°C",
