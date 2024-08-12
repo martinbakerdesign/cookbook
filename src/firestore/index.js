@@ -7,13 +7,40 @@ import {
 } from "firebase/auth";
 import { recipe } from "./seed";
 
+const env = import.meta?.env ? import.meta.env : process.env;
+
+const keys = {
+  FIREBASE_API_KEY: env.VITE_FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN: env.VITE_FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID: env.VITE_FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET: env.VITE_FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID: env.VITE_FIREBASE_APP_ID,
+}
+
+console.log('Setting up Firebase config', keys);
+
+if (!keys.FIREBASE_API_KEY || !keys.FIREBASE_API_KEY.length) {
+  throw new Error("Missing Firebase API Key");
+} else if (!keys.FIREBASE_AUTH_DOMAIN || !keys.FIREBASE_AUTH_DOMAIN.length) {
+  throw new Error("Missing Firebase Auth Domain");
+} else if (!keys.FIREBASE_PROJECT_ID || !keys.FIREBASE_PROJECT_ID.length) {
+  throw new Error("Missing Firebase Project ID");
+} else if (!keys.FIREBASE_STORAGE_BUCKET || !keys.FIREBASE_STORAGE_BUCKET.length) {
+  throw new Error("Missing Firebase Storage Bucket");
+} else if (!keys.FIREBASE_MESSAGING_SENDER_ID || !keys.FIREBASE_MESSAGING_SENDER_ID.length) {
+  throw new Error("Missing Firebase Messaging Sender ID");
+} else if (!keys.FIREBASE_APP_ID || !keys.FIREBASE_APP_ID.length) {
+  throw new Error("Missing Firebase App ID");
+}
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: keys.FIREBASE_API_KEY,
+  authDomain: keys.FIREBASE_AUTH_DOMAIN,
+  projectId: keys.FIREBASE_PROJECT_ID,
+  storageBucket: keys.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: keys.FIREBASE_MESSAGING_SENDER_ID,
+  appId: keys.FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
