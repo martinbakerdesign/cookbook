@@ -1,17 +1,12 @@
 <script>
+  import { onMount } from "svelte";
   import Button from "components/Button";
   import Icon from "components/Icon";
-  import Switch from "components/Switch";
-  import { setFixed, setRefBuilder, saveStatus, init, BlockTypeSwitch } from ".";
+  import { setFixed, setRefBuilder, saveStatus, init, BlockTypeSwitch, buttonSize } from ".";
   import { NODES } from "..";
   import { refs } from "store/recipe";
-  import { onMount } from "svelte";
 
   onMount(init)
-
-  let vW = 0;
-  $: isTouch = vW < 1024;
-  $: buttonSize = isTouch ? "lg" : "md";
 
   $: statusIcon = `${{
     'SAVED': 'saved',
@@ -25,8 +20,6 @@
   }[$saveStatus];
 </script>
 
-<svelte:window bind:innerWidth={vW} />
-
 <div
   class="pb-safe-inset-bottom px-page sticky z-40 background-blur-sm bg-background-surface-backdrop backdrop-blur-lg w-full"
   use:setFixed
@@ -39,7 +32,7 @@
     >
       <Button
         variant="inverted"
-        size={buttonSize}
+        size={$buttonSize}
         isIcon={true}
         label="Undo"
         builders={[setRefBuilder("editorActions.undo")]}
@@ -50,7 +43,7 @@
       >
       <Button
         variant="inverted"
-        size={buttonSize}
+        size={$buttonSize}
         isIcon={true}
         label="Redo"
         builders={[setRefBuilder("editorActions.redo")]}
@@ -65,19 +58,10 @@
         variant="inverted"
         class="flex-1 w-[11.5rem]"
       /> -->
-      <BlockTypeSwitch options={[
-        {
-          value: NODES.HEADER,
-          label: 'Header'
-        },
-        {
-          value: NODES.INGREDIENT,
-          label: 'Ingredient'
-        },
-      ]}/>
+      <BlockTypeSwitch />
       <Button
         variant="inverted"
-        size={buttonSize}
+        size={$buttonSize}
         isIcon={true}
         label="Degrees"
         builders={[setRefBuilder("editorActions.degrees")]}
