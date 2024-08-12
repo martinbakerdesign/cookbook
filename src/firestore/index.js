@@ -18,8 +18,6 @@ const keys = {
   FIREBASE_APP_ID: env.VITE_FIREBASE_APP_ID,
 }
 
-console.log('Setting up Firebase config', keys);
-
 if (!keys.FIREBASE_API_KEY || !keys.FIREBASE_API_KEY.length) {
   throw new Error("Missing Firebase API Key");
 } else if (!keys.FIREBASE_AUTH_DOMAIN || !keys.FIREBASE_AUTH_DOMAIN.length) {
