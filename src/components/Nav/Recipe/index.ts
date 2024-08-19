@@ -1,4 +1,4 @@
-import { get, writable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 import {
   MODES,
   mode
@@ -11,6 +11,7 @@ import ModeToggleButton from "./ModeToggleButton";
 import SectionJumper from "./SectionJumper";
 import Scaler from "./Scaler";
 import Timer from "./Timer";
+import { scaleFactor } from "store/index";
 
 const WIDGETS = {
   TIMER: "TIMER",
@@ -24,6 +25,20 @@ const focusedWidget = writable<Widget>(null);
 const isExpanded = writable(false);
 const expandedBreakpoint = 1024;
 const resizeObserver = new ResizeObserver(onResize);
+
+// SCALER
+const showScalerToggle = derived(
+  [isExpanded, focusedWidget],
+  ([$isExpanded, $focusedWidget]) => {
+      return !$isExpanded && WIDGETS.TIMER !== $focusedWidget
+  }
+)
+const showScalerValueInToggle = derived(
+  [focusedWidget, scaleFactor],
+  ([$focusedWidget, $scaleFactor]) => {
+      return $focusedWidget !== WIDGETS.SCALER && $scaleFactor !== 1;
+  }
+)
 
 function onResize() {
   const $isExpanded = window.innerWidth >= expandedBreakpoint;
@@ -66,6 +81,8 @@ export {
   isExpanded,
   focusedWidget,
   mode,
+  showScalerToggle, 
+  showScalerValueInToggle,
   //
   toggleMode,
   toggleWidget,
