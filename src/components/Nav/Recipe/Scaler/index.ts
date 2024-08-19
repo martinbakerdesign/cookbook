@@ -1,5 +1,5 @@
 import { derived, get, writable } from 'svelte/store';
-import { toggleWidget, WIDGETS } from '..'
+import { showScalerToggle, showScalerValueInToggle, toggleWidget, WIDGETS } from '..'
 import Scaler from './Nav--Recipe__Scaler.svelte'
 import Toggle from './Nav--Recipe__Scaler__Toggle.svelte'
 import Suggestions from './Nav--Recipe__Scaler__Suggestions.svelte'
@@ -24,12 +24,17 @@ const yieldValue = derived(
         return Math.round(($amount?.quantity ?? $amount ?? 0) * parseFloat($scale))
     }
 )
-
 const yieldSuffix = derived(
     [amount, yieldValue],
     ([$amount, $yield]) => {
         if (!$yield || !$amount?.unit) return '';
         return pluralize($amount?.unit, $yield);
+    }
+)
+const hasYield = derived(
+    [yieldValue, yieldSuffix],
+    ([$yield, $suffix]) => {
+        return $yield && $yield > 0 && $suffix && $suffix.length > 0;
     }
 )
 
@@ -42,13 +47,11 @@ function increase () {
 function decrease () {
     scaleFactor.update($s => Math.max(1, parseFloat($s) - 1))
 }
-
 function onScaleChange (e) {
     const $scale = extractFloat(e.target.textContent)
 
     scaleFactor.set($scale);
 }
-
 function onYieldChange (e) {
     const $yield = findValues(e.target.textContent);
     if (!$yield.length) return;
@@ -62,16 +65,13 @@ function onYieldChange (e) {
 
     scaleFactor.set(isWhole ? $scale : $scale.toFixed(2));
 }
-
 function extractFloat (str) {
     const match = str.match(/\d+(\.\d+)?/);
     return parseFloat(match ? match[0] ?? 0 : 0);
 }
-
 function toggleFocus (e) {
     focus.set(e.type === 'focus' || refs.inputContainer && refs.inputContainer.contains(e.relatedTarget) || refs.suggestions && refs.suggestions.contains(e.relatedTarget)) ;
 }
-
 function getSuggestions ($scale, $yieldValue, $yieldSuffix) {
     const unscaledYield = parseFloat($yieldValue) / parseFloat($scale);
 
@@ -84,7 +84,6 @@ function getSuggestions ($scale, $yieldValue, $yieldSuffix) {
 
     return suggestions;
 }
-
 function getSuggestionClickHandler (scale) {
     return () => {
         scaleFactor.set(scale);
@@ -103,6 +102,9 @@ export {
     scaleFactor as scaleValue,
     yieldValue,
     yieldSuffix,
+    showScalerToggle as showToggle,
+    showScalerValueInToggle as showValueInToggle,
+    hasYield,
     //
     toggleScaler,
     increase,
