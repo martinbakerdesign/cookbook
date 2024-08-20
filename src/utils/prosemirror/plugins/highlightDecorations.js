@@ -90,7 +90,7 @@ function getQuantityDecos(transaction, doc) {
           }
         )
       );
-    } else if (null != quantity?.unit) {
+    } else if (quantity.unitType !== UNIT_TIME && null != quantity?.unit) {
       const unitSwapToggle = getUnitSwapToggle(quantity)
       decos.push(
         Decoration.widget(
