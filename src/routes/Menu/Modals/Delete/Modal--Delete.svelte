@@ -15,7 +15,9 @@
         type="button"
         on:click={cancel}
         disabled={$deleting}
-        size="lg">No</Button
+        size="lg"
+        class="w-full flex-1"
+        >No</Button
       >
       <Button
         type="button"
@@ -23,6 +25,7 @@
         disabled={$deleting}
         variant="critical"
         size="lg"
+        class="w-full flex-1"
       >
         {deleteButtonLabel}
       </Button>

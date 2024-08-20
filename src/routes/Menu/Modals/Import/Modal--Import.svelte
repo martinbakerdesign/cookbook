@@ -1,8 +1,12 @@
 <script>
   import Modal, { Title, Actions, Content } from "components/Modal";
+  import Animation from 'components/Animation'
   import Button from "components/Button";
-  import { id, saving, inputDisabled, saveButtonLabel, handleChange, cancel, importRecipe, recipe, saveDisabled, init, refs } from ".";
+  import { id, saving, inputDisabled, saveButtonLabel, handleChange, cancel, importRecipe, recipe, saveDisabled, init, refs, loading } from ".";
   import { onMount } from "svelte";
+  import animProps from "constants/anim";
+
+  $: hideSaveButton = null == $recipe;
 
   onMount(init)
 </script>
@@ -12,13 +16,17 @@
     <Title>Import Recipe</Title>
     <input
       bind:this={refs.input}
-      class="bg-background-fill-subtle hover:bg-background-fill-subtle-hover active:bg-background-fill-subtle-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 outline-none h-20 w-full"
-      placeholder="Recipe URL"
+      class="bg-background-fill-inverted hover:bg-background-fill-inverted-hover active:bg-background-fill-inverted-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 outline-none h-20 w-full"
+      placeholder="Paste of type a recipe URL here..."
       type="url"
       on:change={handleChange}
       disabled={$inputDisabled}
     />
-    {#if $recipe}
+    {#if $loading}
+      <div class="select-none pointer-events-none flex items-center justify-center fill-accent text-heading-md text-text-secondary">
+        Fetching recipe...
+      </div>
+    {:else if $recipe}
       <div class="bg-background-fill-subtle rounded-1 overflow-hidden overflow-y-auto max-h-[72vh] lg:max-h-[64vh] p-4">
         <div class="menu__import__recipe__name">{$recipe.name}</div>
         <ul class="menu__import__recipe__meta">
@@ -43,16 +51,19 @@
         on:click={cancel}
         variant="secondary"
         size="lg"
-        disabled={$saving}>Cancel</Button
-      >
+        disabled={$saving}
+        class="flex-1 w-full"
+      >Cancel</Button>
       <Button
         type="button"
         disabled={$saveDisabled}
         variant="primary"
         size="lg"
         on:click={importRecipe}
-        >{$saveButtonLabel}</Button
-      >
+        class="flex-1 w-full"
+        hidden={hideSaveButton}
+        aria-hidden={hideSaveButton}
+      >{$saveButtonLabel}</Button>
     </Actions>
   </Content>
 </Modal>

@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from "svelte";
   import { url, recipes } from "store";
   import { recipeId } from "../";
+  import Icon from "components/Icon";
   import {
     getShareLink,
     getSwitchProps,
@@ -24,6 +25,8 @@
   $: switchProps = getSwitchProps($recipes, $recipeId);
   $: saveButtonLabel = ["Done", "Updating..."][+$saving];
 
+  $: copyIcon = `${$success ? 'tick' : 'link'}--20`
+
   onMount(init);
   onDestroy(cleanup);
 </script>
@@ -33,33 +36,37 @@
       <Title slot="header">Share Recipe</Title>
 
       
-      <div class="flex gap-2">
-        <input
-          class="bg-background-fill-subtle hover:bg-background-fill-subtle-hover active:bg-background-fill-subtle-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 w-full outline-none h-20"
-          type="text"
-          value={shareLink}
-          readonly
-          on:click={selectAll}
-          bind:this={refs.input}
-        />
-        <Button
-          variant={!$success ? 'secondary' : 'success'}
-          size="lg"
-          class="flex-none"
-          on:click={copyToClipboard}
-        >
-          <span bind:this={refs.copyButtonLabel}>Copy Link</span>
-        </Button>
-      </div>
-      <div class="">
-        <Switch {...switchProps} />
+      <div class="flex flex-col gap-y-1">
+        <div class="relative">
+          <input
+            class="bg-background-fill-inverted hover:bg-background-fill-inverted-hover active:bg-background-fill-inverted-active placeholder:text-text-secondary text-text py-3 px-4 rounded-1 w-full outline-none h-20 pr-26 text-body-sm"
+            type="text"
+            value={shareLink}
+            readonly
+            on:click={selectAll}
+            bind:this={refs.input}
+          />
+          <Button
+            variant={!$success ? 'accent' : 'success'}
+            size="lg"
+            class="flex-none absolute right-1 top-1/2 -translate-y-1/2"
+            on:click={copyToClipboard}
+            isIcon={true}
+            aria-label="Copy Link"
+          >
+            <Icon icon={copyIcon} size={20}/>
+          </Button>
+        </div>
+        <div class="flex items-center gap-x-3 h-20 p-3 rounded-1 bg-background-fill-subtle fill-icon flex-1 w-full">
+          <Switch {...switchProps} />
+        </div>
       </div>
 
       <Actions slot="footer">
         <Button
-          variant="accent"
+          variant="primary"
           size="lg"
-          class="flex-1 w-full"
+          class="w-full flex-1"
           on:click={cancel}
           disabled={$saving}>{saveButtonLabel}</Button
         >
