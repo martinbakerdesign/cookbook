@@ -36,12 +36,14 @@ function setFixed (el) {
 
     el.style.position = 'fixed'
     el.style.top = `${offsetTop}px`
+
+    if (!el.parentElement) return;
     el.parentElement.style.paddingTop = `${height}px`
 
     ref = el;
 }
 function onVisualViewportResize () {
-    if (!ref) return;
+    if (!ref || !document.body.contains(ref)) return;
     setFixed(ref);
 }
 function init () {
@@ -50,7 +52,7 @@ function init () {
     return cleanup
 }
 function cleanup () {
-    if (!ref) return;
+    if (!ref || !document.body.contains(ref)) return;
     ref.style.removeProperty('padding-bottom')
 }
 

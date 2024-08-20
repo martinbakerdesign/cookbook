@@ -45,6 +45,33 @@ const buttonVariants = tv({
       toggle: 'animation-toggle',
     },
   },
+  compoundVariants: [
+    {
+      isIcon: true,
+      size: 'xs',
+      class: 'w-12 h-12'
+    },
+    {
+      isIcon: true,
+      size: 'sm',
+      class: 'w-14 h-14'
+    },
+    {
+      isIcon: true,
+      size: 'md',
+      class: 'w-16 h-16'
+    },
+    {
+      isIcon: true,
+      size: 'lg',
+      class: 'w-18 h-18'
+    },
+    {
+      isIcon: true,
+      size: 'xl',
+      class: 'w-20 h-20'
+    },
+  ],
   defaultVariants: {
     variant: "primary",
     size: "md",
