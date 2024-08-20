@@ -26,6 +26,8 @@ export function getSwitchProps(recipes, recipeId: string) {
   return {
     ...defaultSwitchProps,
     initialValue: recipes.filter((r) => r.id === recipeId)[0]?.shared ?? false,
+    disabled: !recipeId,
+    icon: 'pencil--20'
   };
 }
 

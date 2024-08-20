@@ -27,7 +27,7 @@
     <input
       type="text"
       bind:this={refs.input}
-      class="bg-background-fill-subtle hover:bg-background-fill-subtle-hover active:bg-background-fill-subtle-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 w-full outline-none h-20"
+      class="bg-background-fill-inverted hover:bg-background-fill-inverted-hover active:bg-background-fill-inverted-active placeholder:text-text-secondary text-text text-body-lg py-3 px-4 rounded-1 w-full outline-none h-20"
       placeholder="My Recipe"
       bind:value={$value}
       on:pointerdown={onPointerDown}
@@ -46,7 +46,7 @@
         type="button"
         on:click={renameRecipe}
         disabled={$saving}
-        variant="accent"
+        variant="primary"
         size="lg"
         class="flex-1">{saveButtonLabel}</Button
       >

@@ -1,29 +1,38 @@
 <script>
   import {setToggleHandler, value, onClick} from '.'
+  import Icon from 'components/Icon'
 
   export let key = "",
-    label = "",
-    id = "";
+            label = "",
+            id = "",
+            icon = "",
+            disabled = false;
   export let onToggle = () => {};
   $: setToggleHandler(onToggle)
 
   let initialValue = false;
   export {initialValue as value};
-  $: value.set(initialValue);  
+  $: value.set(initialValue);
 </script>
 
-<div class="input--switch flex w-full" data-checked={$value}>
-  <label for={id} class="input--switch__label flex-1">{label}</label>
+<div class="flex w-full items-center {disabled ? 'opacity-15' : ''}" data-checked={$value}>
+  {#if label && label.length > 0}
+  <label for={id} class="flex-1 flex items-center text-body-sm font-normal">
+    {#if icon}
+      <Icon {icon} class="mr-3" />
+    {/if}{label}</label>
+  {/if}
   <button
-    class="input--switch__switch"
+    class="rounded-1 p-1 inline-flex flex-none transition-all duration-150 overflow-hidden {$value ? 'bg-background-fill-success' : 'bg-background-surface'}"
     type="button"
     role="switch"
     aria-checked={$value}
     {id}
     value={key}
     on:click={onClick}
+    {disabled}
   >
-    <span class="input--switch__switch__thumb" data-checked={$value} />
+    <span class="w-10 h-10 aspect-square rounded-1 bg-white left-1 top-1 mr-6 data-[checked=true]:translate-x-6 transition-all duration-150 shadow-md" data-checked={$value} />
   </button>
   <input
     tabindex={-1}
@@ -34,75 +43,3 @@
     checked={$value}
   />
 </div>
-
-<style lang="scss">
-  @use "../../../styles/sizes" as s;
-  @use "../../../styles/colours" as c;
-
-  .input--switch {
-    display: flex;
-    align-items: center;
-    --border: 0.125em;
-    font-size: 1rem;
-
-    &__label {
-      margin-right: s.$s4;
-      font-size: 0.875rem;
-    }
-    &__switch {
-      height: calc(1em + 2 * var(--border));
-      position: relative;
-      width: 2em;
-      border-radius: 2em;
-      background-color: c.$grey-82;
-      transition: 150ms cubic-bezier(0.19, 1, 0.22, 1);
-      transition-property: background-color;
-      padding: 0;
-      border: 0;
-      outline: 0;
-      font-size: inherit;
-      cursor: pointer;
-
-      &__thumb {
-        font-size: inherit;
-        width: 1em;
-        height: 1em;
-        border-radius: 50%;
-        position: absolute;
-        background-color: white;
-        left: var(--border);
-        top: var(--border);
-        transition: transform 150ms cubic-bezier(0.19, 1, 0.22, 1);
-        will-change: transform;
-        transform: translate3d(0, 0, 0);
-
-        &[data-checked="true"] {
-          transform: translate3d(0.8em, 0, 0);
-        }
-      }
-
-      &:focus-visible {
-        box-shadow: 0px 0px 0px var(--border) c.$accent inset;
-      }
-    }
-
-    input {
-      font-size: inherit;
-      transform: translateX(-100%);
-      position: absolute;
-      pointer-events: none;
-      opacity: 0;
-      margin: 0px;
-      width: 2em;
-      height: calc(1em + 2 * var(--border));
-    }
-
-    &[data-checked="true"] {
-      .input--switch {
-        &__switch {
-          background-color: c.$accent;
-        }
-      }
-    }
-  }
-</style>
