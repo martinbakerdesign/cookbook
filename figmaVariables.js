@@ -222,8 +222,8 @@ const figmaVariables = {
         }
       },
       "surface": {
-        "DEFAULT": "rgb(var(--colors-background-surface) / <alpha-value>)",
-        "backdrop": "rgb(var(--colors-background-surface-backdrop) / <alpha-value>)"
+        "DEFAULT": "rgba(var(--colors-background-surface))",
+        "backdrop": "rgba(var(--colors-background-surface-backdrop))"
       }
     },
     "border": "rgb(var(--borderColor) / <alpha-value>)"
