@@ -1,6 +1,7 @@
 <script>
     import { isExpanded, widgetFocus } from '..';
     import Icon from 'components/Icon';
+    import Button from 'components/Button';
     import Hotkey from 'components/Hotkey';
     import {onMount} from 'svelte'
     import {
@@ -16,6 +17,7 @@
         searchIconProps,
         getIconClassName,
         getContainerFlex,
+        cancel,
         //
         init
     } from '.'
@@ -48,9 +50,31 @@
         on:change={handleQueryChange}
      />
 
-    <div class="absolute right-2 top-1/2 -translate-y-1/2 flex justify-center items-center w-18 h-18 aspect-square select-none pointer-events-none">
-         <Hotkey hotkey="/" />
+    <div class="absolute right-1 top-1/2 -translate-y-1/2 flex justify-center items-center w-18 h-18 aspect-square select-none pointer-events-none">
+        {#if $isFocused || $hasValue}
+        <Button
+            variant="outline"
+            size="lg"
+            isIcon={true}
+            on:click={cancel}
+            class="pointer-events-auto z-10"
+        ><Icon icon="x--12" size={12} /></Button>
+        {:else}
+        <Hotkey hotkey="/" />
+        {/if}
+
         <!-- cancel button -->
     </div>
 </div>
 {/if}
+
+<style>
+    /* clears the ‘X’ from Internet Explorer */
+input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
+input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
+/* clears the ‘X’ from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+</style>

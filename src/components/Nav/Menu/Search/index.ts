@@ -16,6 +16,11 @@ const searchIconProps = {
     label: 'Search'
 }
 
+const shortcutHandler = useShortcut('/', () => {
+    if (get(isFocused) || !refs.input) return;
+    refs.input.focus();
+})
+
 function toggleFocus (e) {
     isFocused.set(e.type === 'focus')
 }
@@ -36,17 +41,10 @@ function getIconClassName ($showIcon) {
 
     return `fill-icon-secondary transition-all ${iconTransform} ${iconOpacity}`
 }
-
-const shortcutHandler = useShortcut('/', () => {
-    if (get(isFocused) || !refs.input) return;
-    refs.input.focus();
-})
-
 function handleKeyDown (e) {
     if ('Escape' !== e.key || !refs.input) return;
     refs.input.blur()
 }
-
 function init () {
     const keyEvent = 'keyup';
 
@@ -55,7 +53,6 @@ function init () {
         window.removeEventListener(keyEvent, shortcutHandler)
     }
 }
-
 function useShortcut(keyCombo, callback) {
     return (e) => {
         // const checkCtrl = keyCombo.includes('ctrl')
@@ -67,6 +64,13 @@ function useShortcut(keyCombo, callback) {
         if (e.key !== keyCombo) return;
         callback && callback();
     }
+}
+function cancel () {
+    if (!refs.input) return;
+    refs.input.value = '';
+    isFocused.set(false)
+    refs.input.blur();
+    searchQuery.set('')
 }
 
 export {
@@ -84,6 +88,7 @@ export {
     handleKeyDown,
     getContainerFlex,
     getIconClassName,
+    cancel,
     //
     init
 }
