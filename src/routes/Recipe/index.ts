@@ -50,6 +50,26 @@ const childNodeTypes = [
   NODES.NOTE,
 ];
 
+const unsubs = [
+  canEdit.subscribe($canEdit => {
+    if (!refs.view) return;
+
+    refs.view.setProps({editable: () => $canEdit})
+
+    const {dispatch, state} = refs.view
+    dispatch(state.tr.setMeta('forceUpdate', true))
+  }),
+  scaleFactor.subscribe($scale => {
+    if (!refs.view) return;
+
+    const scaled = scaleRecipe(get(recipe), +$scale);
+  
+    const newState = stateFromRecipe(scaled);
+  
+    refs.view.updateState(newState);
+  })
+]
+
 function mountEditor(editorEl) {
   setRef(editorEl, "editor");
 
@@ -71,26 +91,6 @@ function mountEditor(editorEl) {
 
   setSectionRefs(editorEl)
 }
-
-const unsubs = [
-  canEdit.subscribe($canEdit => {
-    if (!refs.view) return;
-
-    refs.view.setProps({editable: () => $canEdit})
-
-    const {dispatch, state} = refs.view
-    dispatch(state.tr.setMeta('forceUpdate', true))
-  }),
-  scaleFactor.subscribe($scale => {
-    if (!refs.view) return;
-
-    const scaled = scaleRecipe(get(recipe), +$scale);
-  
-    const newState = stateFromRecipe(scaled);
-  
-    refs.view.updateState(newState);
-  })
-]
 
 function setSectionRefs(editorEl) {
   for (const section of $$(editorEl, 'section')) {

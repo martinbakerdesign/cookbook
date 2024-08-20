@@ -7,7 +7,7 @@ import setNestedValue from "utils/setNestedValue";
 // TODO Add import settings block
 // Autoconvert units to preferred units
 
-export default function settingsStore(fromStorage = settingsDefaultValue) {
+function settingsStore(fromStorage = settingsDefaultValue) {
   const merged = mergeSettingsFromLocalStorage(settingsConfig, fromStorage);
 
   const blocks = Object.entries(merged).map(([key, value]) =>
@@ -48,7 +48,6 @@ export default function settingsStore(fromStorage = settingsDefaultValue) {
     subscribe: settings.subscribe,
   };
 }
-
 
 function correctInitialValues(def, value) {
   switch (def.type) {
@@ -100,4 +99,8 @@ function correctedBlockValue(path = [], block = {}, config = {}) {
   return initialValue != null
     ? correctInitialValues(def, initialValue)
     : defaultValue;
+}
+
+export {
+  settingsStore as default
 }
