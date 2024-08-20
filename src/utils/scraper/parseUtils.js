@@ -1,4 +1,5 @@
 import replaceUnicodeFractions from "utils/text/replaceUnicodeFractions";
+import getHeadingTextContent from "./getHeadingTextContent";
 
 function applyTransformations(src, transformations = []) {
   if (!transformations.length || !src || !src.length) return src;
@@ -55,13 +56,29 @@ function replaceNewLines(src) {
   return src.replace(/\n+\s+/g, " ");
 }
 
-export function cleanText(text) {
+function replaceSymbols (src) {
+  return src.replace(/[▢]/g, '')
+}
+
+function removeImages (src) {
+  return src.replace(/<img[^>]*>/g, '')
+}
+
+function cleanText(text) {
   let cleaned = applyTransformations(text.trim(), [
+    removeImages,
     replaceUnicodeFractions,
     replaceDegrees,
     // replaceIllegalChars,
     // replaceNewLines,
     replaceDoubleSpaces,
+    replaceSymbols
   ]).trim();
   return cleaned;
+}
+
+
+export {
+  getHeadingTextContent,
+  cleanText
 }

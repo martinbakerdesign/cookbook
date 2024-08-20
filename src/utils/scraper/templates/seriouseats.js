@@ -54,6 +54,18 @@ const seriouseats = {
       },
     ],
   },
+  notes: {
+    // id: "",
+    selector: '.structured-project__steps',
+    // className: "",
+    contents: [
+      {
+        type: NODES.NOTE,
+        // tag: "",
+        className: "note",
+      },
+    ],
+  },
   tags: {
     id: "link-list_1-0",
     contents: [
@@ -64,16 +76,10 @@ const seriouseats = {
   },
   transformations: (recipe) => {
     // Set units and quantities on ingredients
-    let parsed, ingredient;
-    for (let i in recipe.ingredients) {
-      ingredient = recipe.ingredients[i];
-      if (ingredient.type === NODES.HEADER) continue;
-      parsed = parseIngredient(ingredient.text);
-      recipe.ingredients[i] = {
-        ...ingredient,
-        ...parsed,
-      };
-    }
+    recipe.ingredients = recipe.ingredients.map((ingredient) => ({
+      ...ingredient,
+      ...(NODES.INGREDIENT === ingredient.type && parseIngredient(ingredient.text))
+    }))
     // Reorder method
     let method = [];
     let step, nextStep;
@@ -93,7 +99,23 @@ const seriouseats = {
       }
     }
     recipe.method = [...method];
+
+    recipe.notes = recipe.notes.map(note => note.text).join("\n").split(/\n+/g).map(note => ({ type: NODES.NOTE, text: note }));
   },
+  prepare: (dom) => {
+    const notesHeading = Array.from(dom.querySelectorAll('h2')).find((h2) => h2.textContent.trim().toLowerCase() === 'notes')
+    if (notesHeading) {
+      let ref = notesHeading;
+      while (ref.nextSibling) {
+        const nextSibling = ref.nextSibling;
+        ref = nextSibling;
+
+        if (nextSibling.nodeType === 3 || !['P'].includes(nextSibling?.tagName)) continue;
+
+        nextSibling.classList.add('note');
+      }
+    }
+  }
 };
 
 export default seriouseats;
