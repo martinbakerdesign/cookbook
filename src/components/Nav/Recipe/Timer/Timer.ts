@@ -88,7 +88,6 @@ class Timer {
         })
     }
     pause = () => {
-        console.log('Timer.pause()')
         if (this.shouldNotRun || null == this.raf) return;
 
         const now = performance.now();
@@ -99,12 +98,10 @@ class Timer {
         return this;
     }
     resume = () => {
-        console.log('Timer.resume()')
         return this.start();
     }
     stop = (complete:boolean = false) => {
         if (this.shouldNotRun || null == this.raf) return;
-        console.log('Timer.stop()')
         cancelAnimationFrame(this.raf);
         this.started = false;
         this.raf = null;
@@ -114,12 +111,10 @@ class Timer {
         return this;
     }
     complete = () => {
-        console.log('Timer.complete()')
         this.stop(true);
         this.completeCallback && this.completeCallback();
     }
     restart = () => {
-        console.log('Timer.reset()')
         this.stop();
         this.start();
         return this;
