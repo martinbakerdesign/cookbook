@@ -7,7 +7,7 @@ import {
 import RecipeNav from "./Nav--Recipe.svelte";
 
 import RecipesButton from "./RecipesButton";
-import ModeToggleButton from "./ModeToggleButton";
+import ModeToggleSwitch from "./ModeToggleSwitch";
 import SectionJumper from "./SectionJumper";
 import Scaler from "./Scaler";
 import Timer from "./Timer";
@@ -69,7 +69,7 @@ function toggleWidget(widget: Widget) {
 export {
   RecipeNav as default,
   RecipesButton,
-  ModeToggleButton,
+  ModeToggleSwitch,
   SectionJumper,
   Scaler,
   Timer,

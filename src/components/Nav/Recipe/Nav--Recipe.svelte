@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import {readonly} from 'store/recipe'
   import {
-    ModeToggleButton,
+    ModeToggleSwitch,
     RecipesButton,
     SectionJumper,
     Scaler,
@@ -33,5 +33,5 @@
 {/if}
 
 {#if !$readonly}
-<ModeToggleButton />
+<ModeToggleSwitch />
 {/if}
