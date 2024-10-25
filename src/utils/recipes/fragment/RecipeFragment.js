@@ -430,5 +430,6 @@ function getRangeProps(match, isRange) {
 
 
 export {
-  findValues
+  findValues,
+  findUnits
 }

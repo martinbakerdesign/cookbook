@@ -1,13 +1,13 @@
 import templates from "./templates";
 import useTemplate from "./useTemplate";
+import $ from 'utils/dom/querySelector'
+import blankRecipe from "./blankRecipe";
 
 const testSites = [
   "https://www.seriouseats.com/reverse-seared-pork-shoulder-chashu-recipe",
   "https://www.thespruceeats.com/smashed-brussels-sprouts-recipe-5203711",
   "https://cooking.nytimes.com/recipes/1023316-loaded-vegan-nachos",
 ];
-
-// ("thespruceeats");
 
 function getHostTemplate(url) {
   let sitename = new URL(url).host.replace("www.", "").split(".co")[0];
@@ -22,30 +22,26 @@ async function scrapeRecipe(url = "") {
   if (!url || !url.length) return null;
 
   let template = getHostTemplate(url);
-
+  
   try {
-    let pageMarkup = await getPage(url) ?? "";
-
-    let shadow = document.createElement("div");
+    const pageMarkup = await getPage(url);
+    
+    const shadow = document.createElement("div");
     shadow.innerHTML = pageMarkup;
-    let recipe;
+    const isWPRM = null != $(shadow, '.wprm-recipe');
+    let recipe = {...blankRecipe};
 
     if (template) {
       recipe = useTemplate(shadow, template);
+    } else if (isWPRM) {
+      recipe = useTemplate(shadow, templates.wprm)
     } else {
-      recipe = {
-        name: "",
-        src: url,
-        duration: "",
-        amount: "",
-        ingredients: [],
-        method: [],
-      };
+      recipe = templates.generic(shadow)
     }
 
     recipe.src = url;
 
-    console.log({ recipe });
+    console.log('recipe scraped: ',{ recipe });
 
     return recipe;
   } catch (err) {
@@ -53,16 +49,18 @@ async function scrapeRecipe(url = "") {
   }
 }
 
-function getPage(url) {
-  // let proxyUrl = "https://thingproxy.freeboard.io/fetch/";
-  let proxyUrl = "https://creative-kataifi-668d50.netlify.app/.netlify/functions/fetch-website/";
+async function getPage(url) {
+  const proxyUrl = "https://creative-kataifi-668d50.netlify.app/.netlify/functions/fetch-website/";
 
-  return fetch(proxyUrl + url, {})
-    .then(async (r) => await r.text())
-    .catch((err) => {
-      console.error(err)
-      return ""
-    });
+  try {
+    const req = await fetch(proxyUrl + url, {})
+    const text = await req.text();
+    if (!req.ok) throw text;
+    
+    return text;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export default scrapeRecipe;
