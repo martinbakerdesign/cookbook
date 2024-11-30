@@ -24,6 +24,7 @@ import EditorBar from "./EditorBar";
 import Overview from "./Overview";
 import { observeSection } from "components/Nav/Recipe/SectionJumper";
 import scaleRecipe from "utils/recipes/scale";
+import RecipeHeaderToolbarUnitSelect from "./Header/Toolbar/UnitSelect/Recipe__Header__Toolbar__UnitSelect.svelte";
 
 const SECTIONS = {
   OVERVIEW: {
@@ -50,6 +51,8 @@ const childNodeTypes = [
   NODES.NOTE,
 ];
 
+let unsubs = [];
+
 function mountEditor(editorEl) {
   setRef(editorEl, "editor");
 
@@ -71,26 +74,6 @@ function mountEditor(editorEl) {
 
   setSectionRefs(editorEl)
 }
-
-const unsubs = [
-  canEdit.subscribe($canEdit => {
-    if (!refs.view) return;
-
-    refs.view.setProps({editable: () => $canEdit})
-
-    const {dispatch, state} = refs.view
-    dispatch(state.tr.setMeta('forceUpdate', true))
-  }),
-  scaleFactor.subscribe($scale => {
-    if (!refs.view) return;
-
-    const scaled = scaleRecipe(get(recipe), +$scale);
-  
-    const newState = stateFromRecipe(scaled);
-  
-    refs.view.updateState(newState);
-  })
-]
 
 function setSectionRefs(editorEl) {
   for (const section of $$(editorEl, 'section')) {
@@ -172,6 +155,26 @@ function initToolbar() {
 }
 
 function init() {
+  unsubs = [
+    canEdit.subscribe($canEdit => {
+      if (!refs.view) return;
+  
+      refs.view.setProps({editable: () => $canEdit})
+  
+      const {dispatch, state} = refs.view
+      dispatch(state.tr.setMeta('forceUpdate', true))
+    }),
+    scaleFactor.subscribe($scale => {
+      if (!refs.view) return;
+  
+      const scaled = scaleRecipe(get(recipe), +$scale);
+    
+      const newState = stateFromRecipe(scaled);
+    
+      refs.view.updateState(newState);
+    })
+  ];
+  
   return cleanup
 }
 
