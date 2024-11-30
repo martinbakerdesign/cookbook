@@ -12,24 +12,23 @@
   import Nav from "components/Nav";
 
   import "styles/app.css";
-  // import "styles/styles.scss";
-  // import "styles/_colours.scss";
 
   useIcons();
 </script>
 
-{#if !$checked && $location === "/" || $loadingRecipes}
-  <div id="app__loading" class="z-10 fixed inset-0 flex justify-center items-center">
-    <div class="inline-block">
-      <Animation {...wok} />
-    </div>
-  </div>
-{:else if $checked}
+{#if $checked}
   {#if $user}
     <Nav />
     <Router routes={userRoutes} />
   {:else}
     <Router routes={guestRoutes} />
   {/if}
+{/if}
+{#if (!$checked || $loadingRecipes) && $location === "/"}
+  <div class="z-10 fixed inset-0 flex justify-center items-center pointer-events-none">
+    <div class="inline-block">
+      <Animation {...wok} />
+    </div>
+  </div>
 {/if}
 <Settings />
