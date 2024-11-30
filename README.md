@@ -107,7 +107,7 @@
 	- [ ] Minimalist Baker
 	- [ ] Hot Thai Kitchen
 	- [ ] Just One Cookbook
-	- [ ] Maangchi
+	- [x] Maangchi
 	- [ ] Cookie and Kate
 	- [ ] RecipeTin Eats
 - [ ] 🎨 [Design revamp & additional features](https://www.figma.com/design/qNcnoJQVZbfTYSsgP5GCA6/cookbook-design?m=auto&t=yEeNS2vEQHbQEGot-1)
