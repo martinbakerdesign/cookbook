@@ -1,4 +1,5 @@
 <script>
+  import { loadingRecipes } from "./store";
   import user, { checked } from "store/user";
   import Router, { location } from "svelte-spa-router";
   import {userRoutes, guestRoutes} from 'routes'
@@ -17,14 +18,14 @@
   useIcons();
 </script>
 
-{#if !$checked && $location === "/"}
+{#if !$checked && $location === "/" || $loadingRecipes}
   <div id="app__loading" class="z-10 fixed inset-0 flex justify-center items-center">
     <div class="inline-block">
       <Animation {...wok} />
     </div>
   </div>
 {:else if $checked}
-{#if $user}
+  {#if $user}
     <Nav />
     <Router routes={userRoutes} />
   {:else}
