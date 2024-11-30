@@ -89,8 +89,10 @@ function parseMany(dom, def) {
   }
 
   for (const container of containers) {
-    let childSelector = def.contents.map((d) => getSelector(d)).join(", ");
-    let children = $$(container, childSelector);
+    const childSelector = def.contents.map((d) => getSelector(d)).join(", ");
+    if (!container || !childSelector) continue;
+
+    const children = $$(container, childSelector);
     if (!children || !children.length) continue;
 
     const childrenAsNodes = children
