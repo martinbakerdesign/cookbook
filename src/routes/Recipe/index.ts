@@ -98,6 +98,12 @@ function onExternalMutation($mutationSource) {
   refs.view.updateState(newState), mutationSource.set("local");
 }
 
+function updateSubstore (store, updates) {
+  // TODO Improve comparison method
+  if (JSON.stringify(get(store)) === JSON.stringify(updates)) return;
+  store.set(updates);
+}
+
 function dispatchTransaction(transaction) {
   if (!refs.view) return;
 
@@ -109,11 +115,12 @@ function dispatchTransaction(transaction) {
   if (!$user || !transaction.docChanged || true === transaction.meta?.setFocus) return;
 
   const $recipe = stateToRecipe(newState);
+
   mutationSource.set("local"),
-    ingredients.set($recipe.ingredients),
-    miseEnPlace.set($recipe.mise_en_place),
-    method.set($recipe.method),
-    notes.set($recipe.notes);
+    updateSubstore(ingredients, $recipe.ingredients),
+    updateSubstore(miseEnPlace, $recipe.mise_en_place),
+    updateSubstore(method, $recipe.method),
+    updateSubstore(notes, $recipe.notes);
 }
 
 function cleanup() {
