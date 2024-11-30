@@ -7,15 +7,17 @@ function registerModal(id: string, showStore: Writable<boolean> = writable(false
 }
 
 function modalsOpen () {
-  return Object.values(modals).some(store => get(store));
+  return Array.from(modals.values()).map(store => get(store)).some(visible => visible);
 }
 function getOpenModals () {
-  return Object.entries(modals).find(([id, visible]) => get(visible))
+  return Array.from(modals.entries()).find(([id, visible]) => get(visible))
 }
 function toggleModal (id, show = false) {
   if (!modals.has(id)) return;
 
   modals.get(id).set(show);
+
+  document.documentElement.style.overflowY = modalsOpen() ? 'hidden' : 'auto';
 }
 function showModal (id) {
   toggleModal(id, true)
