@@ -167,7 +167,7 @@ export function clearData() {
     cueTimeout.clear(),
     cuedChange.reset(),
     pushing.set(false),
-    scaleFactor.set("1.0"),
+    scaleFactor.set(1.0),
     src.set(""),
     onCloud.set(null),
     blockType.set(null),

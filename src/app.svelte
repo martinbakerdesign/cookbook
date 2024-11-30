@@ -1,4 +1,5 @@
 <script>
+  import { loadingRecipes } from "./store";
   import user, { checked } from "store/user";
   import Router, { location } from "svelte-spa-router";
   import {userRoutes, guestRoutes} from 'routes'
@@ -11,24 +12,23 @@
   import Nav from "components/Nav";
 
   import "styles/app.css";
-  // import "styles/styles.scss";
-  // import "styles/_colours.scss";
 
   useIcons();
 </script>
 
-{#if !$checked && $location === "/"}
-  <div id="app__loading" class="z-10 fixed inset-0 flex justify-center items-center">
-    <div class="inline-block">
-      <Animation {...wok} />
-    </div>
-  </div>
-{:else if $checked}
-{#if $user}
+{#if $checked}
+  {#if $user}
     <Nav />
     <Router routes={userRoutes} />
   {:else}
     <Router routes={guestRoutes} />
   {/if}
+{/if}
+{#if (!$checked || $loadingRecipes) && $location === "/"}
+  <div class="z-10 fixed inset-0 flex justify-center items-center pointer-events-none">
+    <div class="inline-block">
+      <Animation {...wok} />
+    </div>
+  </div>
 {/if}
 <Settings />

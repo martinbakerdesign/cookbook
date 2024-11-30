@@ -9,6 +9,7 @@ const sortOrderFilterStore = getMenuFilterStore(menuFilters.sortOrder);
 function getMenuFilterStore ({key, items}) {
   const store = writable('');
   const initValue = localStorage.get(key) ?? items[0].value;
+
   function set ($value) {
     store.set($value)
     localStorage.set(key, $value)

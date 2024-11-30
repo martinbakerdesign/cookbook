@@ -64,21 +64,16 @@ const timer = new Timer(
 );
 
 function onStart() {
-  console.log("onStart");
-
   enableBrowserNotifications();
   dispatch(ACTIONS.PLAY);
 }
 function onPause() {
-  console.log("onPause");
   dispatch(ACTIONS.PAUSE);
 }
 function onResume() {
-  console.log("onResume");
   dispatch(ACTIONS.PLAY);
 }
 function onStop() {
-  console.trace("onStop");
   dispatch(ACTIONS.STOP);
 }
 function onProgress(elapsed) {

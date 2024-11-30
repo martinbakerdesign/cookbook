@@ -3,8 +3,6 @@
   import { tagsFilter, searchQuery } from "store";
   import { recipeId } from "routes/Menu/Modals";
 
-  $: console.log($recipeId)
-
   $: noRecipes = !$items.length && !$searchQuery.query.length && !$tagsFilter.length;
 </script>
 
