@@ -9,6 +9,7 @@ import bonappetit from "./bonappetit";
 import tasty from "./tasty";
 import food from "./food";
 import wprm from "./wprm";
+import maangchi from "./maangchi";
 import generic from "./generic";
 
 const templates = {
@@ -22,6 +23,7 @@ const templates = {
   bonappetit,
   tasty,
   food,
+  maangchi,
   generic,
   wprm
 };
