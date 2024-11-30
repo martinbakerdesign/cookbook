@@ -1,8 +1,6 @@
-import { doc } from "firebase/firestore";
 import { NODES } from "schemas/recipe";
 import reorderMethod from "./reorderMethod";
 import $ from "utils/dom/querySelector";
-import $$ from "utils/dom/querySelectorAll";
 
 const wprm = {
   name: {
@@ -95,11 +93,16 @@ const wprm = {
     // fix servings
     const servingsWithUnitEl = $(dom, '.wprm-recipe-servings-with-unit');
     const servingsEl = $(dom, '.wprm-recipe-servings');
+    const notesEl = $(dom, '.wprm-recipe-notes');
+
     if (servingsWithUnitEl) {
-        servingsWithUnitEl.innerHTML = servingsWithUnitEl.innerHTML.replace('people', 'servings').replace('person', 'serving');
+      servingsWithUnitEl.innerHTML = servingsWithUnitEl.innerHTML.replace('people', 'servings').replace('person', 'serving');
     } else if (servingsEl) {
-        servingsEl.innerHTML = (servingsEl.textContent + ' servings').replace(/\s+/g, ' ');
-        console.log(servingsEl)
+      servingsEl.innerHTML = (servingsEl.textContent + ' servings').replace(/\s+/g, ' ');
+    }
+
+    if (notesEl) {
+      notesEl.innerHTML = notesEl.innerHTML.replace(/<br>/g, '\n');
     }
   },
 };
