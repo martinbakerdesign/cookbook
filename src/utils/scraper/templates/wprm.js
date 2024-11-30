@@ -88,6 +88,8 @@ const wprm = {
 
     // Reorder method
     recipe.method = reorderMethod(recipe);
+
+    recipe.notes && (recipe.notes = recipe.notes.map(note => ({ type: NODES.NOTE, text: note })));
   },
   prepare(dom) {
     // fix servings
@@ -102,7 +104,7 @@ const wprm = {
     }
 
     if (notesEl) {
-      notesEl.innerHTML = notesEl.innerHTML.replace(/<br>/g, '\n');
+      notesEl.innerHTML = notesEl.innerHTML.replace(/\<br\>/g, '\n');
     }
   },
 };
