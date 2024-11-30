@@ -5,12 +5,11 @@
   import { loadingRecipes } from "store";
   import Animation from "components/Animation";
   import { wok } from "constants/anim";
-  import { modalsCleanUp } from "./Modals";
-  import { Modals, List } from ".";
+  import { Modals, List ,cleanup } from ".";
 
   $: $user && recipes.refresh();
 
-  onDestroy(modalsCleanUp);
+  onDestroy(cleanup);
 </script>
 
 <svelte:head>
@@ -20,7 +19,7 @@
 <article id="menu" class="relative">
   <div class="w-full">
     {#if $loadingRecipes}
-      <div class="p-6 flex w-full justify-center text-center">
+      <div class="fixed inset-0 flex w-full items-center justify-center text-center h-full pointer-events-none">
         <Animation
           {...{
             ...wok,

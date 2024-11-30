@@ -1,5 +1,21 @@
-export {default as default} from './Menu.svelte'
+import { modalsCleanUp } from './Modals'
 
-export {default as List} from './List'
+import Menu from './Menu.svelte'
 
-export {default as Modals} from './Modals'
+import List from './List'
+
+import Modals from './Modals'
+import { searchQuery } from 'store/index'
+
+function cleanup () {
+    modalsCleanUp()
+    searchQuery.clear()
+}
+
+export {
+    Menu as default,
+    List,
+    Modals,
+    //
+    cleanup
+}
