@@ -24,6 +24,7 @@ import EditorBar from "./EditorBar";
 import Overview from "./Overview";
 import { observeSection } from "components/Nav/Recipe/SectionJumper";
 import scaleRecipe from "utils/recipes/scale";
+import RecipeHeaderToolbarUnitSelect from "./Header/Toolbar/UnitSelect/Recipe__Header__Toolbar__UnitSelect.svelte";
 
 const SECTIONS = {
   OVERVIEW: {
@@ -50,25 +51,7 @@ const childNodeTypes = [
   NODES.NOTE,
 ];
 
-const unsubs = [
-  canEdit.subscribe($canEdit => {
-    if (!refs.view) return;
-
-    refs.view.setProps({editable: () => $canEdit})
-
-    const {dispatch, state} = refs.view
-    dispatch(state.tr.setMeta('forceUpdate', true))
-  }),
-  scaleFactor.subscribe($scale => {
-    if (!refs.view) return;
-
-    const scaled = scaleRecipe(get(recipe), +$scale);
-  
-    const newState = stateFromRecipe(scaled);
-  
-    refs.view.updateState(newState);
-  })
-]
+let unsubs = [];
 
 function mountEditor(editorEl) {
   setRef(editorEl, "editor");
@@ -115,6 +98,12 @@ function onExternalMutation($mutationSource) {
   refs.view.updateState(newState), mutationSource.set("local");
 }
 
+function updateSubstore (store, updates) {
+  // TODO Improve comparison method
+  if (JSON.stringify(get(store)) === JSON.stringify(updates)) return;
+  store.set(updates);
+}
+
 function dispatchTransaction(transaction) {
   if (!refs.view) return;
 
@@ -126,11 +115,12 @@ function dispatchTransaction(transaction) {
   if (!$user || !transaction.docChanged || true === transaction.meta?.setFocus) return;
 
   const $recipe = stateToRecipe(newState);
+
   mutationSource.set("local"),
-    ingredients.set($recipe.ingredients),
-    miseEnPlace.set($recipe.mise_en_place),
-    method.set($recipe.method),
-    notes.set($recipe.notes);
+    updateSubstore(ingredients, $recipe.ingredients),
+    updateSubstore(miseEnPlace, $recipe.mise_en_place),
+    updateSubstore(method, $recipe.method),
+    updateSubstore(notes, $recipe.notes);
 }
 
 function cleanup() {
@@ -172,6 +162,26 @@ function initToolbar() {
 }
 
 function init() {
+  unsubs = [
+    canEdit.subscribe($canEdit => {
+      if (!refs.view) return;
+  
+      refs.view.setProps({editable: () => $canEdit})
+  
+      const {dispatch, state} = refs.view
+      dispatch(state.tr.setMeta('forceUpdate', true))
+    }),
+    scaleFactor.subscribe($scale => {
+      if (!refs.view) return;
+  
+      const scaled = scaleRecipe(get(recipe), +$scale);
+    
+      const newState = stateFromRecipe(scaled);
+    
+      refs.view.updateState(newState);
+    })
+  ];
+  
   return cleanup
 }
 
