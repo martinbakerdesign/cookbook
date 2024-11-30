@@ -5,6 +5,7 @@ import validateURL from "utils/validate/url";
 import ImportModal from "./Modal--Import.svelte";
 import { getModalStore, hideModal } from "store/modals";
 import { recipes } from "store/index";
+import { debounce } from "lodash";
 
 const id = "menu__import";
 
@@ -38,6 +39,7 @@ function handleChange(e) {
   if (!validateURL($importUrl)) return;
   pullRecipe();
 }
+const debouncedHandleChange = debounce(handleChange, 300);
 async function pullRecipe() {
   loading.set(true);
   error.set(null);
@@ -105,6 +107,6 @@ export {
   //
   cancel,
   importRecipe,
-  handleChange,
+  debouncedHandleChange as handleChange,
   init
 };
