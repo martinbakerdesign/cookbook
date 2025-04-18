@@ -16,14 +16,16 @@
   useIcons();
 </script>
 
+<Nav />
+
 {#if $checked}
   {#if $user}
-    <Nav />
     <Router routes={userRoutes} />
   {:else}
     <Router routes={guestRoutes} />
   {/if}
 {/if}
+
 {#if (!$checked || $loadingRecipes) && $location === "/" && !($checked && $loadingRecipes)}
   <div class="z-10 fixed inset-0 flex justify-center items-center pointer-events-none">
     <div class="inline-block">
