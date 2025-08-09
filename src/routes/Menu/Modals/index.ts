@@ -9,7 +9,7 @@ export { default as Import } from "./Import";
 
 import {hideAllModals} from 'store/modals'
 
-export const recipeId = writable(null);
+export const recipeId = writable<RecipeID|null>(null);
 export const selecting = writable(false);
 
 export function hideModals() {

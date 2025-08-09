@@ -2,7 +2,7 @@
   import {setToggleHandler, value, onClick} from '.'
   import Icon from 'components/Icon'
 
-  export let key = "",
+  export let switchKey = "switch",
             label = "",
             id = "",
             icon = "",
@@ -12,7 +12,7 @@
 
   let initialValue = false;
   export {initialValue as value};
-  $: value.set(initialValue);
+  $: value.set(true === initialValue);
 </script>
 
 <div class="flex w-full items-center {disabled ? 'opacity-15' : ''}" data-checked={$value}>
@@ -28,7 +28,7 @@
     role="switch"
     aria-checked={$value}
     {id}
-    value={key}
+    value={switchKey}
     on:click={onClick}
     {disabled}
   >
@@ -37,7 +37,7 @@
   <input
     tabindex={-1}
     type="checkbox"
-    value={key}
+    value={switchKey}
     hidden
     aria-hidden={true}
     checked={$value}

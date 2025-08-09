@@ -2,6 +2,7 @@ import { recipes } from "store/index";
 import { get, writable } from "svelte/store";
 import { recipeId } from "..";
 import { hideModal, getModalStore } from "store/modals";
+import getRecipeByID from "utils/recipes/getRecipeByID";
 
 export { default as default } from "./Modal--Share.svelte";
 
@@ -16,19 +17,26 @@ export const id = 'menu__share';
 
 export const success = writable(false);
 
-const defaultSwitchProps = {
+export const defaultSwitchProps = {
   id: "menu__recipe__share__public",
   label: "Allow anyone with the link to see this recipe",
-  initialValue: false,
+  value: false,
+  disabled: true,
+  icon: 'pencil--20',
   onToggle: toggleShared,
 };
-export function getSwitchProps(recipes, recipeId: string) {
-  return {
-    ...defaultSwitchProps,
-    initialValue: recipes.filter((r) => r.id === recipeId)[0]?.shared ?? false,
-    disabled: !recipeId,
-    icon: 'pencil--20'
-  };
+
+let switchProps = {
+  ...defaultSwitchProps
+}
+export function getSwitchProps(recipe: Recipe|null) {
+  switchProps = {
+    ...switchProps,
+    value: true === (recipe?.shared ?? false),
+    disabled: null === recipe,
+  }
+
+  return switchProps;
 }
 
 export const saving = writable(false);
@@ -83,7 +91,9 @@ export function init () {
   
     clear();
   });
+
+  return cleanup;
 }
-export function cleanup() {
+function cleanup() {
   clear();
 }
