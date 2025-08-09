@@ -1,9 +1,11 @@
 <script>
   import { derived, get, writable } from "svelte/store";
   import Label from "components/Label";
+  import Button from "components/Button";
   import Icon from "components/Icon";
   import Tag from "components/Tag";
   import { tags } from "store/index";
+  import isTouch from "store/isTouch";
   import { removeTag, addTag as addTagToStore, canEdit } from "store/recipe";
   import getSuggestions from "utils/tags/getSuggestions";
 
@@ -22,6 +24,8 @@
   );
 
   $: suggestionsHidden = !$focus || !$inputValue.length;
+  $: addTagButtonDisabled = !$inputValue.length;
+  $: buttonSize = $isTouch ? 'sm' : 'xs';
 
   function onChange(e) {
     if (e.key === "Enter" || e.keyCode === 13) {
@@ -91,15 +95,21 @@
     inputValue.set("");
   }
   function onClick(e) {
-    if (!get(canEdit) || !refs.input || e.target.closest(".tag")) return;
+    if (!get(canEdit) || !refs.input || e.target.closest(".tag") || e.closest('#create-tag')) return;
 
     refs.input.focus();
+  }
+  function handleAddTagClick () {
+    const newTag = get(inputValue);
+    tags.add(newTag);
+    focus.set(false);
+    inputValue.set('')
   }
 </script>
 
 <section
   data-section="TAGS"
-  class="px-page pt-[3.125rem] pb-12 relative flex flex-wrap gap-2 cursor-text border-t flex-none w-full xl:flex-1 xl:border-t-0 xl:pl-10"
+  class="px-page pt-[3.125rem] pb-12 relative flex flex-wrap gap-2 items-center cursor-text border-t flex-none w-full xl:flex-1 xl:border-t-0 xl:pl-10"
 >
   <span class="absolute inset-0 z-0" on:click={onClick}></span>
 
@@ -109,22 +119,23 @@
   >
 
   {#each $tags as tag}
-    <Tag class="p-0 items-center select-none tag relative z-10">
+    <Tag class="p-0 items-center select-none tag relative z-10 py-0">
       <span
-        class="inline-flex text-body-lg leading-[1.25rem] gap-x-2 items-center select-none pt-px {!$canEdit
-          ? ''
-          : 'pl-2'}"
+        class="inline-flex text-body-lg leading-[1.25rem] gap-x-2 items-center select-none"
       >
         <span>{tag}</span>
         {#if $canEdit}
-          <button
+          <Button
+            size={buttonSize}
+            variant="ghost"
             on:click={removeTag}
+            isIcon={true}
             data-tag={tag}
-            class="w-10 h-10 flex justify-center items-center fill-icon hover:fill-icon-critical"
+            class="fill-icon hover:fill-icon-critical -mr-2"
             ><Icon
               icon="x--12"
               size={12}
-            /></button
+            /></Button
           >
         {/if}
       </span>
@@ -132,12 +143,20 @@
   {/each}
 
   {#if $canEdit}
-    <div class="flex items-center gap-x-2 flex-1 mt-4 relative z-10">
-      <Icon
-        icon="plus--12"
-        size={12}
-        class="fill-icon"
-      />
+    <div class="flex items-center gap-x-2 flex-1 relative z-10">
+      <Button
+        size={buttonSize}
+        variant='accent'
+        isIcon={true}
+        disabled={addTagButtonDisabled}
+        on:click={handleAddTagClick}
+        id="create-tag"
+      >
+        <Icon
+          icon="plus--12"
+          size={12}
+        />
+      </Button>
       <input
         type="text"
         {id}
