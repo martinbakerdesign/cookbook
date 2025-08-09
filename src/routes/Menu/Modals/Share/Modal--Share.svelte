@@ -12,23 +12,27 @@
     cancel,
     saving,
     selectAll,
-    cleanup,
     init,
     id,
+    defaultSwitchProps,
   } from ".";
 
   import { Switch } from "components/Inputs";
   import Modal, { Actions, Content, Title } from "components/Modal";
   import Button from "components/Button/Button.svelte";
-
+  import { writable } from "svelte/store";
+  import getRecipeByID from "utils/recipes/getRecipeByID";
+  
+  $: recipe = getRecipeByID($recipes, $recipeId);
+  $: disabled = null === recipe;
+  
+  const switchProps = writable(defaultSwitchProps);
+  $: switchProps.set(getSwitchProps(recipe));
   $: shareLink = getShareLink($url, $recipeId);
-  $: switchProps = getSwitchProps($recipes, $recipeId);
   $: saveButtonLabel = ["Done", "Updating..."][+$saving];
-
-  $: copyIcon = `${$success ? 'tick' : 'link'}--20`
+  $: copyIcon = `${$success ? 'tick' : 'link'}--20`;
 
   onMount(init);
-  onDestroy(cleanup);
 </script>
 
 <Modal {id}>
@@ -58,7 +62,7 @@
           </Button>
         </div>
         <div class="flex items-center gap-x-3 h-20 p-3 rounded-1 bg-background-fill-subtle fill-icon flex-1 w-full">
-          <Switch {...switchProps} />
+          <Switch {...$switchProps}/>
         </div>
       </div>
 
