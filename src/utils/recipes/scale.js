@@ -32,6 +32,6 @@ function scaleNode (node) {
 
   return {
     ...node,
-    text: new RecipeFragment(node.text, 0).scale(scale),
+    text: new RecipeFragment(node.text, 0).scale(scale, 2),
   };
 }

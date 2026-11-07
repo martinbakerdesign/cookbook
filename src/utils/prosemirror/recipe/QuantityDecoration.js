@@ -94,13 +94,18 @@ class QuantityDeco {
       ? this.text.slice(this.rangePos[0] + this.rangeSizes[0], this.rangePos[1])
       : "";
   }
-  toString(scale = 1) {
+  toString(scale = 1, maxDecimals = null) {
     if (!this.scalable || scale === 1) return this.text;
     this.quantity.scale(scale);
 
     let start = this.quantityPos ?? this.pos;
     let end = start + this.quantitySize;
     let replaceStr = this.quantity.toString(this.joiningStr);
+    if (maxDecimals != null) {
+      replaceStr = replaceStr.replace(/\d+\.\d+/g, (value) =>
+        String(Number(Number(value).toFixed(maxDecimals)))
+      );
+    }
 
     this.quantity.scale(1);
 

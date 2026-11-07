@@ -195,7 +195,7 @@ const recipeSchema = new Schema({
         return [
           "h3",
           {
-            class: "recipe__editor__item block text-heading-md text-text mb-8 mt-6 first:mt-0"+(node.content.size === 0 || node.attrs.isEmpty ? ' empty' : '')+(node.attrs.hasFocus ? ' has-focus' : ''),
+            class: "recipe__editor__item block text-heading-md text-text mb-8 mt-6 first:mt-0",
             "data-index": node.attrs.index,
             "data-type": NODES.HEADER,
             'data-placeholder': 'Heading'
@@ -239,7 +239,7 @@ const recipeSchema = new Schema({
         return [
           "div",
           {
-            class: "recipe__editor__item block mb-2 last:mb-0"+(node.content.size === 0 || node.attrs.isEmpty ? ' empty' : '')+(node.attrs.hasFocus ? ' has-focus' : ''),
+            class: "recipe__editor__item block mb-2 last:mb-0",
             "data-type": NODES.INGREDIENT,
             "data-index": node.attrs.index,
             'data-placeholder': 'Ingredient'
@@ -280,7 +280,7 @@ const recipeSchema = new Schema({
         return [
           "div",
           {
-            class: "recipe__editor__item block mb-6 last:mb-0 pl-14"+(node.content.size === 0 || node.attrs.isEmpty ? ' empty' : '')+(node.attrs.hasFocus ? ' has-focus' : ''),
+            class: "recipe__editor__item block mb-6 last:mb-0 pl-14",
             "data-type": NODES.STEP,
             "data-index": node.attrs.index,
             'data-placeholder': 'Step'
@@ -318,7 +318,7 @@ const recipeSchema = new Schema({
         return [
           "div",
           {
-            class: "recipe__editor__item block mb-6 last:mb-0"+(node.content.size === 0 || node.attrs.isEmpty ? ' empty' : '')+(node.attrs.hasFocus ? ' has-focus' : ''),
+            class: "recipe__editor__item block mb-6 last:mb-0",
             "data-type": NODES.NOTE,
             "data-index": node.attrs.index,
             'data-placeholder': 'Note'

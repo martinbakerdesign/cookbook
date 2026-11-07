@@ -1,0 +1,33 @@
+import { doc, Timestamp, updateDoc } from "firebase/firestore";
+import { db } from "firestore/";
+import { pushing, cueTimeout, lastSaved, onCloud, cuedChange } from "store/";
+import { get } from "svelte/store";
+
+export default async function pushUpdatesToDB() {
+  const $cuedChange = get(cuedChange);
+  const id = $cuedChange.id;
+
+  if (!$cuedChange || !id) return;
+
+  const updatesData = { ...$cuedChange, last_edited: Timestamp.now(), name: $cuedChange.title } as Recipe;
+  
+  pushing.set(true);
+  
+  try {
+    const docRef = doc(db, "recipes", id);
+    
+    console.log("Saving ...", updatesData);
+
+    await updateDoc(docRef, updatesData);
+    // console.log("Saved");
+
+    onCloud.set(updatesData),
+      cueTimeout.clear(),
+      cuedChange.reset(),
+      lastSaved.set(Date.now());
+  } catch (err) {
+    console.error(err);
+  } finally {
+    pushing.set(false);
+  }
+}

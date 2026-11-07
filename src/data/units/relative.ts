@@ -2,7 +2,7 @@ import { UNITSYSTEM_NONE, UNIT_RELATIVE } from "./_types";
 
 // TODO change plural field to array
 
-export const part = {
+export const part: Unit = {
   title: "Part",
   type: UNIT_RELATIVE,
   abbrev: ["part"],

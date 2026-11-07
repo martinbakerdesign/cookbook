@@ -11,7 +11,7 @@ import {
 /**
  * LENGTH
  */
-export const inch = {
+export const inch: Unit = {
   title: "Inch",
   type: UNIT_LENGTH,
   abbrev: ["in", '"'],
@@ -19,7 +19,7 @@ export const inch = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 25.4],
 };
-export const ft = {
+export const ft: Unit = {
   title: "Foot",
   type: UNIT_LENGTH,
   abbrev: ["ft", "'"],
@@ -27,7 +27,7 @@ export const ft = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 304.8],
 };
-export const yard = {
+export const yard: Unit = {
   title: "Yard",
   type: UNIT_LENGTH,
   abbrev: ["yd"],
@@ -37,7 +37,7 @@ export const yard = {
 };
 
 /** MASS **/
-export const oz = {
+export const oz: Unit = {
   title: "Ounce",
   type: UNIT_MASS,
   abbrev: ["oz"],
@@ -45,7 +45,7 @@ export const oz = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 28.35],
 };
-export const lb = {
+export const lb: Unit = {
   title: "Pound",
   type: UNIT_MASS,
   abbrev: ["lbs", "lb"],
@@ -55,7 +55,7 @@ export const lb = {
 };
 
 /** VOLUME **/
-export const tsp = {
+export const tsp: Unit = {
   title: "Teaspoon",
   type: UNIT_VOLUME,
   abbrev: ["Tsp", "tsp", "t"],
@@ -63,7 +63,7 @@ export const tsp = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 4.93],
 };
-export const tbsp = {
+export const tbsp: Unit = {
   title: "Tablespoon",
   type: UNIT_VOLUME,
   abbrev: ["Tbsp", "tbsp", "Tbs", "tbs", "T"],
@@ -71,7 +71,7 @@ export const tbsp = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 14.79],
 };
-export const in3 = {
+export const in3: Unit = {
   title: "Cubic Inch",
   type: UNIT_VOLUME,
   abbrev: ["in3"],
@@ -79,7 +79,7 @@ export const in3 = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 16.387064],
 };
-export const flOz = {
+export const flOz: Unit = {
   title: "Fluid Ounce",
   type: UNIT_VOLUME,
   abbrev: ["fl-oz"],
@@ -87,7 +87,7 @@ export const flOz = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 29.57],
 };
-export const cup = {
+export const cup: Unit = {
   title: "Cup",
   type: UNIT_VOLUME,
   abbrev: ["cup"],
@@ -95,7 +95,7 @@ export const cup = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 236.59],
 };
-export const pnt = {
+export const pnt: Unit = {
   title: "Pint",
   type: UNIT_VOLUME,
   abbrev: ["pint"],
@@ -103,7 +103,7 @@ export const pnt = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 473.18],
 };
-export const qt = {
+export const qt: Unit = {
   title: "Quart",
   type: UNIT_VOLUME,
   abbrev: ["qts", "qt"],
@@ -111,7 +111,7 @@ export const qt = {
   system: UNITSYSTEM_IMPERIAL,
   base: ["*", 946.35],
 };
-export const gal = {
+export const gal: Unit = {
   title: "Gallon",
   type: UNIT_VOLUME,
   abbrev: ["gals", "gal"],
@@ -121,7 +121,7 @@ export const gal = {
 };
 
 /** TEMPERATURE **/
-export const F = {
+export const F: Unit = {
   title: "Fahrenheit",
   type: UNIT_TEMPERATURE,
   abbrev: ["°F", "F"],
@@ -132,7 +132,7 @@ export const F = {
   ],
 };
 
-const imperial = {
+const imperial: Record<string, Unit[]> = {
   length: [inch, ft, yard],
   mass: [oz, lb],
   volume: [tsp, tbsp, in3, flOz, cup, pnt, qt, gal],

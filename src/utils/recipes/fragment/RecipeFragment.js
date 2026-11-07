@@ -186,8 +186,8 @@ class RecipeFragment {
 
     this.scaled = this.decorations.map((d) => d.scale(1));
   }
-  scale(factor = 1) {
-    this.scaled = this.decorations.map((d) => d.toString(factor));
+  scale(factor = 1, maxDecimals = null) {
+    this.scaled = this.decorations.map((d) => d.toString(factor, maxDecimals));
 
     return this.text;
   }

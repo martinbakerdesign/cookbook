@@ -5,6 +5,7 @@ import Toggle from './Nav--Recipe__Scaler__Toggle.svelte'
 import Suggestions from './Nav--Recipe__Scaler__Suggestions.svelte'
 import { amount, scaleFactor } from 'store/index';
 import pluralize from 'pluralize';
+import Fraction from 'fraction.js';
 import { findValues } from 'utils/recipes/fragment/RecipeFragment';
 
 const refs = {
@@ -42,10 +43,10 @@ function toggleScaler() {
     toggleWidget(WIDGETS.SCALER);
 }
 function increase () {
-    scaleFactor.update($s => parseFloat($s) +1)
+    scaleFactor.update($s => +(parseFloat($s) + 0.1).toFixed(2))
 }
 function decrease () {
-    scaleFactor.update($s => Math.max(1, parseFloat($s) - 1))
+    scaleFactor.update($s => Math.max(1, +(parseFloat($s) - 0.1).toFixed(2)))
 }
 function onScaleChange (e) {
     const $scale = extractFloat(e.target.textContent)
@@ -66,6 +67,16 @@ function onYieldChange (e) {
     scaleFactor.set(isWhole ? $scale : $scale.toFixed(2));
 }
 function extractFloat (str) {
+    const fractionMatch = str.match(/(?:\d+\s+)?\d+\s*\/\s*\d+/);
+    if (fractionMatch) {
+        const fraction = fractionMatch[0]
+            .replace(/\s*\/\s*/, '/')
+            .replace(/\s+/g, ' ');
+        if (Number(fraction.split('/')[1]) !== 0) {
+            return new Fraction(fraction).valueOf();
+        }
+    }
+
     const match = str.match(/\d+(\.\d+)?/);
     return parseFloat(match ? match[0] ?? 0 : 0);
 }
@@ -84,7 +95,7 @@ function getSuggestions ($scale, $yieldValue, $yieldSuffix) {
 
     return suggestions;
 }
-function getSuggestionClickHandler (scale) {
+function getSuggestionClickHandler (scale: number) {
     return () => {
         scaleFactor.set(scale);
         focus.set(false);

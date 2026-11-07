@@ -4,10 +4,6 @@ import { timeArr as time } from "./time";
 import {
   UNIT_TIME,
   UNIT_TEMPERATURE,
-  UNIT_VOLUME,
-  UNIT_MASS,
-  UNIT_COUNT,
-  UNIT_LENGTH,
 } from "./_types";
 import relative from "./relative";
 import { capitalize } from "lodash";
@@ -29,19 +25,20 @@ export const allUnits = [
   ...time,
   // Relative,
   ...relative,
-];
+] as Unit[];
 
-let units = {};
-export let ingredientUnits = {};
+let units: Record<string, Unit> = {};
+export let ingredientUnits: Record<string, Unit> = {};
 
-export let unitsByTitle = {};
-export let unitsByTitleLc = {};
-export let unitsByType = {};
-export let unitsBySystem = {};
+export let unitsByTitle: Record<string, Unit> = {};
+export let unitsByTitleLc: Record<string, Unit> = {};
+export let unitsByType: Record<string, Unit[]> = {};
+export let unitsBySystem: Record<string, Unit[]> = {};
 
-let abbrevs, plural, unit;
+let abbrevs, plural, unit: null|Unit;
+
 for (let u = 0; u < allUnits.length; u++) {
-  unit = allUnits[u];
+  unit = allUnits[u] as Unit;
   abbrevs = unit.abbrev;
   plural = unit.plural;
 

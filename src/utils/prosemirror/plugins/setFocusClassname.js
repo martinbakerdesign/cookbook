@@ -1,64 +1,43 @@
 import { Plugin } from "prosemirror-state";
+import { Decoration, DecorationSet } from "prosemirror-view";
 import { CHILD_NODES } from "schemas/recipe";
 import { canEdit } from "store/recipe";
 import { get } from "svelte/store";
-import ts from "typescript";
-import $$ from "utils/dom/querySelectorAll";
+
+/** @param {import("prosemirror-state").EditorState} state */
+function getFocusDecorations(state) {
+  /** @type {import("prosemirror-view").Decoration[]} */
+  const decorations = [];
+  const { doc, selection } = state;
+  const $canEdit = get(canEdit);
+
+  doc.descendants((node, pos) => {
+    if (!CHILD_NODES.some((childNodeType) => childNodeType === node.type.name)) return;
+
+    const classes = [];
+    if (node.content.size === 0) classes.push("empty");
+
+    const end = pos + node.content.size + 1;
+    const hasFocus = selection.empty && $canEdit && !(end < selection.from || pos > selection.to);
+    if (hasFocus) classes.push("has-focus");
+
+    if (classes.length) {
+      decorations.push(
+        Decoration.node(pos, pos + node.nodeSize, { class: classes.join(" ") })
+      );
+    }
+  });
+
+  return DecorationSet.create(doc, decorations);
+}
 
 const setFocusClassnamePlugin = new Plugin({
-  view(editorView) {
-    return new FocusClassname(editorView);
+  props: {
+    decorations(state) {
+      return getFocusDecorations(state);
+    },
   },
 });
-
-class FocusClassname {
-  constructor(view) {
-    this.update(view, null);
-  }
-
-  update(view, lastState) {
-    const { state, dispatch } = view;
-
-    // Don't do anything if the document/selection didn't change
-    if (
-      lastState &&
-      lastState.doc.eq(state.doc) &&
-      lastState.selection.eq(state.selection)
-    )
-      return;
-
-    const {
-      selection: { empty, from, to },
-    } = state;
-
-    if (!empty) {
-      for (const el of $$(".has-focus")) {
-        el.classList.remove("has-focus");
-      }
-      return;
-    }
-
-    const $canEdit = get(canEdit);
-
-    let tr = state.tr;
-    state.doc.descendants((node, pos) => {
-        if (!CHILD_NODES.includes(node.type.name)) return;
-        const end = pos + node.content.size + 1;
-        tr = tr.setNodeMarkup(pos, null, {
-          hasFocus: $canEdit && !(end < from || pos > to),
-          isEmpty: node.content.size === 0
-        })
-    });
-
-    tr.setMeta('setFocus', true);
-
-    dispatch(tr)
-    
-  }
-
-  destroy() {
-  }
-}
 
 export {
     setFocusClassnamePlugin as default

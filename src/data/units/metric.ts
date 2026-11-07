@@ -11,7 +11,7 @@ import {
 /**
  * LENGTH
  */
-export const mm = {
+export const mm: Unit = {
   title: "Millimeter",
   type: UNIT_LENGTH,
   abbrev: ["mm"],
@@ -19,7 +19,7 @@ export const mm = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
-export const cm = {
+export const cm: Unit = {
   title: "Centimeter",
   type: UNIT_LENGTH,
   abbrev: ["cm"],
@@ -27,7 +27,7 @@ export const cm = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 10],
 };
-export const m = {
+export const m: Unit = {
   title: "Meter",
   type: UNIT_LENGTH,
   abbrev: ["m"],
@@ -39,7 +39,7 @@ export const m = {
 /**
  * MASS
  */
-export const mg = {
+export const mg: Unit = {
   title: "Milligram",
   type: UNIT_MASS,
   abbrev: ["mg"],
@@ -47,7 +47,7 @@ export const mg = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 0.001],
 };
-export const g = {
+export const g: Unit = {
   title: "Gram",
   type: UNIT_MASS,
   abbrev: ["g"],
@@ -55,7 +55,7 @@ export const g = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
-export const kg = {
+export const kg: Unit = {
   title: "Kilogram",
   type: UNIT_MASS,
   abbrev: ["kg"],
@@ -67,7 +67,7 @@ export const kg = {
 /**
  * VOLUME
  */
-export const ml = {
+export const ml: Unit = {
   title: "Millilitre",
   type: UNIT_VOLUME,
   abbrev: ["mL", "ml"],
@@ -75,7 +75,7 @@ export const ml = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
-export const l = {
+export const l: Unit = {
   title: "Litre",
   type: UNIT_VOLUME,
   abbrev: ["L", "l"],
@@ -83,7 +83,7 @@ export const l = {
   system: UNITSYSTEM_METRIC,
   base: ["*", 1e3],
 };
-export const kl = {
+export const kl: Unit = {
   title: "Kilolitre",
   type: UNIT_VOLUME,
   abbrev: ["kl", "kL"],
@@ -102,14 +102,14 @@ export const kl = {
 /**
  * TEMPERATURE
  */
-export const C = {
+export const C: Unit = {
   title: "Centigrade",
   type: UNIT_TEMPERATURE,
   abbrev: ["°C", "C"],
   system: UNITSYSTEM_METRIC,
   base: ["*", 1],
 };
-export const K = {
+export const K: Unit = {
   title: "Kelvin",
   type: UNIT_TEMPERATURE,
   abbrev: ["K"],
@@ -117,7 +117,7 @@ export const K = {
   base: ["-", 273.15],
 };
 
-const metric = {
+const metric: Record<string, Unit[]> = {
   length: [mm, cm, m],
   mass: [mg, g, kg],
   volume: [ml, l, kl],

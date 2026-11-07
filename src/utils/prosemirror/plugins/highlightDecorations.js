@@ -223,6 +223,8 @@ const highlightDecorationsPlugin = new Plugin({
     },
     // click, keypress, paste, etc
     apply(transaction, old) {
+      if (!transaction.docChanged && !transaction.getMeta("forceUpdate")) return old;
+
       const decorators = getQuantityDecos(transaction, transaction.doc);
       return decorators;
     },

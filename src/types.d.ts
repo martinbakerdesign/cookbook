@@ -53,6 +53,35 @@ global {
         notes: Note[],
         tags: Tag[],
     }
+
+    type Amount = {
+        quantity: Quantity
+        unit: string
+        text: string
+    };
+
+    type UnitType = "UNIT_MASS"
+        | "UNIT_VOLUME"
+        | "UNIT_LENGTH"
+        | "UNIT_COUNT"
+        | "UNIT_TEMPERATURE"
+        | "UNIT_TIME"
+        | "UNIT_RELATIVE";
+
+    type UnitSystem = "UNITSYSTEM_METRIC"
+        | "UNITSYSTEM_IMPERIAL"
+        | "UNITSYSTEM_NONE";
+
+    type Unit = {
+      title: string
+      type: UnitType
+      abbrev: string[]
+      plural?: string
+      system: UnitSystem
+      base: [string, number, number?]|[string,number][]
+    }
+
+    type UnitGrouping = Record<string, Unit>
 }
 
 export {
@@ -63,6 +92,11 @@ export {
     type Step,
     type Note,
     type Tag,
+    type Amount,
+    type UnitType,
+    type UnitSystem,
+    type UnitGrouping,
+    type Unit,
     //
     INGREDIENT_TYPES,
 }

@@ -3,10 +3,10 @@ import parseAmount from "utils/text/parseAmount";
 
 // const initialState = { text: "1 serving", quantity: 1, unit: "serving" };
 // const initialState = { text: "", quantity: 1, unit: "" };
-const initialState = "";
+const initialState: Amount = { text: "", quantity: 0, unit: "" };
 
 function amountStore(arg = initialState) {
-  const { subscribe, set, update } = writable(arg);
+  const { subscribe, set, update } = writable<Amount>(arg);
 
   // let parsedAmount;
   // function set(o) {
